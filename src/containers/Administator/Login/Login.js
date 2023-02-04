@@ -103,6 +103,7 @@ const Login = () => {
 
                                                 }} >
                                                 <TextField
+                                                    type="email"
                                                     fullWidth
                                                     size="medium"
                                                     InputProps={{
