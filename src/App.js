@@ -8,6 +8,10 @@ import Login from './containers/Administator/Login/Login';
 import SearchResult from './containers/SearchResult/SearchResult';
 import Description from './containers/Description/Description';
 import Actor from './containers/Actor/Actor';
+import Createactor from './containers/Administator/CreateActor/Createactor';
+import Createmovie from './containers/Administator/CreateMovie/Createmovie';
+import Adminhome from './containers/Administator/Home/Adminhome';
+
 
 
 
@@ -27,7 +31,10 @@ function App() {
             <Route exact path="/searchresult" element={<SearchResult />} />
             <Route exact path="/description" element={<Description />} />
             <Route exact path="/actor" element={<Actor />} />
+            <Route exact path="/createactor" element={<Createactor />} />
+            <Route exact path="/createmovie" element={<Createmovie />} />
             <Route exact path="/login" element={<Login />} />
+            <Route exact path="/adminhomepage" element={<Adminhome />} />
         
         </Routes>
       </BrowserRouter>

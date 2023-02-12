@@ -74,7 +74,7 @@ const Login = () => {
                         >
                             <Grid container spacing={1} >
                                 <Grid container xs={12}>
-                                    <Typography variant="h2" sx={{ color: "#F2BD00", fontWeight: 600, textAlign: "left", mb: 5, ml: 6 }}>
+                                    <Typography variant="h2" sx={{ color: "white", fontWeight: 600, textAlign: "left", mb: 5, ml: 6 }}>
                                         Login
                                     </Typography>
 
@@ -87,7 +87,7 @@ const Login = () => {
                                 >
                                     <Grid container spacing={2}>
                                         <Grid item xs={4}>
-                                            <Typography variant="button" display="block" gutterBottom sx={{ color: "#AEA9A9", fontWeight: 600 }}>
+                                            <Typography variant="button" display="block" gutterBottom sx={{ color: "white", fontWeight: 600 }}>
                                                 USERNAME
                                             </Typography>
                                         </Grid>
@@ -99,7 +99,7 @@ const Login = () => {
                                                     display: "flex",
                                                     alignItems: "center",
                                                     height: 35,
-                                                    border: '3px solid #584C23',
+                                                    border: '3px solid white',
 
                                                 }} >
                                                 <TextField
@@ -127,7 +127,7 @@ const Login = () => {
                                     <Grid container spacing={2}>
 
                                         <Grid item xs={4}>
-                                            <Typography variant="button" display="block" gutterBottom sx={{ color: "#AEA9A9", fontWeight: 600, textAlign: "center", }}>
+                                            <Typography variant="button" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "center", }}>
                                                 PASSWORD
                                             </Typography>
                                         </Grid>
@@ -139,7 +139,7 @@ const Login = () => {
                                                     display: "flex",
                                                     alignItems: "center",
                                                     height: 35,
-                                                    border: '3px solid #584C23',
+                                                    border: '3px solid white',
 
                                                 }} >
                                                 <TextField
@@ -162,10 +162,10 @@ const Login = () => {
                             </Grid>
                             <Grid xs={12}>
                                 <Button variant="contained" sx={{
-                                    bgcolor: "#F2BD00", color: "black", width: "300px", borderRadius: 25, fontWeight: 600,
+                                    bgcolor: "white", color: "black", width: "300px", borderRadius: 25, fontWeight: 600,
                                     "&:hover": {
                                         backgroundColor: "#212121",
-                                        color: "#F2BD00"
+                                        color: "white"
                                     },
                                 }}>
                                     Login
