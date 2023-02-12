@@ -7,6 +7,7 @@ import Searchmain from './containers/SearchMain/Searchmain';
 import Login from './containers/Administator/Login/Login';
 import SearchResult from './containers/SearchResult/SearchResult';
 import Description from './containers/Description/Description';
+import Actor from './containers/Actor/Actor';
 
 
 
@@ -25,6 +26,7 @@ function App() {
             <Route exact path="/searchmain" element={<Searchmain />} />
             <Route exact path="/searchresult" element={<SearchResult />} />
             <Route exact path="/description" element={<Description />} />
+            <Route exact path="/actor" element={<Actor />} />
             <Route exact path="/login" element={<Login />} />
         
         </Routes>
