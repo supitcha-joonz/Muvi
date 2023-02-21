@@ -15,6 +15,7 @@ import StepLabel from '@mui/material/StepLabel';
 import { autocompleteClasses } from '@mui/material';
 import Button from '@mui/material/Button';
 import { blue } from '@mui/material/colors';
+import { Formik, Field, Form } from 'formik';
 
 const Login = () => {
 
@@ -65,117 +66,135 @@ const Login = () => {
             <Box style={styles.content}>
                 <Box style={styles.bgheader}>
                     <Box >
-                        <Grid
-                            container
-                            direction="row"
-                            justifyContent="center"
-                            alignItems="flex-end"
+                        <Formik
+                            initialValues={{
 
+                                email: '',
+                                password: '',
+                            }}
+                            onSubmit={async (values) => {
+                                await new Promise((r) => setTimeout(r, 500));
+                                alert(JSON.stringify(values, null, 2));
+                            }}
                         >
-                            <Grid container spacing={1} >
-                                <Grid container xs={12}>
-                                    <Typography variant="h2" sx={{ color: "white", fontWeight: 600, textAlign: "left", mb: 5, ml: 6 }}>
-                                        Login
-                                    </Typography>
-
-                                </Grid>
-                                <Grid item xs={12} container
+                            <Form>
+                                <Grid
+                                    container
                                     direction="row"
                                     justifyContent="center"
-                                    alignItems="center"
-                                    sx={{ mb: 5 }}
+                                    alignItems="flex-end"
+
                                 >
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={4}>
-                                            <Typography variant="button" display="block" gutterBottom sx={{ color: "white", fontWeight: 600 }}>
-                                                USERNAME
+                                    <Grid container spacing={1} >
+                                        <Grid container xs={12}>
+                                            <Typography variant="h2" sx={{ color: "white", fontWeight: 600, textAlign: "left", mb: 5, ml: 6 }}>
+                                                Login
                                             </Typography>
+
                                         </Grid>
-                                        <Grid xs={7} >
-                                            <Paper fullWidth elevation={1}
-                                                sx={{
-                                                    backgroundColor: "transparent",
-                                                    borderRadius: 25,
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    height: 35,
-                                                    border: '3px solid white',
+                                        <Grid item xs={12} container
+                                            direction="row"
+                                            justifyContent="center"
+                                            alignItems="center"
+                                            sx={{ mb: 5 }}
+                                        >
+                                            <Grid container spacing={2}>
+                                                <Grid item xs={4}>
+                                                    <Typography variant="button" display="block" gutterBottom sx={{ color: "white", fontWeight: 600 }}>
+                                                        USERNAME
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid xs={7} >
+                                                    <Paper fullWidth elevation={1}
+                                                        sx={{
+                                                            backgroundColor: "transparent",
+                                                            borderRadius: 25,
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            height: 35,
+                                                            border: '3px solid white',
 
-                                                }} >
-                                                <TextField
-                                                    type="email"
-                                                    fullWidth
-                                                    size="medium"
-                                                    InputProps={{
-                                                        disableUnderline: true,
-                                                    }}
-                                                    sx={{
-                                                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                        input: { color: "white", fontWeight: 600, ml: 2, mr: 2 },
-                                                    }}
+                                                        }} >
+                                                        <TextField
+                                                            id="email"
+                                                            name="email"
+                                                            type="email"
+                                                            fullWidth
+                                                            size="medium"
+                                                            InputProps={{
+                                                                disableUnderline: true,
+                                                            }}
+                                                            sx={{
+                                                                "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                                input: { color: "white", fontWeight: 600, ml: 2, mr: 2 },
+                                                            }}
 
-                                                />
-                                            </Paper>
+                                                        />
+                                                    </Paper>
+                                                </Grid>
+                                            </Grid>
+
+                                        </Grid>
+                                        <Grid item xs={12} container
+                                            direction="row"
+                                            justifyContent="center"
+                                            alignItems="center" sx={{ mb: 8 }}>
+                                            <Grid container spacing={2}>
+
+                                                <Grid item xs={4}>
+                                                    <Typography variant="button" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "center", }}>
+                                                        PASSWORD
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid xs={7}>
+                                                    <Paper fullWidth elevation={1}
+                                                        sx={{
+                                                            backgroundColor: "transparent",
+                                                            borderRadius: 25,
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            height: 35,
+                                                            border: '3px solid white',
+
+                                                        }} >
+                                                        <TextField
+                                                            id="password"
+                                                            name="password"
+                                                            type="password"
+                                                            fullWidth
+                                                            size="medium"
+                                                            InputProps={{
+                                                                disableUnderline: true,
+                                                            }}
+                                                            sx={{
+                                                                "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                                input: { color: "white", fontWeight: 600, ml: 2, mr: 2 },
+                                                            }}
+
+                                                        />
+                                                    </Paper>
+                                                </Grid>
+                                            </Grid>
                                         </Grid>
                                     </Grid>
+                                    <Grid xs={12}>
+                                        <Button variant="contained" type="submit" sx={{
+                                            bgcolor: "white", color: "black", width: "300px", borderRadius: 25, fontWeight: 600,
+                                            "&:hover": {
+                                                backgroundColor: "#212121",
+                                                color: "white"
+                                            },
+                                        }}>
+                                            Login
+                                        </Button>
 
-                                </Grid>
-                                <Grid item xs={12} container
-                                    direction="row"
-                                    justifyContent="center"
-                                    alignItems="center" sx={{ mb: 8 }}>
-                                    <Grid container spacing={2}>
-
-                                        <Grid item xs={4}>
-                                            <Typography variant="button" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "center", }}>
-                                                PASSWORD
-                                            </Typography>
-                                        </Grid>
-                                        <Grid xs={7}>
-                                            <Paper fullWidth elevation={1}
-                                                sx={{
-                                                    backgroundColor: "transparent",
-                                                    borderRadius: 25,
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    height: 35,
-                                                    border: '3px solid white',
-
-                                                }} >
-                                                <TextField
-                                                    type="password"
-                                                    fullWidth
-                                                    size="medium"
-                                                    InputProps={{
-                                                        disableUnderline: true,
-                                                    }}
-                                                    sx={{
-                                                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                        input: { color: "white", fontWeight: 600, ml: 2, mr: 2 },
-                                                    }}
-
-                                                />
-                                            </Paper>
-                                        </Grid>
                                     </Grid>
+
+
+
                                 </Grid>
-                            </Grid>
-                            <Grid xs={12}>
-                                <Button variant="contained" sx={{
-                                    bgcolor: "white", color: "black", width: "300px", borderRadius: 25, fontWeight: 600,
-                                    "&:hover": {
-                                        backgroundColor: "#212121",
-                                        color: "white"
-                                    },
-                                }}>
-                                    Login
-                                </Button>
-
-                            </Grid>
-
-
-
-                        </Grid>
+                            </Form>
+                        </Formik>
                     </Box>
 
                 </Box>
