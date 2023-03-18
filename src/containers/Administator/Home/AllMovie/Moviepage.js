@@ -15,7 +15,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import image from '../../../img/moviebackground.jpg';
+import image from '../../../../img/moviebackground.jpg';
 import Grid from '@mui/material/Grid';
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 import Person4Icon from '@mui/icons-material/Person4';
@@ -26,13 +26,13 @@ import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import Link from '@mui/material/Link';
-import Moviepage from './AllMovie/Moviepage';
+import AddIcon from '@mui/icons-material/Add';
 
 
 const drawerWidth = 225;
 
 
-const Adminhome = (props) => {
+const Moviepage = (props) => {
 
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -70,19 +70,19 @@ const Adminhome = (props) => {
                     </ListItemIcon>
                     <ListItemText primary="Movie" />
                 </ListItemButton>
-                <Link href="/editactor" underline="none" sx={{color: "#eeeeee"}}>
-                <ListItemButton sx={{
-                    pl: 5,
-                    "&:hover": {
-                        backgroundColor: "#212121",
-                        color: "white"
-                    },
-                }}>
-                    <ListItemIcon>
-                        <Person4Icon sx={{ color: "#eeeeee" }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Actor" />
-                </ListItemButton></Link>
+                <Link href="/editactor" underline="none" sx={{ color: "#eeeeee" }}>
+                    <ListItemButton sx={{
+                        pl: 5,
+                        "&:hover": {
+                            backgroundColor: "#212121",
+                            color: "white"
+                        },
+                    }}>
+                        <ListItemIcon>
+                            <Person4Icon sx={{ color: "#eeeeee" }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Actor" />
+                    </ListItemButton></Link>
                 <ListItemButton sx={{
                     pl: 5,
                     "&:hover": {
@@ -188,74 +188,75 @@ const Adminhome = (props) => {
 
 
     return (
-        <Box style={styles.header}>
-            <Box style={styles.content}>
-                <Box style={styles.bgcontent}>
+        <Box >
+            <Box >
+                <Box >
                     <Grid
                         container
                         direction="column"
                         justifyContent="center"
-                        alignItems="start"
                     >
-                        <Box sx={{ display: 'flex', width: "100%", }}>
-                            <CssBaseline />
-                            <Box
-                                component="nav"
-                                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-                                aria-label="mailbox folders"
-                            >
-                                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-                                <Drawer
-                                    container={container}
-                                    variant="temporary"
-                                    open={mobileOpen}
-                                    onClose={handleDrawerToggle}
-                                    ModalProps={{
-                                        keepMounted: true, // Better open performance on mobile.
-                                    }}
-                                    sx={{
-                                        display: { xs: 'block', sm: 'none' },
-                                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                                    }}
 
-                                >
-                                    {drawer}
-                                </Drawer>
-                                <Drawer
-                                    variant="permanent"
-                                    sx={{
-                                        display: { xs: 'none', sm: 'block' },
-                                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                                    }}
-                                    PaperProps={{
-                                        sx: {
-                                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                            color: "whitesmoke",
-                                        }
-                                    }}
-                                >
-                                    {drawer}
-                                </Drawer>
-                            </Box>
-                            <Box
-                                component="main"
-                                sx={{ flexGrow: 1, mt: 1, ml: 5, mr: 5, mb: 2, width: { sm: `calc(100% - ${drawerWidth}px)` }, }}
-                            >
-                                <Toolbar />
-                                <Moviepage />
-                               
-                                
+                        <Stack direction="row"
+                            justifyContent="flex-start"
+                            alignItems="start"
+                            sx={{ alignItems: "start", mb: 2 }}>
+                            <Typography variant="h5" sx={{ color: "whitesmoke", fontWeight: 600 }}>
+                                All Movie
+                            </Typography>
+                        </Stack>
+                        <Stack
+                            direction="row"
+                            justifyContent="flex-start"
+                            alignItems="start" spacing={5}
+                            sx={{ alignItems: "flex-start" }}>
+                            <Grid>
+                                <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
+                                    50k
+                                </Typography>
+                            </Grid>
+                            <Grid >
+                                <Typography variant="h5" sx={{ color: "whitesmoke", mt: 4 }}>
+                                    เรื่อง
+                                </Typography>
+                            </Grid>
 
 
-
-
-
-
-
-
-
-                            </Box>
+                        </Stack>
+                        <Box sx={{ width: "80%", height: "1.5px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 5, mb: 5 }}></Box>
+                        <Box sx={{ height: 630, width: '100%' }}>
+                            <DataGrid
+                                rows={rows}
+                                columns={columns}
+                                initialState={{
+                                    pagination: {
+                                        paginationModel: {
+                                            pageSize: 5,
+                                        },
+                                    },
+                                }}
+                                pageSizeOptions={[5]}
+                                checkboxSelection
+                                disableRowSelectionOnClick
+                                sx={{ width: "100%", backgroundColor: '#212121', color: "white" }}
+                            />
                         </Box>
+                        <Stack direction="row" justifyContent="flex-end"
+                            alignItems="center" sx={{ mt: 3 }}>
+                            <Link href ="/createmovie" underline="none" >
+                                <IconButton sx={{
+                                    backgroundColor: "#942617",
+                                    "&:hover": {
+                                        backgroundColor: '#4A140C',
+                                        color: "black",
+
+                                    },
+                                }} >
+                                    <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
+                                </IconButton></Link>
+                        </Stack>
+
+
 
 
 
@@ -267,4 +268,4 @@ const Adminhome = (props) => {
     );
 }
 
-export default Adminhome
+export default Moviepage

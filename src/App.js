@@ -8,11 +8,15 @@ import Login from './containers/Administator/Login/Login';
 import SearchResult from './containers/SearchResult/SearchResult';
 import Description from './containers/Description/Description';
 import Actor from './containers/Actor/Actor';
-import Createactor from './containers/Administator/CreateActor/Createactor';
-import Createmovie from './containers/Administator/CreateMovie/Createmovie';
+import Createactor from './containers/Administator/Home/AllActor/Createactor';
+import Createmovie from './containers/Administator/Home/AllMovie/Createmovie';
 import Adminhome from './containers/Administator/Home/Adminhome';
-import Editactor from './containers/Administator/EditActor/Editactor';
-import Editmovie from './containers/Administator/EditMovie/Editmovie';
+import Editactor from './containers/Administator/Home/AllActor/Editactor';
+import Editmovie from './containers/Administator/Home/AllMovie/Editmovie';
+import Sidebar from './containers/Administator/Home/Sidebar/Sidebar';
+import Moviepage from './containers/Administator/Home/AllMovie/Moviepage';
+import Createcollection from './containers/Administator/Home/Collection/Createcollection';
+import Editcollection from './containers/Administator/Home/Collection/Editcollection';
 
 
 
@@ -26,8 +30,7 @@ function App() {
   return (
     <div className="App" >
       <BrowserRouter>
-        <Routes>
-          
+          <Routes>
             <Route exact path="/" element={<Searchmain />} />
             <Route exact path="/searchresult" element={<SearchResult />} />
             <Route exact path="/description" element={<Description />} />
@@ -38,9 +41,14 @@ function App() {
             <Route exact path="/editmovie" element={<Editmovie />} />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/adminhomepage" element={<Adminhome />} />
-        
-        </Routes>
+            <Route exact path="/allmovie" element={<Moviepage />} />
+            <Route exact path="/createcollection" element={<Createcollection />} />
+            <Route exact path="/editcollection" element={<Editcollection />} />
+            {/* <Route exact path="/sidebar" element={<Sidebar />} /> */}
+          </Routes>
       </BrowserRouter>
+
+      
     </div>
   );
 }

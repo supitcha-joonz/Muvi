@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import image from '../../../img/moviebackground.jpg';
+import image from '../../../../img/moviebackground.jpg';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -14,7 +14,9 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Formik, Field, Form } from 'formik';
 import Autocomplete from '@mui/material/Autocomplete';
 
-const Createmovie = () => {
+const Editactor = () => {
+
+
 
     const styles = {
         header: {
@@ -44,49 +46,7 @@ const Createmovie = () => {
         completedIcon: {}
     }
 
-
-    // const styles = {
-    //     header: {
-    //         backgroundImage: "linear-gradient(black 40%,#212121,#424242)",
-    //         height: '190vh',
-    //         display: "flex",
-    //         backgroundPosition: 'center',
-    //         backgroundRepeat: 'no-repeat',
-    //         backgroundSize: 'cover'
-    //     },
-
-    //     content: {
-    //         height: '100%',
-    //         width: '100%',
-    //         backgroundColor: 'rgba(0, 0, 0, 0.9)',
-    //     },
-    //     icon: {
-    //         "& $active": {
-    //             color: "pink"
-    //         },
-    //     },
-    //     bgcontent: {
-    //         height: '100%',
-    //         width: '100%',
-    //         backgroundColor: 'rgba(52, 52, 52, 0.5)'
-
-
-    //     },
-    //     multiLineEllipsis: {
-    //         overflow: 'hidden',
-    //         textOverflow: 'ellipsis',
-    //         display: '-webkit-box',
-    //         WebkitLineClamp: '4',
-    //         WebkitBoxOrient: 'vertical',
-    //     },
-    //     image: {
-    //         borderRadius: 100 / 10
-
-    //     },
-    //     completedIcon: {}
-    // }
-
-    const categories16 = [
+    const top100Films = [
         { label: 'Action' },
         { label: 'War ' },
         { label: 'Adventure ' },
@@ -114,12 +74,10 @@ const Createmovie = () => {
                 <Box style={styles.bgcontent}>
                     <Formik
                         initialValues={{
-                            name: '',
-                            part: '',
-                            categories: '',
-                            timemovie: '',
-                            plot: '',
-                            actor: '',
+                            fname: '',
+                            lname: '',
+                            birthday: '',
+                            age: '',
                         }}
                         onSubmit={async (values) => {
                             await new Promise((r) => setTimeout(r, 500));
@@ -133,24 +91,19 @@ const Createmovie = () => {
                                 direction="column"
                                 justifyContent="center"
                                 alignItems="center"
-                            // sx={{ mt: 20 }}
+                                // sx={{ mt: 20 }}
                             >
-                                <Grid item xs={12} sx={{ mt: 15, mb: 10 }}>
+                                <Grid item xs={12} sx={{ mt: 15,mb: 10 }}>
                                     <Paper fullWidth elevation={1}
                                         sx={{
                                             backgroundColor: "#4B4B4B",
                                             borderRadius: 5,
                                             display: "flex",
                                             alignItems: "center",
-                                            height: "50vh",
-                                            width: "40vh"
+                                            height: "35vh",
+                                            width: "30vh"
 
                                         }} >
-                                        <input
-                                            type='file'
-                                            name='photo'
-                                            accept='image/*'
-                                        />
 
                                     </Paper>
 
@@ -159,7 +112,7 @@ const Createmovie = () => {
 
                                     <Grid item xs={5}>
                                         <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                            MOVIE NAME
+                                            FIRSTNAME
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={7}>
@@ -173,7 +126,7 @@ const Createmovie = () => {
 
                                             }} >
                                             <TextField
-                                                id='name'
+                                                id='fname'
                                                 type="name"
                                                 fullWidth
                                                 size="medium"
@@ -190,7 +143,7 @@ const Createmovie = () => {
                                     </Grid>
                                     <Grid item xs={5}>
                                         <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                            COLLECTION NAME
+                                            LASTNAME
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={7}>
@@ -204,7 +157,7 @@ const Createmovie = () => {
 
                                             }} >
                                             <TextField
-                                                id='part'
+                                                id='lname'
                                                 type="name"
                                                 fullWidth
                                                 size="medium"
@@ -221,37 +174,7 @@ const Createmovie = () => {
                                     </Grid>
                                     <Grid item xs={5}>
                                         <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                            CATEGORY
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={7}>
-                                        <Paper fullWidth elevation={1}
-                                            sx={{
-                                                backgroundColor: "#4B4B4B",
-                                                borderRadius: 25,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                height: 35,
-
-                                            }} >
-                                            <Autocomplete
-                                                id="categories"
-                                                options={categories16}
-                                                fullWidth
-                                                sx={{
-                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                    input: { color: "white", fontWeight: 600 },
-                                                }}
-                                                InputProps={{
-                                                    disableUnderline: true,
-                                                }}
-                                                renderInput={(params) => <TextField {...params} placeholder="Choose" />}
-                                            />
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={5}>
-                                        <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                            TIME
+                                            BIRTHDAY
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={7}>
@@ -265,7 +188,38 @@ const Createmovie = () => {
 
                                             }} >
                                             <TextField
-                                                id="timemovie"
+                                                id="birthday"
+                                                type="date"
+                                                fullWidth
+                                                size="medium"
+                                                InputProps={{
+                                                    disableUnderline: true,
+                                                }}
+                                                sx={{
+                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                    input: { color: "white", fontWeight: 600 },
+                                                }}
+
+                                            />
+                                        </Paper>
+                                    </Grid>
+                                    <Grid item xs={5}>
+                                        <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
+                                            AGE
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={7}>
+                                        <Paper fullWidth elevation={1}
+                                            sx={{
+                                                backgroundColor: "#4B4B4B",
+                                                borderRadius: 25,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                height: 35,
+
+                                            }} >
+                                            <TextField
+                                                id="age"
                                                 type="number"
                                                 fullWidth
                                                 size="medium"
@@ -282,7 +236,7 @@ const Createmovie = () => {
                                     </Grid>
                                     <Grid item xs={5}>
                                         <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                            PLOT
+                                            PERFORMANCE
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={7}>
@@ -292,29 +246,11 @@ const Createmovie = () => {
                                                 borderRadius: 5,
                                                 display: "flex",
                                                 alignItems: "center",
-                                                height: "27vh",
+                                                height: "35vh",
 
                                             }} >
-                                                 <TextField
-                                                id='plot'
-                                                multiline
-                                                type="name"
-                                                rows={10}
-                                                fullWidth
-                                                size="medium"
-                                                InputProps={{
-                                                    disableUnderline: true,
-                                                    style: { color: "white", fontWeight: 600  }
-                                                }}
-                                                sx={{
-                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                    input: { color: "white", fontWeight: 600 },
-                                                }}
-
-                                            />
-                                            {/* <TextField
-                                                id="plot"
-                                                type="name"
+                                            <TextField
+                                                id="port"
                                                 multiline
                                                 fullWidth
                                                 rows={10}
@@ -326,42 +262,12 @@ const Createmovie = () => {
                                                     input: { color: "white", fontWeight: 600 },
                                                 }}
 
-                                            /> */}
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={5}>
-                                        <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                            ACTOR
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={7}>
-                                        <Paper fullWidth elevation={1}
-                                            sx={{
-                                                backgroundColor: "#4B4B4B",
-                                                borderRadius: 25,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                height: 35,
-
-                                            }} >
-                                            <Autocomplete
-                                                id="categories"
-                                                options={categories16}
-                                                fullWidth
-                                                sx={{
-                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                    input: { color: "white", fontWeight: 600 },
-                                                }}
-                                                InputProps={{
-                                                    disableUnderline: true,
-                                                }}
-                                                renderInput={(params) => <TextField {...params} placeholder="Choose" />}
                                             />
                                         </Paper>
                                     </Grid>
                                 </Grid>
                                 <Grid container justifyContent="center"
-                                    alignItems="center" xs={8} sx={{ mb: 10 }} >
+                                    alignItems="center" xs={8} sx={{mb: 10}} >
                                     <Button variant="contained" sx={{
                                         bgcolor: "transparent", border: '4px solid white', color: "white", width: "30vh", borderRadius: 25, fontWeight: 600,
                                         "&:hover": {
@@ -371,9 +277,8 @@ const Createmovie = () => {
 
                                         },
                                     }}>
-                                        Create movie
+                                        Create actor
                                     </Button>
-
                                 </Grid>
                             </Grid>
                         </Form>
@@ -385,4 +290,4 @@ const Createmovie = () => {
     )
 }
 
-export default Createmovie
+export default Editactor

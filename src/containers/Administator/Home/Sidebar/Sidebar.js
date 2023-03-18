@@ -15,7 +15,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import image from '../../../img/moviebackground.jpg';
+import image from '../../../../img/moviebackground.jpg';
 import Grid from '@mui/material/Grid';
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
 import Person4Icon from '@mui/icons-material/Person4';
@@ -26,7 +26,6 @@ import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import Link from '@mui/material/Link';
-import Moviepage from './AllMovie/Moviepage';
 
 
 const drawerWidth = 225;
@@ -241,19 +240,7 @@ const Adminhome = (props) => {
                                 component="main"
                                 sx={{ flexGrow: 1, mt: 1, ml: 5, mr: 5, mb: 2, width: { sm: `calc(100% - ${drawerWidth}px)` }, }}
                             >
-                                <Toolbar />
-                                <Moviepage />
                                
-                                
-
-
-
-
-
-
-
-
-
                             </Box>
                         </Box>
 
