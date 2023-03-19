@@ -27,13 +27,13 @@ import Stack from '@mui/material/Stack';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import Link from '@mui/material/Link';
 import AddIcon from '@mui/icons-material/Add';
-import Createcollection from './Createcollection';
+import Createactor from './Createactor';
 
 
 const drawerWidth = 225;
 
 
-const Collection = (props) => {
+const Actorpage = (props) => {
 
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -139,7 +139,7 @@ const Collection = (props) => {
                             alignItems="start"
                             sx={{ alignItems: "start", mb: 2 }}>
                             <Typography variant="h5" sx={{ color: "whitesmoke", fontWeight: 600 }}>
-                                All Collection
+                                All Actor
                             </Typography>
                         </Stack>
                         <Stack
@@ -149,12 +149,12 @@ const Collection = (props) => {
                             sx={{ alignItems: "flex-start" }}>
                             <Grid>
                                 <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
-                                    1.5k
+                                    203.5k
                                 </Typography>
                             </Grid>
                             <Grid >
                                 <Typography variant="h5" sx={{ color: "whitesmoke", mt: 4 }}>
-                                    Collection
+                                    people
                                 </Typography>
                             </Grid>
 
@@ -180,7 +180,7 @@ const Collection = (props) => {
                         </Box>
                         <Stack direction="row" justifyContent="flex-end"
                             alignItems="center" sx={{ mt: 3 }}>
-                            <Link href="/createcollection" underline="none" >
+                            <Link href ="/createactor" underline="none" >
                                 <IconButton sx={{
                                     backgroundColor: "#942617",
                                     "&:hover": {
@@ -205,4 +205,4 @@ const Collection = (props) => {
     );
 }
 
-export default Collection
+export default Actorpage

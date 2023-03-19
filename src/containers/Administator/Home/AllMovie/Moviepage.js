@@ -217,7 +217,7 @@ const Moviepage = (props) => {
                             </Grid>
                             <Grid >
                                 <Typography variant="h5" sx={{ color: "whitesmoke", mt: 4 }}>
-                                    เรื่อง
+                                    Movie
                                 </Typography>
                             </Grid>
 
@@ -243,7 +243,7 @@ const Moviepage = (props) => {
                         </Box>
                         <Stack direction="row" justifyContent="flex-end"
                             alignItems="center" sx={{ mt: 3 }}>
-                            <Link href ="/createmovie" underline="none" >
+                            <Link href="/createmovie" underline="none" >
                                 <IconButton sx={{
                                     backgroundColor: "#942617",
                                     "&:hover": {

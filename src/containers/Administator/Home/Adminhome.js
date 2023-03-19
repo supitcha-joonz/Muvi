@@ -27,6 +27,8 @@ import Stack from '@mui/material/Stack';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import Link from '@mui/material/Link';
 import Moviepage from './AllMovie/Moviepage';
+import Actorpage from './AllActor/Actorpage';
+import Collection from './Collection/Collection';
 
 
 const drawerWidth = 225;
@@ -36,6 +38,7 @@ const Adminhome = (props) => {
 
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [menudata, setMenudata] = React.useState("Movie");
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -58,44 +61,55 @@ const Adminhome = (props) => {
                     </ListSubheader>
                 }
             >
-                <ListItemButton sx={{
-                    pl: 5,
-                    "&:hover": {
-                        backgroundColor: "#212121",
-                        color: "white"
-                    },
-                }}>
-                    <ListItemIcon>
-                        <LocalMoviesIcon sx={{ color: "#eeeeee" }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Movie" />
-                </ListItemButton>
-                <Link href="/editactor" underline="none" sx={{color: "#eeeeee"}}>
-                <ListItemButton sx={{
-                    pl: 5,
-                    "&:hover": {
-                        backgroundColor: "#212121",
-                        color: "white"
-                    },
-                }}>
-                    <ListItemIcon>
-                        <Person4Icon sx={{ color: "#eeeeee" }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Actor" />
-                </ListItemButton></Link>
-                <ListItemButton sx={{
-                    pl: 5,
-                    "&:hover": {
-                        backgroundColor: "#212121",
-                        color: "white"
-                    },
-                }} onClick={handleClick}>
-                    <ListItemIcon>
-                        <CollectionsBookmarkIcon sx={{ color: "#eeeeee" }} />
-                    </ListItemIcon>
-                    <ListItemText primary="Collection" />
-                    {/* {open ? <ExpandLess /> : <ExpandMore />} */}
-                </ListItemButton>
+                <ListItem onClick={() => setMenudata("Movie")} >
+                    <ListItemButton sx={{
+                        pl: 5,
+                        borderRadius: '20px',
+                        "&:hover": {
+                            backgroundColor: "#212121",
+                            color: "white",
+                            borderRadius: '20px'
+                        },
+                    }}>
+                        <ListItemIcon>
+                            <LocalMoviesIcon sx={{ color: "#eeeeee" }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Movie" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem onClick={() => setMenudata("Actor")} >
+                    <ListItemButton sx={{
+                        pl: 5,
+                        borderRadius: '20px',
+                        "&:hover": {
+                            backgroundColor: "#212121",
+                            color: "white",
+                            borderRadius: '20px'
+
+                        },
+                    }}>
+                        <ListItemIcon>
+                            <Person4Icon sx={{ color: "#eeeeee" }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Actor" />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem onClick={() => setMenudata("Collection")} >
+                    <ListItemButton sx={{
+                        pl: 5,
+                        borderRadius: '20px',
+                        "&:hover": {
+                            backgroundColor: "#212121",
+                            color: "white",
+                            borderRadius: '20px'
+                        },
+                    }}>
+                        <ListItemIcon>
+                            <CollectionsBookmarkIcon sx={{ color: "#eeeeee" }} />
+                        </ListItemIcon>
+                        <ListItemText primary="Collection" />
+                        {/* {open ? <ExpandLess /> : <ExpandMore />} */}
+                    </ListItemButton></ListItem>
                 {/* <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                         <ListItemButton sx={{ pl: 4 }}>
@@ -115,7 +129,7 @@ const Adminhome = (props) => {
     const styles = {
         header: {
             backgroundImage: `url(${image})`,
-            height: '130vh',
+            height: '100%',
             display: "flex",
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -242,9 +256,12 @@ const Adminhome = (props) => {
                                 sx={{ flexGrow: 1, mt: 1, ml: 5, mr: 5, mb: 2, width: { sm: `calc(100% - ${drawerWidth}px)` }, }}
                             >
                                 <Toolbar />
-                                <Moviepage />
-                               
-                                
+                                {menudata == "Movie" && <Moviepage />}
+                                {menudata == "Actor" && <Actorpage />}
+                                {menudata == "Collection" && <Collection />}
+                                {/* <Moviepage /> */}
+
+
 
 
 
