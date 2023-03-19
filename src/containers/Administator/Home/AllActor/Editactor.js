@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import image from '../../../../img/moviebackground.jpg';
+import image1 from '../../../../img/moviebackground.jpg';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -13,14 +13,21 @@ import Button from '@mui/material/Button';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Formik, Field, Form } from 'formik';
 import Autocomplete from '@mui/material/Autocomplete';
+import { useState } from 'react';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Tooltip from '@mui/material/Tooltip';
 
 const Editactor = () => {
+    
+
+    const [filename, setFileName] = useState('')
+    const [image, setImage] = useState(null)
 
 
 
     const styles = {
         header: {
-            backgroundImage: `url(${image})`,
+            backgroundImage: `url(${image1})`,
             height: '100%',
             display: "flex",
             backgroundPosition: 'center',
@@ -42,6 +49,13 @@ const Editactor = () => {
             "& $active": {
                 color: "pink"
             },
+        },
+        multiLineEllipsis: {
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
+            WebkitLineClamp: '2',
+            WebkitBoxOrient: 'vertical',
         },
         completedIcon: {}
     }
@@ -93,17 +107,74 @@ const Editactor = () => {
                                 alignItems="center"
                                 // sx={{ mt: 20 }}
                             >
-                                <Grid item xs={12} sx={{ mt: 15,mb: 10 }}>
+                                <Grid item xs={12} sx={{ mt: 15, mb: 10 }}>
                                     <Paper fullWidth elevation={1}
+                                        onClick={() => document.querySelector(".input-field").click()}
                                         sx={{
-                                            backgroundColor: "#4B4B4B",
+                                            backgroundColor: "transparent",
                                             borderRadius: 5,
                                             display: "flex",
                                             alignItems: "center",
                                             height: "35vh",
-                                            width: "30vh"
+                                            width: "30vh",
+                                            border: "5px solid #4B4B4B",
+                                            borderStyle: 'dashed',
 
                                         }} >
+                                        <input
+                                            type='file'
+                                            name='photo'
+                                            className='input-field'
+                                            accept='image/*'
+                                            hidden
+                                            onChange={({ target: { files } }) => {
+                                                files[0] && setFileName(files[0].name)
+                                                if (files) {
+                                                    setImage(URL.createObjectURL(files[0]))
+                                                }
+                                            }}
+                                        />
+                                        {image ?
+                                            <Grid
+                                                container wrap="nowrap" spacing={1}  direction="column"
+                                                sx={{mt: 5}}
+
+                                            >
+                                                <Grid item xs={12} >
+                                                    <img src={image} width={150} height={150} alt={filename} />
+                                                </Grid>
+                                                <Grid item xs={2} sx={{ml :2, mr: 2}} >
+                                                    <Tooltip title={filename}>
+                                                        <Typography noWrap variant="overline" style={styles.multiLineEllipsis} sx={{
+                                                            color: "whitesmoke",
+                                                        }}>
+                                                            {filename}
+                                                        </Typography>
+                                                    </Tooltip>;
+                                                </Grid>
+                                            </Grid>
+                                            :
+                                            <>
+                                                <Grid
+                                                    container
+                                                    direction="column"
+                                                    justifyContent="center"
+                                                    alignItems="center"
+                                                >
+                                                    <Grid item xs={12}>
+                                                        <CloudUploadIcon sx={{ color: "#eeeeee", fontSize: "8vh" }} />
+                                                    </Grid>
+                                                    <Grid item xs={12}>
+                                                        <Typography variant="overline" sx={{ color: "whitesmoke" }}>
+                                                            Browse Files To Upload
+                                                        </Typography>
+                                                    </Grid>
+
+
+                                                </Grid>
+                                            </>
+
+                                        }
 
                                     </Paper>
 
