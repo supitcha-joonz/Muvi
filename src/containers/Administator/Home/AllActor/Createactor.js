@@ -24,7 +24,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Tooltip from '@mui/material/Tooltip';
-
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -34,6 +34,7 @@ const Createactor = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [filename, setFileName] = useState('')
     const [image, setImage] = useState(null)
+    let navigate = useNavigate();
 
 
     const styles = {
@@ -375,19 +376,37 @@ const Createactor = () => {
                                     </Grid>
 
                                 </Grid>
-                                <Grid container justifyContent="center"
+                                <Grid container justifyContent="end"
                                     alignItems="center" xs={8} sx={{ mb: 10 }} >
-                                    <Button variant="contained" sx={{
-                                        bgcolor: "transparent", border: '4px solid white', color: "white", width: "30vh", borderRadius: 25, fontWeight: 600,
-                                        "&:hover": {
-                                            backgroundColor: "white",
-                                            color: "black",
-                                            border: '4px solid white'
+                                    <Stack
+                                        direction="row"
+                                        justifyContent="end"
+                                        alignItems="end"
+                                        spacing={2}
+                                    >
+                                        <Button onClick={() => navigate((-1), {replace: true})} variant="contained" sx={{
+                                            bgcolor: "#b71c1c", border: '4px solid #b71c1c', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
+                                            "&:hover": {
+                                                backgroundColor: "#EA5455",
+                                                color: "black",
 
-                                        },
-                                    }}>
-                                        Create actor
-                                    </Button>
+                                            },
+                                        }}>
+                                            Back
+                                        </Button>
+                                        <Button onClick={() => navigate((-1), {replace: true})} variant="contained" sx={{
+                                            bgcolor: "#1b5e20", border: '4px solid #1b5e20', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
+                                            "&:hover": {
+                                                backgroundColor: "#94AF9F",
+                                                color: "black",
+
+                                            },
+                                        }}>
+                                            Create
+                                        </Button>
+
+                                    </Stack>
+
                                 </Grid>
                             </Grid>
                         </Form>

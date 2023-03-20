@@ -223,7 +223,21 @@ const Moviepage = (props) => {
 
 
                         </Stack>
-                        <Box sx={{ width: "80%", height: "1.5px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 5, mb: 5 }}></Box>
+                        <Box sx={{ width: "80%", height: "1.5px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 5}}></Box>
+                        <Stack direction="row" justifyContent="flex-end"
+                            alignItems="center" sx={{ mb: 3 }}>
+                            <Link href="/createmovie" underline="none" >
+                                <IconButton sx={{
+                                    backgroundColor: "#942617",
+                                    "&:hover": {
+                                        backgroundColor: '#4A140C',
+                                        color: "black",
+
+                                    },
+                                }} >
+                                    <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
+                                </IconButton></Link>
+                        </Stack>
                         <Box sx={{ height: 630, width: '100%' }}>
                             <DataGrid
                                 rows={rows}
@@ -241,25 +255,6 @@ const Moviepage = (props) => {
                                 sx={{ width: "100%", backgroundColor: '#212121', color: "white" }}
                             />
                         </Box>
-                        <Stack direction="row" justifyContent="flex-end"
-                            alignItems="center" sx={{ mt: 3 }}>
-                            <Link href="/createmovie" underline="none" >
-                                <IconButton sx={{
-                                    backgroundColor: "#942617",
-                                    "&:hover": {
-                                        backgroundColor: '#4A140C',
-                                        color: "black",
-
-                                    },
-                                }} >
-                                    <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
-                                </IconButton></Link>
-                        </Stack>
-
-
-
-
-
                     </Grid>
                 </Box>
             </Box>

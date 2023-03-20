@@ -11,20 +11,24 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import { Formik, Field, Form } from 'formik';
+import { Formik, Field, Form, replace } from 'formik';
 import Autocomplete from '@mui/material/Autocomplete';
 import { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Tooltip from '@mui/material/Tooltip';
+import { useNavigate } from "react-router-dom";
+
+
 
 const Createmovie = () => {
 
     const [filename, setFileName] = useState('')
     const [image, setImage] = useState(null)
+    let navigate = useNavigate();
 
     const styles = {
         header: {
-            // backgroundImage: `url(${image1})`,
+            backgroundImage: `url(${image1})`,
             height: '100%',
             display: "flex",
             backgroundPosition: 'center',
@@ -108,6 +112,7 @@ const Createmovie = () => {
                                 alignItems="center"
                             // sx={{ mt: 20 }}
                             >
+
                                 <Grid item xs={12} sx={{ mt: 15, mb: 10 }}>
                                     <Paper fullWidth elevation={1}
                                         onClick={() => document.querySelector(".input-field").click()}
@@ -137,14 +142,14 @@ const Createmovie = () => {
                                         />
                                         {image ?
                                             <Grid
-                                                container wrap="nowrap" spacing={1}  direction="column"
-                                                sx={{mt: 5}}
+                                                container wrap="nowrap" spacing={1} direction="column"
+                                                sx={{ mt: 5 }}
 
                                             >
                                                 <Grid item xs={12} >
                                                     <img src={image} width={150} height={150} alt={filename} />
                                                 </Grid>
-                                                <Grid item xs={2} sx={{ml :2, mr: 2}} >
+                                                <Grid item xs={2} sx={{ ml: 2, mr: 2 }} >
                                                     <Tooltip title={filename}>
                                                         <Typography noWrap variant="overline" style={styles.multiLineEllipsis} sx={{
                                                             color: "whitesmoke",
@@ -385,19 +390,36 @@ const Createmovie = () => {
                                         </Paper>
                                     </Grid>
                                 </Grid>
-                                <Grid container justifyContent="center"
+                                <Grid container justifyContent="end"
                                     alignItems="center" xs={8} sx={{ mb: 10 }} >
-                                    <Button variant="contained" sx={{
-                                        bgcolor: "transparent", border: '4px solid white', color: "white", width: "30vh", borderRadius: 25, fontWeight: 600,
-                                        "&:hover": {
-                                            backgroundColor: "white",
-                                            color: "black",
-                                            border: '4px solid white'
+                                    <Stack
+                                        direction="row"
+                                        justifyContent="end"
+                                        alignItems="end"
+                                        spacing={2}
+                                    >
+                                        <Button onClick={() => navigate((-1), {replace: true})} variant="contained" sx={{
+                                            bgcolor: "#b71c1c", border: '4px solid #b71c1c', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
+                                            "&:hover": {
+                                                backgroundColor: "#EA5455",
+                                                color: "black",
 
-                                        },
-                                    }}>
-                                        Create movie
-                                    </Button>
+                                            },
+                                        }}>
+                                            Back
+                                        </Button>
+                                        <Button onClick={() => navigate((-1), {replace: true})} variant="contained" sx={{
+                                            bgcolor: "#1b5e20", border: '4px solid #1b5e20', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
+                                            "&:hover": {
+                                                backgroundColor: "#94AF9F",
+                                                color: "black",
+
+                                            },
+                                        }}>
+                                            Create 
+                                        </Button>
+
+                                    </Stack>
 
                                 </Grid>
                             </Grid>
