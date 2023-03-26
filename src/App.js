@@ -16,11 +16,17 @@ import Editmovie from './containers/Administator/Home/AllMovie/Editmovie';
 import Moviepage from './containers/Administator/Home/AllMovie/Moviepage';
 import Createcollection from './containers/Administator/Home/Collection/Createcollection';
 import Editcollection from './containers/Administator/Home/Collection/Editcollection';
+import Test from './containers/Test/test';
+import cors from "cors";
+
 
 
 
 
 function App() {
+
+  
+
   useEffect(() => {
     document.title = "MUVI";
   }, []);
@@ -29,24 +35,25 @@ function App() {
   return (
     <div className="App" >
       <BrowserRouter>
-          <Routes>
-            <Route exact path="/" element={<Searchmain />} />
-            <Route exact path="/searchresult" element={<SearchResult />} />
-            <Route exact path="/description" element={<Description />} />
-            <Route exact path="/actor" element={<Actor />} />
-            <Route exact path="/createactor" element={<Createactor />} />
-            <Route exact path="/createmovie" element={<Createmovie />} />
-            <Route exact path="/editactor" element={<Editactor />} />
-            <Route exact path="/editmovie" element={<Editmovie />} />
-            <Route exact path="/login" element={<Login />} />
-            <Route exact path="/adminhomepage" element={<Adminhome />} />
-            <Route exact path="/allmovie" element={<Moviepage />} />
-            <Route exact path="/createcollection" element={<Createcollection />} />
-            <Route exact path="/editcollection" element={<Editcollection />} />
-          </Routes>
+        <Routes>
+          <Route exact path="/" element={<Searchmain />} />
+          <Route exact path="/searchresult" element={<SearchResult />} />
+          <Route exact path="/description" element={<Description />} />
+          <Route exact path="/actor" element={<Actor />} />
+          <Route exact path="/createactor" element={<Createactor />} />
+          <Route exact path="/createmovie" element={<Createmovie />} />
+          <Route exact path="/editactor" element={<Editactor />} />
+          <Route exact path="/editmovie" element={<Editmovie />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/adminhomepage" element={<Adminhome />} />
+          <Route exact path="/allmovie" element={<Moviepage />} />
+          <Route exact path="/createcollection" element={<Createcollection />} />
+          <Route exact path="/editcollection" element={<Editcollection />} />
+          <Route exact path="/test" element={<Test />} />
+        </Routes>
       </BrowserRouter>
 
-      
+
     </div>
   );
 }

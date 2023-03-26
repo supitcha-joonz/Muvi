@@ -30,10 +30,10 @@ const getactor = (actor) => ({
 
 export const loadactors = () => {
     return function (dispatch) {
-        axios.get(`${process.env.REACT_APP_API}/actor`).then((resp) => {
+        axios.get(`${process.env.REACT_APP_API}/actor/all`).then((resp) => {
             console.log("resp", resp);
             dispatch(getactors(resp.data));
-            dispatch(getDropdownactor(resp.data));
+            // dispatch(getDropdownactor(resp.data));
         })
         .catch((error) => console.log(error));
     };

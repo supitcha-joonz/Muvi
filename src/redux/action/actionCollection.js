@@ -30,10 +30,10 @@ const getcollection = (collection) => ({
 
 export const loadcollections = () => {
     return function (dispatch) {
-        axios.get(`${process.env.REACT_APP_API}/collection`).then((resp) => {
+        axios.get(`${process.env.REACT_APP_API}/movie/all`).then((resp) => {
             console.log("resp", resp);
             dispatch(getcollections(resp.data));
-            dispatch(getDropdowncollection(resp.data));
+            // dispatch(getDropdowncollection(resp.data));
         })
         .catch((error) => console.log(error));
     };
