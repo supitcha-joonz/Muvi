@@ -52,7 +52,7 @@ const Collection = (props) => {
     const styles = {
         header: {
             backgroundImage: `url(${image})`,
-            height: '130vh',
+            height: '100%',
             display: "flex",
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
@@ -123,78 +123,81 @@ const Collection = (props) => {
     ];
 
 
+    
+
 
     return (
-        <Box >
-            <Box >
-                <Box >
+        <Box style={styles.header}>
+            <Box style={styles.content}>
+                <Box style={styles.bgcontent}>
                     <Grid
                         container
                         direction="column"
                         justifyContent="center"
                     >
-
-                        <Stack direction="row"
-                            justifyContent="flex-start"
-                            alignItems="start"
-                            sx={{ alignItems: "start", mb: 2 }}>
-                            <Typography variant="h5" sx={{ color: "whitesmoke", fontWeight: 600 }}>
-                                All Collection
-                            </Typography>
-                        </Stack>
-                        <Stack
-                            direction="row"
-                            justifyContent="flex-start"
-                            alignItems="start" spacing={5}
-                            sx={{ alignItems: "flex-start" }}>
-                            <Grid>
-                                <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
-                                    1.5k
+                        <Box sx={{ m: 10 }}>
+                            <Stack direction="row"
+                                justifyContent="flex-start"
+                                alignItems="start"
+                                sx={{ alignItems: "start", mb: 2 }}>
+                                <Typography variant="h5" sx={{ color: "whitesmoke", fontWeight: 600 }}>
+                                    All Collection
                                 </Typography>
-                            </Grid>
-                            <Grid >
-                                <Typography variant="h5" sx={{ color: "whitesmoke", mt: 4 }}>
-                                    Collection
-                                </Typography>
-                            </Grid>
+                            </Stack>
+                            <Stack
+                                direction="row"
+                                justifyContent="flex-start"
+                                alignItems="start" spacing={5}
+                                sx={{ alignItems: "flex-start" }}>
+                                <Grid>
+                                    <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
+                                        1.5k
+                                    </Typography>
+                                </Grid>
+                                <Grid >
+                                    <Typography variant="h5" sx={{ color: "whitesmoke", mt: 4 }}>
+                                        Collection
+                                    </Typography>
+                                </Grid>
 
 
-                        </Stack>
-                        <Box sx={{ width: "80%", height: "1.5px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 5}}></Box>
-                        <Stack direction="row" justifyContent="flex-end"
-                            alignItems="center" sx={{ mb: 3 }}>
-                            <Link href="/createcollection" underline="none" >
-                                <IconButton sx={{
-                                    backgroundColor: "#942617",
-                                    "&:hover": {
-                                        backgroundColor: '#4A140C',
-                                        color: "black",
+                            </Stack>
+                            <Box sx={{ width: "80%", height: "1.5px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 5 }}></Box>
+                            <Stack direction="row" justifyContent="flex-end"
+                                alignItems="center" sx={{ mb: 3 }}>
+                                <Link href="/createcollection" underline="none" >
+                                    <IconButton sx={{
+                                        backgroundColor: "#942617",
+                                        "&:hover": {
+                                            backgroundColor: '#4A140C',
+                                            color: "black",
 
-                                    },
-                                }} >
-                                    <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
-                                </IconButton></Link>
-                        </Stack>
-
-
-                        <Box sx={{ height: 630, width: '100%' }}>
-                            <DataGrid
-                                rows={rows}
-                                columns={columns}
-                                initialState={{
-                                    pagination: {
-                                        paginationModel: {
-                                            pageSize: 5,
                                         },
-                                    },
-                                }}
-                                pageSizeOptions={[5]}
-                                checkboxSelection
-                                disableRowSelectionOnClick
-                                sx={{ width: "100%", backgroundColor: '#212121', color: "white" }}
-                            />
+                                    }} >
+                                        <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
+                                    </IconButton></Link>
+                            </Stack>
+
+
+                            <Box sx={{ height: 630, width: '100%' }}>
+                                <DataGrid
+                                    rows={rows}
+                                    columns={columns}
+                                    initialState={{
+                                        pagination: {
+                                            paginationModel: {
+                                                pageSize: 5,
+                                            },
+                                        },
+                                    }}
+                                    pageSizeOptions={[5]}
+                                    checkboxSelection
+                                    disableRowSelectionOnClick
+                                    sx={{ width: "100%", backgroundColor: '#212121', color: "white" }}
+                                />
+                            </Box>
                         </Box>
-                        
+
 
 
 

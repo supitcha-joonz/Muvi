@@ -17,7 +17,9 @@ import Moviepage from './containers/Administator/Home/AllMovie/Moviepage';
 import Createcollection from './containers/Administator/Home/Collection/Createcollection';
 import Editcollection from './containers/Administator/Home/Collection/Editcollection';
 import Test from './containers/Test/test';
-import cors from "cors";
+import Sidebar from './containers/Administator/Home/Sidebar';
+import Actorpage from './containers/Administator/Home/AllActor/Actorpage';
+import Collection from './containers/Administator/Home/Collection/Collection';
 
 
 
@@ -25,7 +27,7 @@ import cors from "cors";
 
 function App() {
 
-  
+
 
   useEffect(() => {
     document.title = "MUVI";
@@ -40,15 +42,18 @@ function App() {
           <Route exact path="/searchresult" element={<SearchResult />} />
           <Route exact path="/description" element={<Description />} />
           <Route exact path="/actor" element={<Actor />} />
+          <Route exact path="/login" element={<Login />} />
           <Route exact path="/createactor" element={<Createactor />} />
           <Route exact path="/createmovie" element={<Createmovie />} />
           <Route exact path="/editactor" element={<Editactor />} />
           <Route exact path="/editmovie" element={<Editmovie />} />
-          <Route exact path="/login" element={<Login />} />
           <Route exact path="/adminhomepage" element={<Adminhome />} />
           <Route exact path="/allmovie" element={<Moviepage />} />
+          <Route exact path="/allactor" element={<Actorpage />} />
+          <Route exact path="/allcollection" element={<Collection />} />
           <Route exact path="/createcollection" element={<Createcollection />} />
           <Route exact path="/editcollection" element={<Editcollection />} />
+          <Route exact path="/sidebar" element={<Sidebar />} />
           <Route exact path="/test" element={<Test />} />
         </Routes>
       </BrowserRouter>

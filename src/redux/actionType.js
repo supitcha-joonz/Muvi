@@ -4,6 +4,8 @@ export const ADD_MOVIE = "ADD_MOVIE";
 export const UPDATE_MOVIE = "UPDATE_MOVIE";
 export const GET_SINGLE_MOVIE = "GET_SINGLE_MOVIE";
 
+
+
 export const GET_ACTORS = "GET_ACTORS";
 export const DELETE_ACTOR = "DELETE_ACTOR";
 export const ADD_ACTOR = "ADD_ACTOR";

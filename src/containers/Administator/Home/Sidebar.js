@@ -42,7 +42,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 const drawerWidth = 225;
 
 
-const Adminhome = (props) => {
+const Sidebar = (props) => {
 
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -162,14 +162,16 @@ const Adminhome = (props) => {
         }
     ]
 
+
     const styles = {
         header: {
             backgroundImage: `url(${image})`,
             height: '100vh',
+            // height: '100%',
             display: "flex",
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
+            backgroundSize: 'cover',
         },
 
         content: {
@@ -188,6 +190,7 @@ const Adminhome = (props) => {
             },
         },
         completedIcon: {}
+
     }
 
 
@@ -195,62 +198,111 @@ const Adminhome = (props) => {
         <Box style={styles.header}>
             <Box style={styles.content}>
                 <Box style={styles.bgcontent}>
-
                     <Grid
                         container
                         direction="column"
                         justifyContent="center"
-                        alignItems="center"
-                        sx={{
-                            position: 'absolute',
-                            left: '50%',
-                            top: '40%',
-                            transform: 'translate(-50%, -50%)'
-                        }}
+                        alignItems="start"
                     >
-                        <Grid container spacing={1}>
-                            <Grid item xs={12}>
-                                <Box>
-                                    <Typography variant="h4" gutterBottom sx={{ color: "whitesmoke" }}>
-                                        Welcome!
-                                    </Typography>
+                        <Box sx={{ display: 'flex', width: "100%", }}>
+                            <CssBaseline />
+                            <Box
+                                component="nav"
+                                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                                aria-label="mailbox folders"
+                            >
+                                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+                                <Drawer
+                                    container={container}
+                                    variant="temporary"
+                                    open={mobileOpen}
+                                    onClose={handleDrawerToggle}
+                                    ModalProps={{
+                                        keepMounted: true, // Better open performance on mobile.
+                                    }}
+                                    sx={{
+                                        display: { xs: 'block', sm: 'none' },
+                                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                                    }}
 
-                                </Box>
-
-                            </Grid>
-                            <Grid item xs={12} container
-                                direction="column"
-                                justifyContent="center"
-                                alignItems="center"
-                                sx={{ mt: -8 }}>
-                                <Box sx={{ width: '80%' }}>
-                                    <Grid container direction="row"
-                                        justifyContent="center"
-                                        alignItems="center" spacing={3}>
+                                />
+                                <Drawer
+                                    variant="permanent"
+                                    sx={{
+                                        display: { xs: 'none', sm: 'block' },
+                                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                                    }}
+                                    PaperProps={{
+                                        sx: {
+                                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                            color: "whitesmoke",
+                                        }
+                                    }}
+                                >
+                                    <Toolbar />
+                                    <List
+                                        subheader={
+                                            <ListSubheader sx={{ backgroundColor: "transparent", mb: 5 }}>
+                                                <Typography variant="h4" gutterBottom sx={{ color: "whitesmoke" }}>
+                                                    Welcome!
+                                                </Typography>
+                                            </ListSubheader>
+                                        }
+                                    >
                                         {SidebarData.map((item, i) => (
-                                            <Grid item xs={4} key={i}>
-                                                <Paper sx={{ height: "10vh", }}  >
-                                                    {item.icon}
-                                                    {item.title}
-                                                </Paper>
-
-                                            </Grid>
+                                            <ListItem key={i}>
+                                                <ListItemButton to={item.path}
+                                                    sx={{
+                                                        pl: 5,
+                                                        borderRadius: '20px',
+                                                        "&:hover": {
+                                                            backgroundColor: "#212121",
+                                                            color: "white",
+                                                            borderRadius: '20px'
+                                                        },
+                                                    }}>
+                                                    <ListItemIcon>
+                                                        {item.icon}
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={item.title} />
+                                                </ListItemButton>
+                                            </ListItem>
                                         ))}
+                                    </List>
 
-                                    </Grid>
-                                </Box>
-                            </Grid>
-                        </Grid>
+                                </Drawer>
+                            </Box>
+                            <Box
+                                component="main"
+                                sx={{ flexGrow: 1, mt: 1, ml: 5, mr: 5, mb: 2, width: { sm: `calc(100% - ${drawerWidth}px)` }, }}
+                            >
+                                <Toolbar />
+
+                                {/* {menudata == "Movie" && <Moviepage />}
+                                {menudata == "Actor" && <Actorpage />}
+                                {menudata == "Collection" && <Collection />}  */}
+                             
+
+
+
+
+
+
+
+
+
+
+                            </Box>
+                        </Box>
+
 
 
                     </Grid>
-
-
-
                 </Box>
             </Box>
         </Box>
+
     );
 }
 
-export default Adminhome
+export default Sidebar
