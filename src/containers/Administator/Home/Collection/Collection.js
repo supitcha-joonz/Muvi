@@ -30,22 +30,12 @@ import AddIcon from '@mui/icons-material/Add';
 import Createcollection from './Createcollection';
 
 
-const drawerWidth = 225;
 
 
-const Collection = (props) => {
 
-    const { window } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+const Collection = () => {
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
-    const [open, setOpen] = React.useState(true);
-
-    const handleClick = () => {
-        setOpen(!open);
-    };
+   
 
 
 

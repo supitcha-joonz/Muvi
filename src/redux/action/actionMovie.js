@@ -28,12 +28,15 @@ const getmovie = (movie) => ({
     payload: movie,
 });
 
+
+
 export const loadmovies = () => {
     return function (dispatch) {
+        console.log(`${process.env.REACT_APP_API}/movie/all`);
         axios.get(`${process.env.REACT_APP_API}/movie/all`).then((resp) => {
             console.log("resp", resp);
             dispatch(getmovies(resp.data));
-            // dispatch(getDropdownmovie(resp.data));
+            // dispatch(getDropdowncategory(resp.data));
         })
         .catch((error) => console.log(error));
     };

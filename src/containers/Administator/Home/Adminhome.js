@@ -1,51 +1,25 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import image from '../../../img/moviebackground.jpg';
 import Grid from '@mui/material/Grid';
-import LocalMoviesIcon from '@mui/icons-material/LocalMovies';
-import Person4Icon from '@mui/icons-material/Person4';
-import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
-import ListSubheader from '@mui/material/ListSubheader';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import Link from '@mui/material/Link';
-import Moviepage from './AllMovie/Moviepage';
-import Actorpage from './AllActor/Actorpage';
-import Collection from './Collection/Collection';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import Button from '@mui/material/Button';
+import { useNavigate } from "react-router-dom";
 
 
-const drawerWidth = 225;
+
 
 
 const Adminhome = (props) => {
 
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    let navigate = useNavigate();
     const [menudata, setMenudata] = React.useState("Movie");
 
     const handleDrawerToggle = () => {
@@ -79,94 +53,14 @@ const Adminhome = (props) => {
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
-    const drawer = (
-        <div>
-            <Toolbar />
-            <List
-                subheader={
-                    <ListSubheader sx={{ backgroundColor: "transparent", mb: 5 }}>
-                        <Typography variant="h4" gutterBottom sx={{ color: "whitesmoke" }}>
-                            Welcome!
-                        </Typography>
-                    </ListSubheader>
-                }
-            >
-                <ListItem onClick={() => setMenudata("Movie")} >
-                    <ListItemButton sx={{
-                        pl: 5,
-                        borderRadius: '20px',
-                        "&:hover": {
-                            backgroundColor: "#212121",
-                            color: "white",
-                            borderRadius: '20px'
-                        },
-                    }}>
-                        <ListItemIcon>
-                            <LocalMoviesIcon sx={{ color: "#eeeeee" }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Movie" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem onClick={() => setMenudata("Actor")} >
-                    <ListItemButton sx={{
-                        pl: 5,
-                        borderRadius: '20px',
-                        "&:hover": {
-                            backgroundColor: "#212121",
-                            color: "white",
-                            borderRadius: '20px'
 
-                        },
-                    }}>
-                        <ListItemIcon>
-                            <Person4Icon sx={{ color: "#eeeeee" }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Actor" />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem onClick={() => setMenudata("Collection")} >
-                    <ListItemButton sx={{
-                        pl: 5,
-                        borderRadius: '20px',
-                        "&:hover": {
-                            backgroundColor: "#212121",
-                            color: "white",
-                            borderRadius: '20px'
-                        },
-                    }}>
-                        <ListItemIcon>
-                            <CollectionsBookmarkIcon sx={{ color: "#eeeeee" }} />
-                        </ListItemIcon>
-                        <ListItemText primary="Collection" />
-                        {/* {open ? <ExpandLess /> : <ExpandMore />} */}
-                    </ListItemButton></ListItem>
-            </List>
-        </div>
-    );
-
-    const SidebarData = [
-        {
-            title: "Movie",
-            path: "/allmovie",
-            icon: <LocalMoviesIcon sx={{ color: "#eeeeee" }} />
-        },
-        {
-            title: "Actor",
-            path: "/allactor",
-            icon: <Person4Icon sx={{ color: "#eeeeee" }} />
-        },
-        {
-            title: "Collection",
-            path: "/allcollection",
-            icon: <CollectionsBookmarkIcon sx={{ color: "#eeeeee" }} />
-        }
-    ]
 
     const styles = {
         header: {
             backgroundImage: `url(${image})`,
             height: '100vh',
             display: "flex",
+            backgroundColor: "black",
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover'
@@ -175,17 +69,24 @@ const Adminhome = (props) => {
         content: {
             height: '100%',
             width: '100%',
+            display: "flex",
             backgroundColor: 'rgba(0, 0, 0, 0.9)',
         },
-        bgcontent: {
-            height: '100%',
+        bgheader: {
+            height: '70vh',
             width: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: "flex",
+            backgroundImage: "linear-gradient(to bottom,transparent,black 60%)",
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'absolute', //Here is the trick
+            bottom: 0,
         },
         icon: {
-            "& $active": {
-                color: "pink"
-            },
+            color: "white",
+            "&$completedIcon": {
+                color: "white"
+            }
         },
         completedIcon: {}
     }
@@ -194,7 +95,7 @@ const Adminhome = (props) => {
     return (
         <Box style={styles.header}>
             <Box style={styles.content}>
-                <Box style={styles.bgcontent}>
+                <Box style={styles.bgheader}>
 
                     <Grid
                         container
@@ -204,38 +105,81 @@ const Adminhome = (props) => {
                         sx={{
                             position: 'absolute',
                             left: '50%',
-                            top: '40%',
+                            top: '30%',
                             transform: 'translate(-50%, -50%)'
                         }}
                     >
                         <Grid container spacing={1}>
                             <Grid item xs={12}>
                                 <Box>
-                                    <Typography variant="h4" gutterBottom sx={{ color: "whitesmoke" }}>
+                                    <Typography variant="h1" gutterBottom sx={{ color: "whitesmoke" }}>
                                         Welcome!
                                     </Typography>
-
                                 </Box>
 
                             </Grid>
                             <Grid item xs={12} container
                                 direction="column"
                                 justifyContent="center"
-                                alignItems="center"
-                                sx={{ mt: -8 }}>
+                                alignItems="center">
                                 <Box sx={{ width: '80%' }}>
                                     <Grid container direction="row"
                                         justifyContent="center"
                                         alignItems="center" spacing={3}>
-                                        {SidebarData.map((item, i) => (
-                                            <Grid item xs={4} key={i}>
-                                                <Paper sx={{ height: "10vh", }}  >
-                                                    {item.icon}
-                                                    {item.title}
-                                                </Paper>
 
-                                            </Grid>
-                                        ))}
+                                        <Grid item xs={10} >
+                                            <Stack direction="row" spacing={3}>
+                                            <Button variant="contained"  onClick={() => navigate("/allmovie")} sx={{
+                                                backgroundImage: "linear-gradient(to left,#454545 ,#212121 35%)",
+                                                color: "whitesmoke",
+                                                width: "100%",
+                                                height: "70px",
+                                                borderRadius: 3,
+                                                fontWeight: 600,
+                                                fontSize: "16px",
+                                                "&:hover": {
+                                                    backgroundImage: "linear-gradient(to left,#212121 ,#454545 35%)",
+                                                    color: "whitesmoke",
+                                                    fontSize: "20px"
+                                                },
+                                            }}>
+                                                Movie
+                                            </Button>
+                                            <Button variant="contained" onClick={() => navigate("/allactor")}  sx={{
+                                                backgroundImage: "linear-gradient(to left,#454545 ,#212121 35%)",
+                                                color: "whitesmoke",
+                                                width: "100%",
+                                                height: "70px",
+                                                borderRadius: 3,
+                                                fontWeight: 600,
+                                                fontSize: "16px",
+                                                "&:hover": {
+                                                    backgroundImage: "linear-gradient(to left,#212121 ,#454545 35%)",
+                                                    color: "whitesmoke",
+                                                    fontSize: "20px"
+                                                },
+                                            }}>
+                                                Actor
+                                            </Button>
+                                            <Button variant="contained" onClick={() => navigate("/allcollection")}  sx={{
+                                                backgroundImage: "linear-gradient(to left,#454545 ,#212121 35%)",
+                                                color: "whitesmoke",
+                                                width: "100%",
+                                                height: "70px",
+                                                borderRadius: 3,
+                                                fontWeight: 600,
+                                                fontSize: "16px",
+                                                "&:hover": {
+                                                    backgroundImage: "linear-gradient(to left,#212121 ,#454545 35%)",
+                                                    color: "whitesmoke",
+                                                    fontSize: "20px"
+                                                },
+                                            }}>
+                                                Collection
+                                            </Button>
+                                            </Stack>
+                                        </Grid>
+
 
                                     </Grid>
                                 </Box>

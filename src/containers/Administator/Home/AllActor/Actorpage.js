@@ -30,29 +30,18 @@ import AddIcon from '@mui/icons-material/Add';
 import Createactor from './Createactor';
 
 
-const drawerWidth = 225;
 
 
-const Actorpage = (props) => {
 
-    const { window } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+const Actorpage = () => {
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
-    const [open, setOpen] = React.useState(true);
-
-    const handleClick = () => {
-        setOpen(!open);
-    };
 
 
 
     const styles = {
         header: {
             backgroundImage: `url(${image})`,
-            height: '130vh',
+            height: '100%',
             display: "flex",
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',

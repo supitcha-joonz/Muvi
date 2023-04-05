@@ -13,9 +13,8 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import * as categoryActions from "../../redux/action/actionCategory";
 import * as collectionActions from "../../redux/action/actionCollection"
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import Chip from "@mui/material/Chip";
-import axios from "axios";
+import * as movieActions from "../../redux/action/actionMovie";
+import TablePagination from '@mui/material/TablePagination';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -44,47 +43,74 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const Test = () => {
 
 
-
+    let dispatch = useDispatch();
     const categories = useSelector((state) => state.categories);
     const categoriesList = categories.categories;
+    const movies = useSelector((state) => state.movies);
+    const moviesList = movies.movies;
 
+    console.log(moviesList);
 
-    // const categoryList = 
-    //     { "genres": [{ "id": 12, "name": "Adventure" }, { "id": 14, "name": "Fantasy" }, { "id": 16, "name": "Animation" }, { "id": 18, "name": "Drama" }, { "id": 27, "name": "Horror" }, { "id": 28, "name": "Action" }, { "id": 35, "name": "Comedy" }, { "id": 36, "name": "History" }, { "id": 37, "name": "Western" }, { "id": 53, "name": "Thriller" }, { "id": 80, "name": "Crime" }, { "id": 99, "name": "Documentary" }, { "id": 878, "name": "Science Fiction" }, { "id": 9648, "name": "Mystery" }, { "id": 10402, "name": "Music" }, { "id": 10749, "name": "Romance" }, { "id": 10751, "name": "Family" }, { "id": 10752, "name": "War" }, { "id": 10769, "name": "Foreign" }, { "id": 10770, "name": "TV Movie" }] }
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+  
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(+event.target.value);
+      setPage(0);
+    };
 
-
-
-    let dispatch = useDispatch();
 
 
     useEffect(() => {
         dispatch(categoryActions.loadcategories());
+        dispatch(movieActions.loadmovies());
     }, []);
 
 
     console.log(categoriesList);
 
 
-    return (
-        <Box sx={{ width: '100%', maxWidth: 500 }}>
 
-            <TableContainer component={Paper}>
-                <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                    <TableHead>
+    return (
+        <Box sx={{ width: '100%', height: 700 ,overflow: 'hidden'}}>
+
+            <TableContainer component={Paper} sx={{ maxHeight: 700  }}>
+                <Table aria-label="customized table" >
+                    <TableHead sx={{position: "sticky" }} >
                         <TableRow>
                             <StyledTableCell align="center">Name</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {categoriesList.genres && categoriesList.genres.map((item) => (
+                        {/* {categoriesList.genres && categoriesList.genres.map((item) => (
                             <StyledTableRow key={item.id}>
                                 <StyledTableCell component="th" scope="row" align="center">
                                     {item.name}
                                 </StyledTableCell>
                             </StyledTableRow>
+                        ))} */}
+
+                        {moviesList.movies && moviesList.movies.map((item) => (
+                            <StyledTableRow key={item.id}>
+                                <StyledTableCell component="th" scope="row" align="center">
+                                    {item.original_title}
+                                </StyledTableCell>
+                            </StyledTableRow>
                         ))}
 
                     </TableBody>
+                    <TablePagination
+                        rowsPerPageOptions={[10, 25, 100]}
+                        component="div"
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
 
                 </Table>
             </TableContainer>
