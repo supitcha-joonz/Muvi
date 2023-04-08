@@ -30,6 +30,7 @@ const getactor = (actor) => ({
 
 export const loadactors = () => {
     return function (dispatch) {
+        console.log(`${process.env.REACT_APP_API}/actor/all`);
         axios.get(`${process.env.REACT_APP_API}/actor/all`).then((resp) => {
             console.log("resp", resp);
             dispatch(getactors(resp.data));

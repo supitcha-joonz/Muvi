@@ -72,26 +72,6 @@ const Createactor = () => {
         completedIcon: {}
     }
 
-    const top100Films = [
-        { label: 'Action' },
-        { label: 'War ' },
-        { label: 'Adventure ' },
-        { label: 'Western' },
-        { label: 'Comedy' },
-        { label: "Drama" },
-        { label: 'Erotic ' },
-        { label: "Musical" },
-        { label: "Romance" },
-        { label: "Fantasy" },
-        { label: "Science fiction" },
-        { label: "Horror " },
-        { label: "Mystery" },
-        { label: "Animation" },
-        { label: "Documentary " },
-        { label: "Noir" }
-
-    ];
-
 
     return (
 

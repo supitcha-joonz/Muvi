@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import image from '../../img/duke.jpg';
 import logo from '../../img/logo.png';
@@ -16,8 +16,26 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import piture1 from '../../img/wakanda2.jpg';
+import * as actorActions from "../../redux/action/actionActor";
+import { useDispatch, useSelector } from "react-redux";
 
 const Actor = () => {
+
+    const actors = useSelector((state) => state.actors);
+    const actorsList = actors.actors;
+
+    let dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(actorActions.loadactors());
+    }, []);
+
+    console.log(actorsList);
+
+
+
+
+
     const styles = {
         header: {
             backgroundImage: `url(${image})`,
@@ -60,6 +78,8 @@ const Actor = () => {
         completedIcon: {}
     }
 
+
+
     return (
 
         <Box style={{
@@ -73,14 +93,31 @@ const Actor = () => {
                         direction="column"
                         justifyContent="center"
                         alignItems="flex-end"
-                        sx={{ mr: 5,mb: 3 }}
+                        sx={{ mr: 5, mb: 3 }}
                     >
+
+                        {/* {actorsList.actors && actorsList.actors.map((item) => (
+                            <StyledTableRow key={item.id} sx={{ backgroundColor: "transparent", mb: 2, borderRadius: 5 }} >
+                                <StyledTableCell sx={{ backgroundColor: "rgba(0, 0, 0, 0.1)", color: "whitesmoke" }} component="th" scope="row" align="center">
+                                    {item.id}
+                                </StyledTableCell>
+                                <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                    {item.firstName}
+                                </StyledTableCell>
+                                <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                    {item.middleName ? item.middleName : "-"}
+                                </StyledTableCell>
+                                <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                    {item.familyName}
+                                </StyledTableCell>
+                            </StyledTableRow>
+                        ))} */}
 
 
                         <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600 }}>
-                            Winston 
+                            Winston
                         </Typography>
-                        <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600,mt: -5 }}>
+                        <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -5 }}>
                             Duke
                         </Typography>
                         <Chip label="1986-11-15, 36 years old" sx={{ color: "white", backgroundColor: "#584C23", fontWeight: 600, mt: -3, fontSize: "18px" }} />
@@ -89,7 +126,7 @@ const Actor = () => {
 
                         </Box>
 
-                        <Stack direction="row" spacing={5} sx={{ mb: 3,}}>
+                        <Stack direction="row" spacing={5} sx={{ mb: 3, }}>
                             <img style={styles.image} src={piture1} width="140" height="200" sx={{ borderRadius: 100 / 10 }} />
                             <img style={styles.image} src={piture1} width="140" height="200" sx={{ borderRadius: 100 / 10 }} />
                             <img style={styles.image} src={piture1} width="140" height="200" sx={{ borderRadius: 100 / 10 }} />

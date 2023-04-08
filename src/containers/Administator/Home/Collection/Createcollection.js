@@ -74,25 +74,7 @@ const Createcollection = () => {
         completedIcon: {}
     }
 
-    const top100Films = [
-        { label: 'Action' },
-        { label: 'War ' },
-        { label: 'Adventure ' },
-        { label: 'Western' },
-        { label: 'Comedy' },
-        { label: "Drama" },
-        { label: 'Erotic ' },
-        { label: "Musical" },
-        { label: "Romance" },
-        { label: "Fantasy" },
-        { label: "Science fiction" },
-        { label: "Horror " },
-        { label: "Mystery" },
-        { label: "Animation" },
-        { label: "Documentary " },
-        { label: "Noir" }
 
-    ];
 
 
     return (
@@ -198,7 +180,7 @@ const Createcollection = () => {
                                             COLLECTION NAME
                                         </Typography>
                                     </Grid>
-                                    {/* <Grid item xs={7}>
+                                    <Grid item xs={7}>
                                         <Paper fullWidth elevation={1}
                                             sx={{
                                                 backgroundColor: "#4B4B4B",
@@ -223,7 +205,7 @@ const Createcollection = () => {
 
                                             />
                                         </Paper>
-                                    </Grid> */}
+                                    </Grid>
                                    </Grid>
                                    <Grid container justifyContent="end"
                                     alignItems="center" xs={8} sx={{ mb: 10 }} >

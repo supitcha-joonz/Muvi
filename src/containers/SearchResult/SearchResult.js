@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import image from '../../img/moviebackground.jpg';
 import logo from '../../img/logo.png';
@@ -13,8 +13,21 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { useDispatch, useSelector } from "react-redux";
+import * as movieActions from "../../redux/action/actionMovie";
 
 const SearchResult = () => {
+
+    const movies = useSelector((state) => state.movies);
+    const moviesList = movies.movies;
+
+    let dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(movieActions.loadmovies());
+    }, []);
+
+    console.log(moviesList);
 
 
 
@@ -91,6 +104,18 @@ const SearchResult = () => {
                     //     transform: 'translate(-50%, -50%)'
                     // }}
                     >
+                        {/* {moviesList.movies && moviesList.movies.map((item) => (
+                                                <StyledTableRow key={item.id} sx={{ backgroundColor: "transparent", mb: 2, borderRadius: 5 }} >
+                                                    <StyledTableCell sx={{ backgroundColor: "rgba(0, 0, 0, 0.1)", color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                        {item.id}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                        {item.original_title}
+                                                    </StyledTableCell>
+                                                </StyledTableRow>
+                                            ))} */}
+
+                                            
                         <Grid container spacing={1}>
                             <Grid item xs={12} container
                                 direction="column"

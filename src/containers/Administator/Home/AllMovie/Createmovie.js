@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import image1 from '../../../../img/moviebackground.jpg';
@@ -13,10 +13,12 @@ import Button from '@mui/material/Button';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Formik, Field, Form, replace } from 'formik';
 import Autocomplete from '@mui/material/Autocomplete';
-import { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from "react-router-dom";
+import * as categoryActions from "../../../../redux/action/actionCategory";
+import * as collectionActions from "../../../../redux/action/actionCollection";
+import { useDispatch, useSelector } from "react-redux";
 
 
 
@@ -82,6 +84,21 @@ const Createmovie = () => {
         { label: "Noir" }
 
     ];
+
+    const categories = useSelector((state) => state.categories);
+    const categoriesList = categories.categories;
+    const collections = useSelector((state) => state.collections);
+    const collectionsList = collections.collections;
+
+    let dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(categoryActions.loadcategories());
+        dispatch(collectionActions.loadcollections());
+    }, []);
+
+    console.log(categoriesList);
+    console.log(collectionsList);
 
 
     return (
@@ -235,7 +252,11 @@ const Createmovie = () => {
                                             }} >
                                             <Autocomplete
                                                 id="part"
-                                                options={categories16}
+                                                options={collectionsList.collections ?
+                                                    collectionsList.collections : []}
+                                                getOptionLabel={(option) =>
+                                                    option.name ? option.name : ""
+                                                }
                                                 fullWidth
                                                 sx={{
                                                     "& .MuiOutlinedInput-notchedOutline": { border: "none" },
@@ -266,7 +287,11 @@ const Createmovie = () => {
                                             }} >
                                             <Autocomplete
                                                 id="categories"
-                                                options={categories16}
+                                                options={categoriesList.genres ?
+                                                    categoriesList.genres : []}
+                                                getOptionLabel={(option) =>
+                                                    option.name ? option.name : ""
+                                                }
                                                 fullWidth
                                                 sx={{
                                                     "& .MuiOutlinedInput-notchedOutline": { border: "none" },
@@ -398,7 +423,7 @@ const Createmovie = () => {
                                         alignItems="end"
                                         spacing={2}
                                     >
-                                        <Button onClick={() => navigate((-1), {replace: true})} variant="contained" sx={{
+                                        <Button onClick={() => navigate((-1), { replace: true })} variant="contained" sx={{
                                             bgcolor: "#b71c1c", border: '4px solid #b71c1c', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
                                             "&:hover": {
                                                 backgroundColor: "#EA5455",
@@ -408,7 +433,7 @@ const Createmovie = () => {
                                         }}>
                                             Back
                                         </Button>
-                                        <Button onClick={() => navigate((-1), {replace: true})} variant="contained" sx={{
+                                        <Button onClick={() => navigate((-1), { replace: true })} variant="contained" sx={{
                                             bgcolor: "#1b5e20", border: '4px solid #1b5e20', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
                                             "&:hover": {
                                                 backgroundColor: "#94AF9F",
@@ -416,7 +441,7 @@ const Createmovie = () => {
 
                                             },
                                         }}>
-                                            Create 
+                                            Create
                                         </Button>
 
                                     </Stack>

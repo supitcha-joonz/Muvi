@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import image from '../../img/posterblackpanther.png';
 import logo from '../../img/logo.png';
@@ -16,8 +16,21 @@ import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import piture1 from '../../img/wakanda2.jpg';
+import { useDispatch, useSelector } from "react-redux";
+import * as movieActions from "../../redux/action/actionMovie";
 
 const Description = () => {
+
+    const movies = useSelector((state) => state.movies);
+    const moviesList = movies.movies;
+
+    let dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(movieActions.loadmovies());
+    }, []);
+
+    console.log(moviesList);
 
     const styles = {
         header: {
@@ -85,6 +98,17 @@ const Description = () => {
                             justifyContent="center"
                             alignItems="start">
 
+                            {/* {moviesList.movies && moviesList.movies.map((item) => (
+                                                <StyledTableRow key={item.id} sx={{ backgroundColor: "transparent", mb: 2, borderRadius: 5 }} >
+                                                    <StyledTableCell sx={{ backgroundColor: "rgba(0, 0, 0, 0.1)", color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                        {item.id}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                        {item.original_title}
+                                                    </StyledTableCell>
+                                                </StyledTableRow>
+                                            ))} */}
+
                             <Typography variant="h3" gutterBottom sx={{ color: "white", fontWeight: 600, ml: 5, mr: 5 }}>
                                 Black Panter
                             </Typography>
@@ -122,11 +146,11 @@ const Description = () => {
                                 <Avatar alt="Cindy Baker" sx={{ width: 56, height: 56 }} src="/static/images/avatar/3.jpg" />
                             </Stack>
 
-                            <Box sx={{width: "70%", height: "1px", background: 'linear-gradient(to right , #942617, black)',ml: 5, mr: 5 ,mt: 10}}>
+                            <Box sx={{ width: "70%", height: "1px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 10 }}>
 
                             </Box>
 
-                            
+
 
                             <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 10, ml: 5, mr: 5 }}>
                                 RECOMMENDATIONS

@@ -30,8 +30,8 @@ const getcollection = (collection) => ({
 
 export const loadcollections = () => {
     return function (dispatch) {
-        console.log(`${process.env.REACT_APP_API}/genre/all`);
-        axios.get(`${process.env.REACT_APP_API}/genre/all`).then((resp) => {
+        console.log(`${process.env.REACT_APP_API}/collection/all`);
+        axios.get(`${process.env.REACT_APP_API}/collection/all`).then((resp) => {
             console.log("resp", resp);
             dispatch(getcollections(resp.data));
             // dispatch(getDropdowncollection(resp.data));
