@@ -40,30 +40,10 @@ export const loadcollections = () => {
     };
 };
 
-// export const getBycollections = (id) => {
-//     return function (dispatch) {
-//         axios.get(`${process.env.REACT_APP_API}/collection/getbycollectionid/${id}`).then((resp) => {
-//             console.log("resp", resp);
-//             dispatch(getcollections(resp.data));
-//         })
-//         .catch((error) => console.log(error));
-//     };
-// };
-
-export const deletecollection = (id) => {
+export const addCollections = (collection) => {
     return function (dispatch) {
-        axios.delete(`${process.env.REACT_APP_API}/collection/${id}`).then((resp) => {
-            console.log("resp", resp);
-            dispatch(collectionDeleted());
-            dispatch(loadcollections());
-        })
-        .catch((error) => console.log(error));
-    };
-};
-
-export const addcollection = (collection) => {
-    return function (dispatch) {
-        axios.post(`${process.env.REACT_APP_API}/collection`, collection).then((resp) => {
+        console.log(`${process.env.REACT_APP_API}/add/collection`);
+        axios.post(`${process.env.REACT_APP_API}/add/collection`, collection).then((resp) => {
             console.log("resp", resp);
             dispatch(collectionAdded());
             dispatch(loadcollections());
@@ -72,24 +52,36 @@ export const addcollection = (collection) => {
     };
 };
 
-export const getSinglecollection = (id) => {
+export const getSingleCollections = (collectionId) => {
     return function (dispatch) {
-        axios.get(`${process.env.REACT_APP_API}/collection/${id}`).then((resp) => {
+        console.log(`${process.env.REACT_APP_API}/collection/getById/${collectionId}`);
+        axios.get(`${process.env.REACT_APP_API}/collection/getById/${collectionId}`).then((resp) => {
             console.log("resp", resp);
             dispatch(getcollection(resp.data));
-            // dispatch(loadcollections());
         })
         .catch((error) => console.log(error));
     };
 };
 
-export const updatecollection = (collection, id) => {
+export const updateCollections = (collection, id) => {
     return function (dispatch) {
-        axios.put(`${process.env.REACT_APP_API}/collection/${id}`, collection).then((resp) => {
+        axios.put(`${process.env.REACT_APP_API}/edit/collection/${id}`, collection).then((resp) => {
             console.log("resp", resp);
             dispatch(collectionUpdated());
-            dispatch(loadcollections());
         })
         .catch((error) => console.log(error));
     };
 };
+
+
+export const deleteCollections = (id) => {
+    return function (dispatch) {
+        console.log(`${process.env.REACT_APP_API}/delete/collection?collectionId=${id}`);
+        axios.delete(`${process.env.REACT_APP_API}/delete/collection?collectionId=${id}`).then((resp) => {
+            console.log("resp", resp);
+            dispatch(collectionDeleted());
+        })
+        .catch((error) => console.log(error));
+    };
+};
+

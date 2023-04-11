@@ -1,30 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import image1 from '../../../../img/moviebackground.jpg';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import SearchIcon from '@mui/icons-material/Search';
-import IconButton from '@mui/material/IconButton';
-import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Formik, Field, Form } from 'formik';
-import Autocomplete from '@mui/material/Autocomplete';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+import Swal from "sweetalert2";
+import * as collectionActions from "../../../../redux/action/actionCollection";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from 'react-router-dom';
+import TextField from '@mui/material/TextField';
 
 
 
@@ -34,6 +25,38 @@ const Editcollection = () => {
     const [filename, setFileName] = useState('')
     const [image, setImage] = useState(null)
     let navigate = useNavigate();
+    let dispatch = useDispatch();
+    const { id } = useParams();
+    const [state, setState] = useState({});
+    const collections = useSelector((state) => state.collections);
+    const collectionsList = collections.collections;
+    const collectionId = state.collection_id;
+
+    useEffect(() => {
+       
+            // dispatch(collectionActions.loadcollections());
+            dispatch(collectionActions.getSingleCollections(collectionId));
+     
+    }, []);
+
+  
+      
+      
+      useEffect(() => {
+        if(id) {
+          if (collections.data) {
+            setState({ ...collections.data });
+          }
+        } else {
+          setState({ ...state })
+        }
+      }, [collections]);
+
+      console.log(collectionId);
+
+      
+
+
 
 
 
@@ -72,25 +95,88 @@ const Editcollection = () => {
         completedIcon: {}
     }
 
-    const top100Films = [
-        { label: 'Action' },
-        { label: 'War ' },
-        { label: 'Adventure ' },
-        { label: 'Western' },
-        { label: 'Comedy' },
-        { label: "Drama" },
-        { label: 'Erotic ' },
-        { label: "Musical" },
-        { label: "Romance" },
-        { label: "Fantasy" },
-        { label: "Science fiction" },
-        { label: "Horror " },
-        { label: "Mystery" },
-        { label: "Animation" },
-        { label: "Documentary " },
-        { label: "Noir" }
+    const actionSave = (data) => {
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                dispatch(collectionActions.updateCollections(data, data.id)).then((resp) => {
+                    if (resp.data) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "บันทึกข้อมูลสำเร็จ",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        actionSuccess();
+                    }
+                })
+            } else if (result.isDenied) {
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด",
+                });
+            }
+        })
+    }
 
-    ];
+
+    const handleDeleteCollections = () => {
+        Swal.fire({
+            title: 'Do you want to Delete?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                dispatch(collectionActions.deleteCollections(collectionId)).then((resp) => {
+                    if (resp.data) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "ลบข้อมูลสำเร็จ",
+                            text: "ลบข้อมูลนี้แล้ว.",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        actionSuccess();
+                    }
+                })
+            } else if (result.isDenied) {
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด",
+                });
+            }
+        })
+    }
+
+
+    const actionSuccess = () => {
+        Swal.fire({
+            icon: "success",
+            title: "บันทึกข้อมูลสำเร็จ",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+        setTimeout(() => {
+        }, 500);
+        setTimeout(() => {
+            dispatch(collectionActions.loadcollections());
+            navigate({ pathname: "/allcollection" });
+        }, 1500);
+    }
+
+
+
+
+
 
 
     return (
@@ -99,25 +185,49 @@ const Editcollection = () => {
             <Box style={styles.content}>
                 <Box style={styles.bgcontent}>
                     <Formik
+                        Formik
+                        enableReinitialize
                         initialValues={{
-                            collection: '',
-
+                            name: "",
                         }}
-                        onSubmit={async (values) => {
-                            await new Promise((r) => setTimeout(r, 500));
-                            alert(JSON.stringify(values, null, 2));
+                        validationSchema={Yup.object().shape({
+                            name: Yup.string().required("Required"),
+                            // description: Yup.string().required("Required"),
+                        })}
+                        onSubmit={(values) => {
+                            var data = {
+                                "id": values.id,
+                                "name": values.name,
+                            }
+                            actionSave(data);
                         }}
                     >
-                        <Form>
+                        {({
+                            values,
+                            errors,
+                            touched,
+                            handleChange,
+                            handleBlur,
+                            handleSubmit,
+                            setFieldValue,
+                            resetForm,
+                        }) => (
+                            <Form onSubmit={handleSubmit}>
 
-                            <Grid
-                                container
-                                direction="column"
-                                justifyContent="center"
-                                alignItems="center"
-                            // sx={{ mt: 20 }}
-                            >
-                                <Grid item xs={12} sx={{ mt: 15, mb: 10 }}>
+                                <Grid
+                                    container
+                                    direction="column"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    sx={{
+                                        position: 'absolute',
+                                        left: '50%',
+                                        top: '40%',
+                                        transform: 'translate(-50%, -50%)'
+                                    }}
+                                // sx={{ mt: 20 }}
+                                >
+                                    {/* <Grid item xs={12} sx={{ mt: 15, mb: 10 }}>
                                     <Paper fullWidth elevation={1}
                                         onClick={() => document.querySelector(".input-field").click()}
                                         sx={{
@@ -188,75 +298,83 @@ const Editcollection = () => {
 
                                     </Paper>
 
-                                </Grid>
-                                <Grid container xs={8} spacing={5} sx={{ mb: 10 }}>
+                                </Grid> */}
+                                    <Grid container xs={8} spacing={5} sx={{ mt: 15, mb: 10 }}>
 
-                                    <Grid item xs={5}>
-                                        <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                            COLLECTION NAME 
-                                        </Typography>
-                                    </Grid>
-                                    {/* <Grid item xs={7}>
-                                        <Paper fullWidth elevation={1}
-                                            sx={{
-                                                backgroundColor: "#4B4B4B",
-                                                borderRadius: 25,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                height: 35,
-
-                                            }} >
-                                            <TextField
-                                                id='collection'
-                                                type="name"
-                                                fullWidth
-                                                size="medium"
-                                                InputProps={{
-                                                    disableUnderline: true,
-                                                }}
+                                        <Grid item xs={5}>
+                                            <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
+                                                COLLECTION NAME
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            <Paper fullWidth elevation={1}
                                                 sx={{
-                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                    input: { color: "white", fontWeight: 600 },
-                                                }}
+                                                    backgroundColor: "#4B4B4B",
+                                                    borderRadius: 25,
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    height: 35,
 
-                                            />
-                                        </Paper>
-                                    </Grid> */}
-                                   </Grid>
-                                   <Grid container justifyContent="end"
-                                    alignItems="center" xs={8} sx={{ mb: 10 }} >
-                                    <Stack
-                                        direction="row"
-                                        justifyContent="end"
-                                        alignItems="end"
-                                        spacing={2}
-                                    >
-                                        <Button onClick={() => navigate((-1), {replace: true})} variant="contained" sx={{
-                                            bgcolor: "#b71c1c", border: '4px solid #b71c1c', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
-                                            "&:hover": {
-                                                backgroundColor: "#EA5455",
-                                                color: "black",
+                                                }} >
+                                                <TextField
+                                                    id='name'
+                                                    type="text"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.name || ""}
+                                                    fullWidth
+                                                    size="medium"
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                    }}
+                                                    sx={{
+                                                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                        input: { color: "white", fontWeight: 600 },
+                                                    }}
 
-                                            },
-                                        }}>
-                                            Back
-                                        </Button>
-                                        <Button onClick={() => navigate((-1), {replace: true})} variant="contained" sx={{
-                                            bgcolor: "#1b5e20", border: '4px solid #1b5e20', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
-                                            "&:hover": {
-                                                backgroundColor: "#94AF9F",
-                                                color: "black",
+                                                />
+                                            </Paper>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container justifyContent="end"
+                                        alignItems="center" xs={8} sx={{ mb: 10 }} >
+                                        <Stack
+                                            direction="row"
+                                            justifyContent="end"
+                                            alignItems="end"
+                                            spacing={2}
+                                        >
+                                            <Button onClick={() => navigate((-1), { replace: true })} variant="contained" sx={{
+                                                bgcolor: "#b71c1c", border: '4px solid #b71c1c', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
+                                                "&:hover": {
+                                                    backgroundColor: "#EA5455",
+                                                    color: "black",
 
-                                            },
-                                        }}>
-                                            Edit 
-                                        </Button>
+                                                },
+                                            }}>
+                                                Back
+                                            </Button>
+                                            <Button onClick={() => handleDeleteCollections(id)} variant="contained" color="error">
+                                                Delete
+                                            </Button>
+                                            <Button type='submit' variant="contained" sx={{
+                                                bgcolor: "#1b5e20", border: '4px solid #1b5e20', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
+                                                "&:hover": {
+                                                    backgroundColor: "#94AF9F",
+                                                    color: "black",
 
-                                    </Stack>
+                                                },
 
+                                            }}>
+                                                Create
+                                            </Button>
+
+                                        </Stack>
+
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Form>
+                            </Form>
+                        )}
                     </Formik>
 
                 </Box>

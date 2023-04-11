@@ -13,7 +13,6 @@ import {
     useGridApiContext,
     useGridSelector,
 } from "@mui/x-data-grid";
-import Link from '@mui/material/Link';
 import AddIcon from '@mui/icons-material/Add';
 import * as collectionActions from "../../../../redux/action/actionCollection";
 import * as categoryActions from "../../../../redux/action/actionCategory";
@@ -28,6 +27,11 @@ import Paper from '@mui/material/Paper';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TablePagination from '@mui/material/TablePagination';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from "sweetalert2";
+import { useParams } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
@@ -43,6 +47,7 @@ const Collection = () => {
     const [rowsPerPage, setRowsPerPage] = useState(100);
     const [pg, setpg] = React.useState(0);
     const [rpg, setrpg] = React.useState(5);
+    let navigate = useNavigate();
 
     function handleChangePage(event, newpage) {
         setpg(newpage);
@@ -65,12 +70,44 @@ const Collection = () => {
     // };
 
 
+
     let dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(collectionActions.loadcollections());
         dispatch(categoryActions.loadcategories());
     }, []);
+
+    const handleDeleteCollections = (id) => {
+        Swal.fire({
+            title: 'Do you want to Delete?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                dispatch(collectionActions.deleteCollections(id)).then((resp) => {
+                    if (resp.data) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "ลบข้อมูลสำเร็จ",
+                            text: "ลบข้อมูลนี้แล้ว.",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
+                })
+                dispatch(collectionActions.loadcollections());
+            } else if (result.isDenied) {
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด",
+                });
+            }
+        })
+    }
 
     console.log(categoriesList);
     console.log(collectionsList);
@@ -213,8 +250,8 @@ const Collection = () => {
                             <Box sx={{ width: "80%", height: "1.5px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 5 }}></Box>
                             <Stack direction="row" justifyContent="flex-end"
                                 alignItems="center" sx={{ mb: 3 }}>
-                                <Link href="/createcollection" underline="none" >
-                                    <IconButton sx={{
+                               
+                                    <IconButton onClick={() => navigate(`/createcollection`)} sx={{
                                         backgroundColor: "#942617",
                                         "&:hover": {
                                             backgroundColor: '#4A140C',
@@ -223,7 +260,7 @@ const Collection = () => {
                                         },
                                     }} >
                                         <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
-                                    </IconButton></Link>
+                                    </IconButton>
                             </Stack>
                             <Box sx={{ height: 700, width: '100%' }}>
                                 <TableContainer sx={{ maxHeight: 700, borderRadius: 5 }}>
@@ -233,11 +270,16 @@ const Collection = () => {
                                                 <TableCell sx={{ position: "sticky", top: 0, width: "150px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">ID</TableCell>
                                                 <TableCell sx={{ position: "sticky", top: 0, width: "150px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Collection_ID</TableCell>
                                                 <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Collection Name</TableCell>
+                                                <TableCell sx={{ position: "sticky", top: 0, width: "150px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Action</TableCell>
                                             </TableRow>
                                         </TableHead>
+
                                         <TableBody sx={{ backgroundColor: "transparent", borderRadius: 5 }}>
                                             {collectionsList.collections ? collectionsList.collections && collectionsList.collections.map((item) => (
+
+
                                                 <StyledTableRow key={item.id} sx={{ backgroundColor: "transparent", mb: 2, borderRadius: 5 }} >
+ 
                                                     <StyledTableCell sx={{ backgroundColor: "rgba(0, 0, 0, 0.1)", color: "whitesmoke" }} component="th" scope="row" align="center">
                                                         {item.id}
                                                     </StyledTableCell>
@@ -247,19 +289,29 @@ const Collection = () => {
                                                     <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
                                                         {item.name}
                                                     </StyledTableCell>
+                                                    <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                        <IconButton onClick={() => navigate(`/editcollection/${item.collection_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
+                                                            <ArrowRightIcon
+                                                                sx={{
+                                                                    justifyContent: "flex-end", fontSize: 40, color: "white",
+                                                                    "&:hover": {
+                                                                        color: "#F2BD00"
+                                                                    },
+                                                                }} />
+                                                        </IconButton>
+                                                        <IconButton aria-label="delete">
+                                                            <DeleteIcon onClick={() => handleDeleteCollections(item.collection_id)}   sx={{
+                                                                    justifyContent: "flex-end", fontSize: 30, color: "white",
+                                                                    "&:hover": {
+                                                                        color: "#F2BD00"
+                                                                    },
+                                                                }} />
+                                                        </IconButton>
+                                                    </StyledTableCell>
+
                                                 </StyledTableRow>
                                             )) : "-"}
 
-                                            {/* {moviesList.movies && moviesList.movies.map((item) => (
-                                                <StyledTableRow key={item.id}>
-                                                    <StyledTableCell component="th" scope="row" align="center">
-                                                        {item.id}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell component="th" scope="row" align="center">
-                                                        {item.original_title}
-                                                    </StyledTableCell>
-                                                </StyledTableRow>
-                                            ))} */}
 
                                         </TableBody>
                                     </Table>

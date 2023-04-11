@@ -40,6 +40,18 @@ export const loadactors = () => {
     };
 };
 
+export const addActors = (actor) => {
+    return function (dispatch) {
+        console.log(`${process.env.REACT_APP_API}/add/actor`);
+        axios.post(`${process.env.REACT_APP_API}/add/actor`, actor).then((resp) => {
+            console.log("resp", resp);
+            dispatch(actorAdded());
+            dispatch(loadactors());
+        })
+        .catch((error) => console.log(error));
+    };
+};
+
 // export const getByactors = (id) => {
 //     return function (dispatch) {
 //         axios.get(`${process.env.REACT_APP_API}/actor/getbyactorid/${id}`).then((resp) => {
@@ -50,45 +62,12 @@ export const loadactors = () => {
 //     };
 // };
 
-export const deleteactor = (id) => {
+export const deleteActors = (id) => {
     return function (dispatch) {
-        axios.delete(`${process.env.REACT_APP_API}/actor/${id}`).then((resp) => {
+        console.log(`${process.env.REACT_APP_API}/delete/actor?actorId=${id}`);
+        axios.delete(`${process.env.REACT_APP_API}/delete/actor?actorId=${id}`).then((resp) => {
             console.log("resp", resp);
             dispatch(actorDeleted());
-            dispatch(loadactors());
-        })
-        .catch((error) => console.log(error));
-    };
-};
-
-export const addactor = (actor) => {
-    return function (dispatch) {
-        axios.post(`${process.env.REACT_APP_API}/actor`, actor).then((resp) => {
-            console.log("resp", resp);
-            dispatch(actorAdded());
-            dispatch(loadactors());
-        })
-        .catch((error) => console.log(error));
-    };
-};
-
-export const getSingleactor = (id) => {
-    return function (dispatch) {
-        axios.get(`${process.env.REACT_APP_API}/actor/${id}`).then((resp) => {
-            console.log("resp", resp);
-            dispatch(getactor(resp.data));
-            // dispatch(loadactors());
-        })
-        .catch((error) => console.log(error));
-    };
-};
-
-export const updateactor = (actor, id) => {
-    return function (dispatch) {
-        axios.put(`${process.env.REACT_APP_API}/actor/${id}`, actor).then((resp) => {
-            console.log("resp", resp);
-            dispatch(actorUpdated());
-            dispatch(loadactors());
         })
         .catch((error) => console.log(error));
     };

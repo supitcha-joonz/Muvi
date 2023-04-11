@@ -13,7 +13,6 @@ import {
     useGridApiContext,
     useGridSelector,
 } from "@mui/x-data-grid";
-import Link from '@mui/material/Link';
 import AddIcon from '@mui/icons-material/Add';
 import * as actorActions from "../../../../redux/action/actionActor";
 import * as categoryActions from "../../../../redux/action/actionCategory";
@@ -28,6 +27,10 @@ import Paper from '@mui/material/Paper';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TablePagination from '@mui/material/TablePagination';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import { Link, useNavigate } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import Swal from "sweetalert2";
 
 
 
@@ -51,6 +54,7 @@ const Actorpage = () => {
 
 
     let dispatch = useDispatch();
+    let navigate = useNavigate();
 
     useEffect(() => {
         dispatch(actorActions.loadactors());
@@ -88,6 +92,38 @@ const Actorpage = () => {
         completedIcon: {}
 
     }
+
+    const handleDeleteActors = (id) => {
+        Swal.fire({
+            title: 'Do you want to Delete?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                dispatch(actorActions.deleteActors(id)).then((resp) => {
+                    if (resp.data) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "ลบข้อมูลสำเร็จ",
+                            text: "ลบข้อมูลนี้แล้ว.",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
+                })
+                dispatch(actorActions.loadactors());
+            } else if (result.isDenied) {
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด",
+                });
+            }
+        })
+    }
+
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
@@ -197,8 +233,8 @@ const Actorpage = () => {
                             <Box sx={{ width: "80%", height: "1.5px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 5 }}></Box>
                             <Stack direction="row" justifyContent="flex-end"
                                 alignItems="center" sx={{ mb: 3 }}>
-                                <Link href="/createactor" underline="none" >
-                                    <IconButton sx={{
+                                
+                                    <IconButton onClick={() => navigate(`/createactor`)}  sx={{
                                         backgroundColor: "#942617",
                                         "&:hover": {
                                             backgroundColor: '#4A140C',
@@ -207,7 +243,7 @@ const Actorpage = () => {
                                         },
                                     }} >
                                         <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
-                                    </IconButton></Link>
+                                    </IconButton>
                             </Stack>
                             <Box sx={{ height: 700, width: '100%' }}>
                                 <TableContainer sx={{ maxHeight: 700, borderRadius: 5 }}>
@@ -218,6 +254,7 @@ const Actorpage = () => {
                                                 <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">First name</TableCell>
                                                 <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Middle name</TableCell>
                                                 <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Family Name</TableCell>
+                                                <TableCell sx={{ position: "sticky", top: 0, width: "180px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Action</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody sx={{ backgroundColor: "transparent", borderRadius: 5 }}>
@@ -234,6 +271,25 @@ const Actorpage = () => {
                                                     </StyledTableCell>
                                                     <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
                                                         {item.familyName}
+                                                    </StyledTableCell>
+                                                    <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                        <IconButton onClick={() => navigate(`/editactor/${item.actor_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
+                                                            <ArrowRightIcon
+                                                                sx={{
+                                                                    justifyContent: "flex-end", fontSize: 40, color: "white",
+                                                                    "&:hover": {
+                                                                        color: "#F2BD00"
+                                                                    },
+                                                                }} />
+                                                        </IconButton>
+                                                        <IconButton aria-label="delete">
+                                                            <DeleteIcon onClick={() => handleDeleteActors(item.actor_id)} sx={{
+                                                                justifyContent: "flex-end", fontSize: 30, color: "white",
+                                                                "&:hover": {
+                                                                    color: "#F2BD00"
+                                                                },
+                                                            }} />
+                                                        </IconButton>
                                                     </StyledTableCell>
                                                 </StyledTableRow>
                                             ))}

@@ -40,19 +40,19 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Searchmain />} />
           <Route exact path="/searchresult" element={<SearchResult />} />
-          <Route exact path="/description" element={<Description />} />
+          <Route exact path="/description/:id" element={<Description />} />
           <Route exact path="/actor" element={<Actor />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/createactor" element={<Createactor />} />
           <Route exact path="/createmovie" element={<Createmovie />} />
-          <Route exact path="/editactor" element={<Editactor />} />
-          <Route exact path="/editmovie" element={<Editmovie />} />
+          <Route exact path="/editactor/:id" element={<Editactor />} />
+          <Route exact path="/editmovie/:id" element={<Editmovie />} />
           <Route exact path="/adminhomepage" element={<Adminhome />} />
           <Route exact path="/allmovie" element={<Moviepage />} />
           <Route exact path="/allactor" element={<Actorpage />} />
           <Route exact path="/allcollection" element={<Collection />} />
           <Route exact path="/createcollection" element={<Createcollection />} />
-          <Route exact path="/editcollection" element={<Editcollection />} />
+          <Route exact path="/editcollection/:id" element={<Editcollection />} />
           <Route exact path="/sidebar" element={<Sidebar />} />
           <Route exact path="/test" element={<Test />} />
         </Routes>

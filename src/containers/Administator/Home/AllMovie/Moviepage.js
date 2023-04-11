@@ -13,7 +13,6 @@ import {
     useGridApiContext,
     useGridSelector,
 } from "@mui/x-data-grid";
-import Link from '@mui/material/Link';
 import AddIcon from '@mui/icons-material/Add';
 import * as movieActions from "../../../../redux/action/actionMovie";
 import * as categoryActions from "../../../../redux/action/actionCategory";
@@ -28,7 +27,10 @@ import Paper from '@mui/material/Paper';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TablePagination from '@mui/material/TablePagination';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-
+import { Link, useNavigate } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import Swal from "sweetalert2";
 
 
 
@@ -55,6 +57,7 @@ const Moviepage = () => {
 
 
     let dispatch = useDispatch();
+    let navigate = useNavigate();
 
     useEffect(() => {
         dispatch(movieActions.loadmovies());
@@ -123,6 +126,37 @@ const Moviepage = () => {
         },
     }));
 
+    const handleDeleteMovies = (id) => {
+        Swal.fire({
+            title: 'Do you want to Delete?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                dispatch(movieActions.deleteMovies(id)).then((resp) => {
+                    if (resp.data) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "ลบข้อมูลสำเร็จ",
+                            text: "ลบข้อมูลนี้แล้ว.",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
+                })
+                dispatch(movieActions.loadmovies());
+            } else if (result.isDenied) {
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด",
+                });
+            }
+        })
+    }
+
 
 
     const StyledGridOverlay = styled("div")(({ theme }) => ({
@@ -160,17 +194,17 @@ const Moviepage = () => {
                         justifyContent="center"
                     >
                         <Box sx={{ m: 10 }}>
-                        <Stack direction="row"
+                            <Stack direction="row"
                                 justifyContent="flex-start"
                                 alignItems="start" spacing={2}
                                 sx={{ alignItems: "start", mb: 2 }}>
-                                <Grid sx={{mt: -1.5}}>
+                                <Grid sx={{ mt: -1.5 }}>
                                     <Link href="/adminhomepage" underline="none" >
                                         <ArrowLeftIcon sx={{ color: "#eeeeee", fontSize: "50px", bgcolor: "#212121", borderRadius: "50px" }} />
                                     </Link>
                                 </Grid>
                                 <Grid>
-                                    <Typography variant="h5" sx={{ color: "whitesmoke", fontWeight: 600}}>
+                                    <Typography variant="h5" sx={{ color: "whitesmoke", fontWeight: 600 }}>
                                         All MOVIE
                                     </Typography></Grid>
                             </Stack>
@@ -195,26 +229,27 @@ const Moviepage = () => {
                             <Box sx={{ width: "80%", height: "1.5px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 5 }}></Box>
                             <Stack direction="row" justifyContent="flex-end"
                                 alignItems="center" sx={{ mb: 3 }}>
-                                <Link href="/createmovie" underline="none" >
-                                    <IconButton sx={{
-                                        backgroundColor: "#942617",
-                                        "&:hover": {
-                                            backgroundColor: '#4A140C',
-                                            color: "black",
+                                <IconButton onClick={() => navigate(`/createmovie`)} sx={{
+                                    backgroundColor: "#942617",
+                                    "&:hover": {
+                                        backgroundColor: '#4A140C',
+                                        color: "black",
 
-                                        },
-                                    }} >
-                                        <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
-                                    </IconButton></Link>
+                                    },
+                                }} >
+                                    <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
+                                </IconButton>
                             </Stack>
                             <Box sx={{ height: 700, width: '100%' }}>
-                            <TableContainer sx={{ maxHeight: 700, borderRadius: 5 }}>
+                                <TableContainer sx={{ maxHeight: 700, borderRadius: 5 }}>
                                     <Table sx={{ position: "sticky" }} >
                                         <TableHead sx={{ backgroundColor: "black" }}>
                                             <TableRow sx={{ backgroundColor: "black" }}>
                                                 <TableCell sx={{ position: "sticky", top: 0, width: "150px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">ID</TableCell>
                                                 <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Name</TableCell>
+                                                <TableCell sx={{ position: "sticky", top: 0, width: "250px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Action</TableCell>
                                             </TableRow>
+
                                         </TableHead>
                                         <TableBody sx={{ backgroundColor: "transparent", borderRadius: 5 }}>
                                             {moviesList.movies && moviesList.movies.map((item) => (
@@ -225,6 +260,26 @@ const Moviepage = () => {
                                                     <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
                                                         {item.original_title}
                                                     </StyledTableCell>
+                                                    <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                        <IconButton onClick={() => navigate(`/editmovie/${item.movie_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
+                                                            <ArrowRightIcon
+                                                                sx={{
+                                                                    justifyContent: "flex-end", fontSize: 40, color: "white",
+                                                                    "&:hover": {
+                                                                        color: "#F2BD00"
+                                                                    },
+                                                                }} />
+                                                        </IconButton>
+                                                        <IconButton aria-label="delete">
+                                                            <DeleteIcon onClick={() => handleDeleteMovies(item.movie_id)} sx={{
+                                                                justifyContent: "flex-end", fontSize: 30, color: "white",
+                                                                "&:hover": {
+                                                                    color: "#F2BD00"
+                                                                },
+                                                            }} />
+                                                        </IconButton>
+                                                    </StyledTableCell>
+
                                                 </StyledTableRow>
                                             ))}
 

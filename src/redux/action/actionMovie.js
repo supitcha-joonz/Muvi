@@ -52,20 +52,10 @@ export const loadmovies = () => {
 //     };
 // };
 
-export const deletemovie = (id) => {
+export const addMovies = (movie) => {
     return function (dispatch) {
-        axios.delete(`${process.env.REACT_APP_API}/movie/${id}`).then((resp) => {
-            console.log("resp", resp);
-            dispatch(movieDeleted());
-            dispatch(loadmovies());
-        })
-        .catch((error) => console.log(error));
-    };
-};
-
-export const addmovie = (movie) => {
-    return function (dispatch) {
-        axios.post(`${process.env.REACT_APP_API}/movie`, movie).then((resp) => {
+        console.log(`${process.env.REACT_APP_API}/add/movie`);
+        axios.post(`${process.env.REACT_APP_API}/add/movie`, movie).then((resp) => {
             console.log("resp", resp);
             dispatch(movieAdded());
             dispatch(loadmovies());
@@ -74,24 +64,14 @@ export const addmovie = (movie) => {
     };
 };
 
-export const getSinglemovie = (id) => {
+export const deleteMovies = (id) => {
     return function (dispatch) {
-        axios.get(`${process.env.REACT_APP_API}/movie/${id}`).then((resp) => {
+        console.log(`${process.env.REACT_APP_API}/delete/movie?movieId=${id}`);
+        axios.post(`${process.env.REACT_APP_API}/delete/movie?movieId=${id}`).then((resp) => {
             console.log("resp", resp);
-            dispatch(getmovie(resp.data));
-            // dispatch(loadmovies());
+            dispatch(movieDeleted());
         })
         .catch((error) => console.log(error));
     };
 };
 
-export const updatemovie = (movie, id) => {
-    return function (dispatch) {
-        axios.put(`${process.env.REACT_APP_API}/movie/${id}`, movie).then((resp) => {
-            console.log("resp", resp);
-            dispatch(movieUpdated());
-            dispatch(loadmovies());
-        })
-        .catch((error) => console.log(error));
-    };
-};
