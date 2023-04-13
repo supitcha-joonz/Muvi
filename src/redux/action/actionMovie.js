@@ -67,7 +67,7 @@ export const addMovies = (movie) => {
 export const deleteMovies = (id) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/delete/movie?movieId=${id}`);
-        axios.post(`${process.env.REACT_APP_API}/delete/movie?movieId=${id}`).then((resp) => {
+        axios.delete(`${process.env.REACT_APP_API}/delete/movie?movieId=${id}`).then((resp) => {
             console.log("resp", resp);
             dispatch(movieDeleted());
         })

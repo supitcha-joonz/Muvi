@@ -128,11 +128,16 @@ const Moviepage = () => {
 
     const handleDeleteMovies = (id) => {
         Swal.fire({
-            title: 'Do you want to Delete?',
-            showDenyButton: true,
+            title: "Do you want to Delete?",
+            // text: "คุณต้องการเพิ่ม Knowledge ?",
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonText: 'Yes',
-            denyButtonText: `No`,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText:
+                "<div style='font-size:20px;font-family:ntlbold;font-weight:normal'>YES</div>",
+            cancelButtonText:
+                "<div style='font-size:20px;font-family:ntlbold;font-weight:normal'>NO</div>",
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
@@ -199,9 +204,9 @@ const Moviepage = () => {
                                 alignItems="start" spacing={2}
                                 sx={{ alignItems: "start", mb: 2 }}>
                                 <Grid sx={{ mt: -1.5 }}>
-                                    <Link href="/adminhomepage" underline="none" >
+                                    <IconButton onClick={() => navigate(`/adminhomepage`)}>
                                         <ArrowLeftIcon sx={{ color: "#eeeeee", fontSize: "50px", bgcolor: "#212121", borderRadius: "50px" }} />
-                                    </Link>
+                                    </IconButton>
                                 </Grid>
                                 <Grid>
                                     <Typography variant="h5" sx={{ color: "whitesmoke", fontWeight: 600 }}>
@@ -258,7 +263,7 @@ const Moviepage = () => {
                                                         {item.id}
                                                     </StyledTableCell>
                                                     <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                        {item.original_title}
+                                                        {item.title}
                                                     </StyledTableCell>
                                                     <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
                                                         <IconButton onClick={() => navigate(`/editmovie/${item.movie_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
@@ -288,7 +293,7 @@ const Moviepage = () => {
                                 </TableContainer>
                                 <TablePagination
                                     sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 1, color: "black", fontWeight: 600 }}
-                                    rowsPerPageOptions={[100, 500, 1000]}
+                                    rowsPerPageOptions={[5, 15, 30]}
                                     component="div"
                                     count={moviesList.movies ? moviesList.movies.length : 0}
                                     rowsPerPage={rowsPerPage}

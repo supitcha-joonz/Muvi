@@ -17,6 +17,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from "react-router-dom";
 import * as categoryActions from "../../../../redux/action/actionCategory";
+import * as collectionActions from "../../../../redux/action/actionCollection";
 import * as movieActions from "../../../../redux/action/actionMovie";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
@@ -26,10 +27,32 @@ import Swal from "sweetalert2";
 
 const Createmovie = () => {
 
-    const [filename, setFileName] = useState('')
-    const [image, setImage] = useState(null)
+    const [filename, setFileName] = useState('');
+    const [image, setImage] = useState('');
     let navigate = useNavigate();
     let dispatch = useDispatch();
+
+    const convert2base64 = (e) => {
+        console.log(e.target.files)
+        const reader = new FileReader()
+        reader.addEventListener('load', () => {
+            setImage(reader.result)
+            
+        })
+        reader.readAsDataURL(e.target.files[0])
+    }
+
+    console.log(image);
+
+    // const convert2base64 = e => {
+    //     const file = e.target.files[0];
+    //     const reader = new FileReader();
+
+    //     reader.onloadend = () => {
+    //         setImage(reader.result.toString());
+    //     };
+    //     reader.readAsDataURL(file);
+    // };
 
     const styles = {
         header: {
@@ -95,6 +118,7 @@ const Createmovie = () => {
 
     useEffect(() => {
         dispatch(categoryActions.loadcategories());
+        dispatch(collectionActions.loadcollections());
     }, []);
 
     console.log(categoriesList);
@@ -102,11 +126,16 @@ const Createmovie = () => {
 
     const actionSave = (data) => {
         Swal.fire({
-            title: 'Do you want to save?',
-            showDenyButton: true,
+            title: "Do you want to save?",
+            // text: "คุณต้องการเพิ่ม Knowledge ?",
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonText: 'Yes',
-            denyButtonText: `No`,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText:
+                "<div style='font-size:20px;font-family:ntlbold;font-weight:normal'>YES</div>",
+            cancelButtonText:
+                "<div style='font-size:20px;font-family:ntlbold;font-weight:normal'>NO</div>",
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
@@ -157,12 +186,13 @@ const Createmovie = () => {
                         enableReinitialize
                         initialValues={{
                             title: '',
-                            part: '',
+                            collection: '',
                             categories: '',
                             timemovie: '',
                             release_date: "",
                             plot: '',
                             actor: '',
+                            image: ""
                         }}
                         validationSchema={Yup.object().shape({
                             title: Yup.string().required("Required"),
@@ -171,12 +201,12 @@ const Createmovie = () => {
                         onSubmit={(values) => {
                             var data = {
                                 "id": 0,
-                                "title": values.title,
-                                "runtime": 0,
-                                "release_date": values.release_date,
-                                "collection": 0,
-                                "overview": values.plot,
-                                "image": null
+                                "title": values.title ? values.title : "",
+                                "runtime": values.timemovie ? values.timemovie : 0,
+                                "release_date": values.release_date ? values.release_date : "",
+                                "collection": values.collection.collection_id ? values.collection.collection_id : 0,
+                                "overview": values.plot ? values.plot : "",
+                                "image": values.image ? values.image : null,
                             }
                             actionSave(data);
                         }}
@@ -215,20 +245,8 @@ const Createmovie = () => {
                                                 borderStyle: 'dashed',
 
                                             }} >
-                                            <input
-                                                type='file'
-                                                name='photo'
-                                                className='input-field'
-                                                accept='image/*'
-                                                hidden
-                                                onChange={({ target: { files } }) => {
-                                                    files[0] && setFileName(files[0].name)
-                                                    if (files) {
-                                                        setImage(URL.createObjectURL(files[0]))
-                                                    }
-                                                }}
-                                            />
-                                            {image ?
+
+                                            {image ? (
                                                 <Grid
                                                     container wrap="nowrap" spacing={1} direction="column"
                                                     sx={{ mt: 5 }}
@@ -247,14 +265,36 @@ const Createmovie = () => {
                                                         </Tooltip>;
                                                     </Grid>
                                                 </Grid>
-                                                :
-                                                <>
+                                            ) : (
+                                                
                                                     <Grid
                                                         container
                                                         direction="column"
                                                         justifyContent="center"
                                                         alignItems="center"
                                                     >
+                                                        <input
+                                                            id='image'
+                                                            name='image'
+                                                            type='file'
+                                                            className='input-field'
+                                                            accept='image/*'
+                                                            hidden
+                                                            onChange={(e, values) => {
+                                                                    setFieldValue("image", values);
+                                                                    convert2base64(e)
+                                                                }
+                                                            }
+                                                            // onChange={convert2base64}
+                                                            onBlur={handleBlur}
+                                                            value={values.image || ""}
+                                                        // onChange={({ target: { files } }) => {
+                                                        //     files[0] && setFileName(files[0].name)
+                                                        //     if (files) {
+                                                        //         setImage(URL.createObjectURL(files[0]))
+                                                        //     }
+                                                        // }}
+                                                        />
                                                         <Grid item xs={12}>
                                                             <CloudUploadIcon sx={{ color: "#eeeeee", fontSize: "8vh" }} />
                                                         </Grid>
@@ -266,9 +306,8 @@ const Createmovie = () => {
 
 
                                                     </Grid>
-                                                </>
 
-                                            }
+                                            )}
 
                                         </Paper>
 
@@ -325,13 +364,14 @@ const Createmovie = () => {
 
                                                 }} >
                                                 <Autocomplete
-                                                    id="part"
-                                                    type="text"
+                                                    id="collection"
+                                                    name="collection"
                                                     options={collectionsList.collections ?
                                                         collectionsList.collections : []}
                                                     getOptionLabel={(option) =>
                                                         option.name ? option.name : ""
                                                     }
+                                                    onChange={(e, values) => setFieldValue("collection", values)}
                                                     fullWidth
                                                     sx={{
                                                         "& .MuiOutlinedInput-notchedOutline": { border: "none" },
@@ -340,7 +380,7 @@ const Createmovie = () => {
                                                     InputProps={{
                                                         disableUnderline: true,
                                                     }}
-                                                    renderInput={(params) => <TextField {...params} placeholder="Choose" />}
+                                                    renderInput={(params) => <TextField name="collection" {...params} placeholder="Choose" />}
                                                 />
 
                                             </Paper>
@@ -362,13 +402,14 @@ const Createmovie = () => {
                                                 }} >
                                                 <Autocomplete
                                                     id="categories"
-                                                    type="text"
+                                                    name="categories"
                                                     options={categoriesList.genres ?
                                                         categoriesList.genres : []}
                                                     getOptionLabel={(option) =>
                                                         option.name ? option.name : ""
                                                     }
                                                     fullWidth
+                                                    onChange={(e, values) => setFieldValue("categories", values)}
                                                     sx={{
                                                         "& .MuiOutlinedInput-notchedOutline": { border: "none" },
                                                         input: { color: "white", fontWeight: 600 },
@@ -397,7 +438,7 @@ const Createmovie = () => {
                                                 }} >
                                                 <TextField
                                                     id="timemovie"
-                                                    type="number"
+                                                    type="text"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     value={values.timemovie || ""}
@@ -416,7 +457,7 @@ const Createmovie = () => {
                                         </Grid>
                                         <Grid item xs={5}>
                                             <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                                release_date
+                                                RELEASE DATE
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={7}>

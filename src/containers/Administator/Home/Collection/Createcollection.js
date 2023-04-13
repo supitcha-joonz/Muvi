@@ -82,11 +82,16 @@ const Createcollection = () => {
 
     const actionSave = (data) => {
         Swal.fire({
-            title: 'Do you want to save?',
-            showDenyButton: true,
+            title: "Do you want to save?",
+            // text: "คุณต้องการเพิ่ม Knowledge ?",
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonText: 'Yes',
-            denyButtonText: `No`,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText:
+                "<div style='font-size:20px;font-family:ntlbold;font-weight:normal'>YES</div>",
+            cancelButtonText:
+                "<div style='font-size:20px;font-family:ntlbold;font-weight:normal'>NO</div>",
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {

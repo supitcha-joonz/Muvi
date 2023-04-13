@@ -95,11 +95,16 @@ const Actorpage = () => {
 
     const handleDeleteActors = (id) => {
         Swal.fire({
-            title: 'Do you want to Delete?',
-            showDenyButton: true,
+            title: "Do you want to Delete?",
+            // text: "คุณต้องการเพิ่ม Knowledge ?",
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonText: 'Yes',
-            denyButtonText: `No`,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText:
+                "<div style='font-size:20px;font-family:ntlbold;font-weight:normal'>YES</div>",
+            cancelButtonText:
+                "<div style='font-size:20px;font-family:ntlbold;font-weight:normal'>NO</div>",
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
@@ -203,9 +208,9 @@ const Actorpage = () => {
                                 alignItems="start" spacing={2}
                                 sx={{ alignItems: "start", mb: 2 }}>
                                 <Grid sx={{ mt: -1.5 }}>
-                                    <Link href="/adminhomepage" underline="none" >
+                                    <IconButton onClick={() => navigate(`/adminhomepage`)}>
                                         <ArrowLeftIcon sx={{ color: "#eeeeee", fontSize: "50px", bgcolor: "#212121", borderRadius: "50px" }} />
-                                    </Link>
+                                    </IconButton>
                                 </Grid>
                                 <Grid>
                                     <Typography variant="h5" sx={{ color: "whitesmoke", fontWeight: 600 }}>
@@ -233,17 +238,17 @@ const Actorpage = () => {
                             <Box sx={{ width: "80%", height: "1.5px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 5 }}></Box>
                             <Stack direction="row" justifyContent="flex-end"
                                 alignItems="center" sx={{ mb: 3 }}>
-                                
-                                    <IconButton onClick={() => navigate(`/createactor`)}  sx={{
-                                        backgroundColor: "#942617",
-                                        "&:hover": {
-                                            backgroundColor: '#4A140C',
-                                            color: "black",
 
-                                        },
-                                    }} >
-                                        <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
-                                    </IconButton>
+                                <IconButton onClick={() => navigate(`/createactor`)} sx={{
+                                    backgroundColor: "#942617",
+                                    "&:hover": {
+                                        backgroundColor: '#4A140C',
+                                        color: "black",
+
+                                    },
+                                }} >
+                                    <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
+                                </IconButton>
                             </Stack>
                             <Box sx={{ height: 700, width: '100%' }}>
                                 <TableContainer sx={{ maxHeight: 700, borderRadius: 5 }}>
@@ -273,7 +278,7 @@ const Actorpage = () => {
                                                         {item.familyName}
                                                     </StyledTableCell>
                                                     <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                        <IconButton onClick={() => navigate(`/editactor/${item.actor_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
+                                                        <IconButton onClick={() => navigate(`/editactor/${item.id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
                                                             <ArrowRightIcon
                                                                 sx={{
                                                                     justifyContent: "flex-end", fontSize: 40, color: "white",
@@ -283,7 +288,7 @@ const Actorpage = () => {
                                                                 }} />
                                                         </IconButton>
                                                         <IconButton aria-label="delete">
-                                                            <DeleteIcon onClick={() => handleDeleteActors(item.actor_id)} sx={{
+                                                            <DeleteIcon onClick={() => handleDeleteActors(item.id)} sx={{
                                                                 justifyContent: "flex-end", fontSize: 30, color: "white",
                                                                 "&:hover": {
                                                                     color: "#F2BD00"
@@ -299,7 +304,7 @@ const Actorpage = () => {
                                 </TableContainer>
                                 <TablePagination
                                     sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 1, color: "black", fontWeight: 600 }}
-                                    rowsPerPageOptions={[100, 500, 1000]}
+                                    rowsPerPageOptions={[5, 15, 30]}
                                     component="div"
                                     count={actorsList.actors ? actorsList.actors.length : 0}
                                     rowsPerPage={rowsPerPage}

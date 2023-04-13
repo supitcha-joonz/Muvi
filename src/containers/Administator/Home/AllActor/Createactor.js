@@ -41,13 +41,30 @@ const Createactor = () => {
     let navigate = useNavigate();
     let dispatch = useDispatch();
 
+    const convert2base64 = (e) => {
+        console.log(e.target.files)
+        const reader = new FileReader()
+        reader.addEventListener('load', () => {
+            setImage(reader.result)
+
+        })
+        reader.readAsDataURL(e.target.files[0])
+    }
+
+    console.log(image);
+
     const actionSave = (data) => {
         Swal.fire({
-            title: 'Do you want to save?',
-            showDenyButton: true,
+            title: "Do you want to save?",
+            // text: "คุณต้องการเพิ่ม Knowledge ?",
+            icon: "warning",
             showCancelButton: true,
-            confirmButtonText: 'Yes',
-            denyButtonText: `No`,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText:
+                "<div style='font-size:20px;font-family:ntlbold;font-weight:normal'>YES</div>",
+            cancelButtonText:
+                "<div style='font-size:20px;font-family:ntlbold;font-weight:normal'>NO</div>",
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
@@ -71,6 +88,10 @@ const Createactor = () => {
         })
     }
 
+    const loadData = () => {
+        dispatch(actorActions.loadactors());
+    }
+
 
     const actionSuccess = () => {
         Swal.fire({
@@ -86,6 +107,13 @@ const Createactor = () => {
             navigate({ pathname: "/allactor" });
         }, 1500);
     }
+
+    const choosegender = [
+        { id: "1", label: 'Male' },
+        { id: "2", label: 'Female ' },
+        { id: "0", label: 'Other ' },
+
+    ];
 
 
     const styles = {
@@ -130,28 +158,30 @@ const Createactor = () => {
             <Box style={styles.content}>
                 <Box style={styles.bgcontent}>
                     <Formik
+                        Formik
+                        enableReinitialize
                         initialValues={{
                             fname: '',
                             faname: '',
                             mname: '',
                             birthday: '',
                             image: '',
-                            // gender: '',
+                            gender: '',
 
                         }}
                         validationSchema={Yup.object().shape({
-                            name: Yup.string().required("Required"),
+                            fname: Yup.string().required("Required"),
                             // description: Yup.string().required("Required"),
                         })}
                         onSubmit={(values) => {
                             var data = {
                                 "id": 0,
-                                "firstName": values.fname,
-                                "middleName": values.mname,
-                                "familyName": values.faname,
-                                "birthday": values.birthday,
-                                "image": null,
-                                "gender": 0
+                                "firstName": values.fname ? values.fname : "",
+                                "middleName": values.mname ? values.mname : "",
+                                "familyName": values.faname ? values.faname : "",
+                                "birthday": values.birthday ? values.birthday : "",
+                                "image": values.image ? values.image : null,
+                                "gender": 0,
                             }
                             actionSave(data);
                         }}
@@ -190,20 +220,8 @@ const Createactor = () => {
                                                 borderStyle: 'dashed',
 
                                             }} >
-                                            <input
-                                                type='file'
-                                                name='photo'
-                                                className='input-field'
-                                                accept='image/*'
-                                                hidden
-                                                onChange={({ target: { files } }) => {
-                                                    files[0] && setFileName(files[0].name)
-                                                    if (files) {
-                                                        setImage(URL.createObjectURL(files[0]))
-                                                    }
-                                                }}
-                                            />
-                                            {image ?
+
+                                            {image ? (
                                                 <Grid
                                                     container wrap="nowrap" spacing={1} direction="column"
                                                     sx={{ mt: 5 }}
@@ -222,28 +240,49 @@ const Createactor = () => {
                                                         </Tooltip>;
                                                     </Grid>
                                                 </Grid>
-                                                :
-                                                <>
-                                                    <Grid
-                                                        container
-                                                        direction="column"
-                                                        justifyContent="center"
-                                                        alignItems="center"
-                                                    >
-                                                        <Grid item xs={12}>
-                                                            <CloudUploadIcon sx={{ color: "#eeeeee", fontSize: "8vh" }} />
-                                                        </Grid>
-                                                        <Grid item xs={12}>
-                                                            <Typography variant="overline" sx={{ color: "whitesmoke" }}>
-                                                                Browse Files To Upload
-                                                            </Typography>
-                                                        </Grid>
+                                            ) : (
 
-
+                                                <Grid
+                                                    container
+                                                    direction="column"
+                                                    justifyContent="center"
+                                                    alignItems="center"
+                                                >
+                                                    <input
+                                                        id='image'
+                                                        name='image'
+                                                        type='file'
+                                                        className='input-field'
+                                                        accept='image/*'
+                                                        hidden
+                                                        onChange={(e, values) => {
+                                                            setFieldValue("image", values);
+                                                            convert2base64(e)
+                                                        }
+                                                        }
+                                                        // onChange={convert2base64}
+                                                        onBlur={handleBlur}
+                                                        value={values.image || ""}
+                                                    // onChange={({ target: { files } }) => {
+                                                    //     files[0] && setFileName(files[0].name)
+                                                    //     if (files) {
+                                                    //         setImage(URL.createObjectURL(files[0]))
+                                                    //     }
+                                                    // }}
+                                                    />
+                                                    <Grid item xs={12}>
+                                                        <CloudUploadIcon sx={{ color: "#eeeeee", fontSize: "8vh" }} />
                                                     </Grid>
-                                                </>
+                                                    <Grid item xs={12}>
+                                                        <Typography variant="overline" sx={{ color: "whitesmoke" }}>
+                                                            Browse Files To Upload
+                                                        </Typography>
+                                                    </Grid>
 
-                                            }
+
+                                                </Grid>
+
+                                            )}
 
                                         </Paper>
 
@@ -267,7 +306,7 @@ const Createactor = () => {
                                                 }} >
                                                 <TextField
                                                     id='fname'
-                                                    type="name"
+                                                    type="text"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     value={values.fname || ""}
@@ -301,7 +340,7 @@ const Createactor = () => {
                                                 }} >
                                                 <TextField
                                                     id='mname'
-                                                    type="name"
+                                                    type="text"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     value={values.mname || ""}
@@ -335,7 +374,7 @@ const Createactor = () => {
                                                 }} >
                                                 <TextField
                                                     id='faname'
-                                                    type="name"
+                                                    type="text"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     value={values.faname || ""}
@@ -352,7 +391,7 @@ const Createactor = () => {
                                                 />
                                             </Paper>
                                         </Grid>
-                                        <Grid item xs={5}>
+                                        {/* <Grid item xs={5}>
                                             <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
                                                 Gender
                                             </Typography>
@@ -360,42 +399,30 @@ const Createactor = () => {
                                         <Grid item xs={7}>
                                             <Paper fullWidth elevation={1}
                                                 sx={{
-                                                    backgroundColor: "transparent",
+                                                    backgroundColor: "#4B4B4B",
                                                     borderRadius: 25,
                                                     display: "flex",
                                                     alignItems: "center",
                                                     height: 35,
 
-                                                }} >
-                                                <FormControl>
-                                                    <RadioGroup
-                                                        sx={{ color: "white", ml: 0.5 }}
-                                                        row
-                                                        aria-labelledby="demo-row-radio-buttons-group-label"
-                                                        name="row-radio-buttons-group"
-                                                    >
-                                                        <FormControlLabel value="female" control={<Radio sx={{
-                                                            color: "#4B4B4B",
-                                                            '&.Mui-checked': {
-                                                                color: "#4B4B4B",
-                                                            },
-                                                        }} />} label="Female" />
-                                                        <FormControlLabel value="male" control={<Radio sx={{
-                                                            color: "#4B4B4B",
-                                                            '&.Mui-checked': {
-                                                                color: "#4B4B4B",
-                                                            },
-                                                        }} />} label="Male" />
-                                                        <FormControlLabel value="other" control={<Radio sx={{
-                                                            color: "#4B4B4B",
-                                                            '&.Mui-checked': {
-                                                                color: "#4B4B4B",
-                                                            },
-                                                        }} />} label="Other" />
-                                                    </RadioGroup>
-                                                </FormControl>
+                                                }}  >
+                                                <Autocomplete
+                                                    id="gender"
+                                                    name="gender"
+                                                    options={choosegender}
+                                                    onChange={(e, values) => setFieldValue("gender", values)}
+                                                    fullWidth
+                                                    sx={{
+                                                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                        input: { color: "white", fontWeight: 600 },
+                                                    }}
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                    }}
+                                                    renderInput={(params) => <TextField name="gender" {...params} placeholder="Choose" />}
+                                                />
                                             </Paper>
-                                        </Grid>
+                                        </Grid> */}
 
                                         <Grid item xs={5}>
                                             <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
@@ -412,31 +439,34 @@ const Createactor = () => {
                                                     height: 35,
 
                                                 }} >
-                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                     <DemoContainer components={['DatePicker']}>
-                                                        <DatePicker sx={{
-                                                            mt: -0.7,
-                                                            "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                            input: { color: "white", fontWeight: 600 },
-                                                        }} />
+                                                        <DatePicker
+                                                            id="birthday"
+                                                            sx={{
+                                                                mt: -0.7,
+                                                                "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                                input: { color: "white", fontWeight: 600 },
+                                                            }} />
                                                     </DemoContainer>
-                                                </LocalizationProvider>
-                                                {/* <TextField
-                                                id="birthday"
-                                                type="date"
-                                                format="dd/MM/yyyy"
-                                                clearable={true}
-                                                fullWidth
-                                                size="medium"
-                                                InputProps={{
-                                                    disableUnderline: true,
-                                                }}
-                                                sx={{
-                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                    input: { color: "white", fontWeight: 600 },
-                                                }}
+                                                </LocalizationProvider> */}
+                                                 <TextField
+                                                    id='birthday'
+                                                    type="text"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.birthday || ""}
+                                                    fullWidth
+                                                    size="medium"
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                    }}
+                                                    sx={{
+                                                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                        input: { color: "white", fontWeight: 600 },
+                                                    }}
 
-                                            /> */}
+                                                />
                                             </Paper>
                                         </Grid>
 
@@ -459,7 +489,7 @@ const Createactor = () => {
                                             }}>
                                                 Back
                                             </Button>
-                                            <Button onClick={() => navigate((-1), { replace: true })} variant="contained" sx={{
+                                            <Button type='submit' variant="contained" sx={{
                                                 bgcolor: "#1b5e20", border: '4px solid #1b5e20', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
                                                 "&:hover": {
                                                     backgroundColor: "#94AF9F",

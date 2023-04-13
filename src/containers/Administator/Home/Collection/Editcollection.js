@@ -354,9 +354,6 @@ const Editcollection = () => {
                                             }}>
                                                 Back
                                             </Button>
-                                            <Button onClick={() => handleDeleteCollections(id)} variant="contained" color="error">
-                                                Delete
-                                            </Button>
                                             <Button type='submit' variant="contained" sx={{
                                                 bgcolor: "#1b5e20", border: '4px solid #1b5e20', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
                                                 "&:hover": {
