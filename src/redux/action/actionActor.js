@@ -52,15 +52,29 @@ export const addActors = (actor) => {
     };
 };
 
-// export const getByactors = (id) => {
-//     return function (dispatch) {
-//         axios.get(`${process.env.REACT_APP_API}/actor/getbyactorid/${id}`).then((resp) => {
-//             console.log("resp", resp);
-//             dispatch(getactors(resp.data));
-//         })
-//         .catch((error) => console.log(error));
-//     };
-// };
+export const getSingleActors = (id) => {
+    return function (dispatch) {
+        console.log(`${process.env.REACT_APP_API}/actor/getById/${id}`);
+        axios.get(`${process.env.REACT_APP_API}/actor/getById/${id}`).then((resp) => {
+            console.log("resp", resp);
+            dispatch(getactor(resp.data));
+        })
+        .catch((error) => console.log(error));
+    };
+};
+
+
+
+export const updateActors = (actor, id) => {
+    return function (dispatch) {
+        axios.put(`${process.env.REACT_APP_API}/actor/${id}`, actor).then((resp) => {
+            console.log("resp", resp);
+            dispatch(actorUpdated());
+            dispatch(loadactors());
+        })
+        .catch((error) => console.log(error));
+    };
+};
 
 export const deleteActors = (id) => {
     return function (dispatch) {

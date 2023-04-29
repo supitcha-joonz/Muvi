@@ -17,20 +17,65 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import piture1 from '../../img/wakanda2.jpg';
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from 'react-router-dom';
 import * as movieActions from "../../redux/action/actionMovie";
+import * as collectionActions from "../../redux/action/actionCollection";
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { useNavigate } from 'react-router-dom';
+import LinearProgress from '@mui/material/LinearProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Description = () => {
 
     const movies = useSelector((state) => state.movies);
     const moviesList = movies.movies;
+    const movieById = movies.movie;
+
+    const { id } = useParams();
+    const [state, setState] = useState({});
 
     let dispatch = useDispatch();
+    let navigate = useNavigate();
+
+
+    console.log(movieById);
 
     useEffect(() => {
-        dispatch(movieActions.loadmovies());
+        dispatch(movieActions.getSingleMovies(id));
     }, []);
 
-    console.log(moviesList);
+
+    useEffect(() => {
+        if (id) {
+            if (movieById) {
+                setState({ ...movieById });
+            }
+        } else {
+            setState({ ...state })
+        }
+    }, [movieById]);
+
+    // console.log(movieById);
+
+    // useEffect(() => {
+    //     dispatch(movieActions.getSingleMovies(id));
+    // }, []);
+
+    // useEffect(() => {
+    //     dispatch(movieActions.loadmovies());
+    // }, []);
+
+    // useEffect(() => {
+    //     if (id) {
+    //         if (movieById) {
+    //             setState({ ...movieById });
+    //         }
+    //     } else {
+    //         setState({ ...state })
+    //     }
+    // }, [movieById]);
+
 
     const styles = {
         header: {
@@ -81,93 +126,85 @@ const Description = () => {
         }}>
 
             <Box style={styles.header}>
+                <Grid sx={{ mt: 2, ml: 2 }}>
+                    <IconButton onClick={() => navigate(`/searchresult`)}>
+                        <ArrowLeftIcon sx={{ color: "#eeeeee", fontSize: "50px", bgcolor: "#212121", borderRadius: "50px" }} />
+                    </IconButton>
+                </Grid>
                 <Box style={styles.bgheader}>
-                    <Grid container
-                        direction="column"
-                        justifyContent="center"
-                        alignItems="start"
-                        sx={{
-                            position: 'absolute',
-                            left: '50%',
-                            top: '125%',
-                            transform: 'translate(-50%, -40%)',
-                        }}
-                    >
+                    {movieById.movie && movieById.movie.map((item) => (
                         <Grid container
                             direction="column"
                             justifyContent="center"
-                            alignItems="start">
+                            alignItems="start"
+                            sx={{
+                                position: 'absolute',
+                                left: '50%',
+                                top: '125%',
+                                transform: 'translate(-50%, -40%)',
+                            }}
+                        >
 
-                            {/* {moviesList.movies && moviesList.movies.map((item) => (
-                                                <StyledTableRow key={item.id} sx={{ backgroundColor: "transparent", mb: 2, borderRadius: 5 }} >
-                                                    <StyledTableCell sx={{ backgroundColor: "rgba(0, 0, 0, 0.1)", color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                        {item.id}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                        {item.original_title}
-                                                    </StyledTableCell>
-                                                </StyledTableRow>
-                                            ))} */}
 
-                            <Typography variant="h3" gutterBottom sx={{ color: "white", fontWeight: 600, ml: 5, mr: 5 }}>
-                                Black Panter
-                            </Typography>
-                            <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
-                                Wakanda Forever
-                            </Typography>
-                            <Stack direction="row" spacing={1} sx={{ mb: 1.5, mt: -3, ml: 5, mr: 5 }}>
-                                <Chip label="ACTION" variant="outlined" sx={{ color: "black", backgroundColor: "white", fontWeight: 600 }} />
-                                <Chip label="145 min" sx={{ color: "white", fontWeight: 600 }} />
-                                <Chip label="2022" sx={{ color: "white", fontWeight: 600 }} />
-                            </Stack>
-                            <Box sx={{ maxWidth: "95%", mt: 6, ml: 5, mr: 5 }}>
-                                <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
-                                    T'Challa, king of Wakanda, is dying from an illness which his sister, Shuri, believes can be cured by the "heart-shaped herb".
-                                    Shuri attempts to synthetically recreate the herb after it was destroyed by Killmonger,[N 1] but fails to do so before he succumbs.
-                                    One year later, Wakanda is under pressure from other nations to share their vibranium, with some parties attempting to steal it by force.
-                                    Queen Ramonda implores Shuri to continue her research on the heart-shaped herb, hoping to create a new Black Panther that will defend Wakanda,
-                                    but she refuses due to her belief that the Black Panther is a figure of the past. In the Atlantic Ocean, the CIA and U.S.
-                                    Navy SEALs utilize a vibranium-detecting machine to locate a potential vibranium deposit underwater.
-                                    The expedition is attacked and killed by a group of blue-skinned water-breathing superhumans led by Namor,
-                                    with the CIA believing Wakanda to be responsible. Namor confronts Ramonda and Shuri, easily bypassing Wakanda's advanced security.
-                                    Blaming Wakanda for the vibranium race, he gives them an ultimatum: deliver him the scientist responsible for the vibranium-detecting machine,
-                                    or he will attack Wakanda.
+
+                            <Grid container
+                                direction="column"
+                                justifyContent="center"
+                                alignItems="start">
+
+
+
+                                <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, ml: 5, mr: 5, mt: 5 }}>
+                                    {item.original_title}
                                 </Typography>
-                            </Box>
-                            <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 5, ml: 5, mr: 5 }}>
-                                ACTOR
-                            </Typography>
+                                {/* <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
+                                    {item.name}
+                                </Typography> */}
+                                <Stack direction="row" spacing={1} sx={{ mb: 1.5, mt: -2, ml: 5, mr: 5 }}>
+                                    <Chip label="ACTION" variant="outlined" sx={{ color: "black", backgroundColor: "white", fontWeight: 600 }} />
+                                    <Chip label={item.runtime} sx={{ color: "white", fontWeight: 600 }} />
+                                    <Chip label={item.release_date} sx={{ color: "white", fontWeight: 600 }} />
+                                </Stack>
+                                <Box sx={{ maxWidth: "95%", mt: 4, ml: 5, mr: 5 }}>
+                                    <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
+                                        {item.overview}
+                                    </Typography>
+                                </Box>
+                                <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 5, ml: 5, mr: 5 }}>
+                                    ACTOR
+                                </Typography>
 
-                            <Stack direction="row" spacing={2} sx={{ ml: 5, mr: 5 }}>
-                                <Avatar alt="Remy Sharp" sx={{ width: 56, height: 56 }} src="/static/images/avatar/1.jpg" />
-                                <Avatar alt="Travis Howard" sx={{ width: 56, height: 56 }} src="/static/images/avatar/2.jpg" />
-                                <Avatar alt="Cindy Baker" sx={{ width: 56, height: 56 }} src="/static/images/avatar/3.jpg" />
-                                <Avatar alt="Travis Howard" sx={{ width: 56, height: 56 }} src="/static/images/avatar/2.jpg" />
-                                <Avatar alt="Cindy Baker" sx={{ width: 56, height: 56 }} src="/static/images/avatar/3.jpg" />
-                            </Stack>
+                                <Stack direction="row" spacing={2} sx={{ ml: 5, mr: 5 }}>
+                                    <Avatar alt="Remy Sharp" sx={{ width: 56, height: 56 }} src="/static/images/avatar/1.jpg" />
+                                    <Avatar alt="Travis Howard" sx={{ width: 56, height: 56 }} src="/static/images/avatar/2.jpg" />
+                                    <Avatar alt="Cindy Baker" sx={{ width: 56, height: 56 }} src="/static/images/avatar/3.jpg" />
+                                    <Avatar alt="Travis Howard" sx={{ width: 56, height: 56 }} src="/static/images/avatar/2.jpg" />
+                                    <Avatar alt="Cindy Baker" sx={{ width: 56, height: 56 }} src="/static/images/avatar/3.jpg" />
+                                </Stack>
 
-                            <Box sx={{ width: "70%", height: "1px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 10 }}>
+                                <Box sx={{ width: "70%", height: "1px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 10 }}>
 
-                            </Box>
+                                </Box>
 
 
 
-                            <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 10, ml: 5, mr: 5 }}>
-                                RECOMMENDATIONS
-                            </Typography>
+                                <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 10, ml: 5, mr: 5 }}>
+                                    RECOMMENDATIONS
+                                </Typography>
 
-                            <Stack direction="row" spacing={5} sx={{ mt: 3, ml: 5, mr: 5 }}>
-                                <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
-                                <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
-                                <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+                                <Stack direction="row" spacing={5} sx={{ mt: 3, ml: 5, mr: 5 }}>
+                                    <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+                                    <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+                                    <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
 
-                            </Stack>
+                                </Stack>
+
+                            </Grid>
+
+
 
                         </Grid>
-
-
-
-                    </Grid>
+                    ))}
                 </Box>
             </Box>
         </Box>

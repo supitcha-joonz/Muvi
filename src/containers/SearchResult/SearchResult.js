@@ -16,6 +16,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { useDispatch, useSelector } from "react-redux";
 import * as movieActions from "../../redux/action/actionMovie";
 import * as categoriesActions from "../../redux/action/actionCategory";
+import * as collectionActions from "../../redux/action/actionCollection";
 import { Link, useNavigate } from 'react-router-dom';
 
 const SearchResult = () => {
@@ -26,27 +27,32 @@ const SearchResult = () => {
     const categories = useSelector((state) => state.categories);
     const categoriesList = categories.categories;
 
+    const collections = useSelector((state) => state.collections);
+    const collectionsList = collections.collections;
+
     let navigate = useNavigate();
     let dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(collectionActions.loadcollections());
         dispatch(movieActions.loadmovies());
         dispatch(categoriesActions.loadcategories());
     }, []);
 
     console.log(moviesList);
     console.log(categoriesList);
+    
 
 
 
     const styles = {
         header: {
             backgroundImage: `url(${image})`,
-            height: '100vh',
-            display: "flex",
+            // height: '100%',
+            // display: "flex",
             backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
+            backgroundRepeat: 'repeat-y',
+            backgroundSize: '250vh'
         },
 
         content: {
@@ -187,7 +193,7 @@ const SearchResult = () => {
                                   <Box
                                       display="flex"
                                       justifyContent="flex-end" sx={{ mr: 2 }}>
-                                      <IconButton onClick={() => navigate(`/description/${item.id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
+                                      <IconButton onClick={() => navigate(`/description/${item.movie_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
                                           <ArrowRightIcon
                                         //   to={{ pathname: `/description/${item.id}` }}
                                            sx={{

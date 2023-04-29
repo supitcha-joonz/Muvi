@@ -70,11 +70,9 @@ const Moviepage = () => {
     const styles = {
         header: {
             backgroundImage: `url(${image})`,
-            height: '150vh',
-            display: "flex",
             backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
+            backgroundRepeat: 'repeat-y',
+            backgroundSize: '250vh'
         },
 
         content: {
@@ -245,8 +243,8 @@ const Moviepage = () => {
                                     <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
                                 </IconButton>
                             </Stack>
-                            <Box sx={{ height: 700, width: '100%' }}>
-                                <TableContainer sx={{ maxHeight: 700, borderRadius: 5 }}>
+                            <Box sx={{ height: 850, width: '100%', mb: 10 }}>
+                                <TableContainer sx={{ maxHeight: 800, borderRadius: 5 }}>
                                     <Table sx={{ position: "sticky" }} >
                                         <TableHead sx={{ backgroundColor: "black" }}>
                                             <TableRow sx={{ backgroundColor: "black" }}>
@@ -292,7 +290,7 @@ const Moviepage = () => {
                                     </Table>
                                 </TableContainer>
                                 <TablePagination
-                                    sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 1, color: "black", fontWeight: 600 }}
+                                    sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 3, color: "black", fontWeight: 600 , mb: 15}}
                                     rowsPerPageOptions={[5, 15, 30]}
                                     component="div"
                                     count={moviesList.movies ? moviesList.movies.length : 0}

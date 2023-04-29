@@ -120,10 +120,9 @@ const Createactor = () => {
         header: {
             backgroundImage: `url(${image1})`,
             height: '100%',
-            display: "flex",
             backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
+            backgroundRepeat: 'repeat-y',
+            backgroundSize: '250vh'
         },
 
         content: {
@@ -206,7 +205,7 @@ const Createactor = () => {
                                     alignItems="center"
                                 // sx={{ mt: 20 }}
                                 >
-                                    <Grid item xs={12} sx={{ mt: 15, mb: 10 }}>
+                                    <Grid item xs={12} sx={{ mt: 25, mb: 20 }}>
                                         <Paper fullWidth elevation={1}
                                             onClick={() => document.querySelector(".input-field").click()}
                                             sx={{
@@ -472,7 +471,7 @@ const Createactor = () => {
 
                                     </Grid>
                                     <Grid container justifyContent="end"
-                                        alignItems="center" xs={8} sx={{ mb: 10 }} >
+                                        alignItems="center" xs={8} sx={{ mb: 15 }} >
                                         <Stack
                                             direction="row"
                                             justifyContent="end"

@@ -4,6 +4,7 @@ import * as types from "../actionType";
 const initialState = {
     collections: [],
     collection: {},
+    data: null,
     loading: true,
 };
 
@@ -25,6 +26,7 @@ const collectionsReducers = (state = initialState, action) => {
         case types.GET_SINGLE_COLLECTION:
             return {
                 ...state,
+                data: action.payload,
                 collection: action.payload,
                 loading: false,
             };

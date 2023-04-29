@@ -19,7 +19,7 @@ import TextField from '@mui/material/TextField';
 
 
 
-const Editcollection = () => {
+const Editcollection = (props) => {
 
     const [startDate, setStartDate] = useState(new Date());
     const [filename, setFileName] = useState('')
@@ -29,34 +29,28 @@ const Editcollection = () => {
     const { id } = useParams();
     const [state, setState] = useState({});
     const collections = useSelector((state) => state.collections);
-    const collectionsList = collections.collections;
-    const collectionId = state.collection_id;
+    const collectionById = collections.collection;
+
+    console.log(collectionById);
 
     useEffect(() => {
-       
-            // dispatch(collectionActions.loadcollections());
-            dispatch(collectionActions.getSingleCollections(collectionId));
-     
+        dispatch(collectionActions.getSingleCollections(id));
     }, []);
 
-  
-      
-      
-      useEffect(() => {
-        if(id) {
-          if (collections.data) {
-            setState({ ...collections.data });
-          }
+
+    useEffect(() => {
+        if (id) {
+            if (collectionById) {
+                setState({ ...collectionById });
+            }
         } else {
-          setState({ ...state })
+            setState({ ...state })
         }
-      }, [collections]);
-
-      console.log(collectionId);
-
-      
+    }, [collectionById]);
 
 
+
+    console.log(collectionById);
 
 
 
@@ -126,38 +120,6 @@ const Editcollection = () => {
     }
 
 
-    const handleDeleteCollections = () => {
-        Swal.fire({
-            title: 'Do you want to Delete?',
-            showDenyButton: true,
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            denyButtonText: `No`,
-        }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                dispatch(collectionActions.deleteCollections(collectionId)).then((resp) => {
-                    if (resp.data) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "ลบข้อมูลสำเร็จ",
-                            text: "ลบข้อมูลนี้แล้ว.",
-                            showConfirmButton: false,
-                            timer: 1500,
-                        });
-                        actionSuccess();
-                    }
-                })
-            } else if (result.isDenied) {
-                Swal.fire({
-                    icon: "error",
-                    title: "เกิดข้อผิดพลาด",
-                });
-            }
-        })
-    }
-
-
     const actionSuccess = () => {
         Swal.fire({
             icon: "success",
@@ -175,10 +137,6 @@ const Editcollection = () => {
 
 
 
-
-
-
-
     return (
 
         <Box style={styles.header}>
@@ -187,7 +145,9 @@ const Editcollection = () => {
                     <Formik
                         Formik
                         enableReinitialize
+                        // initialValues={collectionById}
                         initialValues={{
+                            id: "",
                             name: "",
                         }}
                         validationSchema={Yup.object().shape({
@@ -318,6 +278,7 @@ const Editcollection = () => {
                                                 }} >
                                                 <TextField
                                                     id='name'
+                                                    name="name"
                                                     type="text"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}

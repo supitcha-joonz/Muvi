@@ -45,8 +45,8 @@ const Collection = () => {
     const categoriesList = categories.categories;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(100);
-    const [pg, setpg] = React.useState(0);
-    const [rpg, setrpg] = React.useState(5);
+    const [pg, setpg] = useState(0);
+    const [rpg, setrpg] = useState(5);
     let navigate = useNavigate();
 
     function handleChangePage(event, newpage) {
@@ -120,11 +120,10 @@ const Collection = () => {
     const styles = {
         header: {
             backgroundImage: `url(${image})`,
-            height: '150vh',
-            display: "flex",
+            height: '100%',
             backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
+            backgroundRepeat: 'repeat-y',
+            backgroundSize: '250vh'
         },
 
         content: {
@@ -267,8 +266,8 @@ const Collection = () => {
                                     <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
                                 </IconButton>
                             </Stack>
-                            <Box sx={{ height: 700, width: '100%' }}>
-                                <TableContainer sx={{ maxHeight: 700, borderRadius: 5 }}>
+                            <Box sx={{ height: 850, width: '100%', mb: 15 }}>
+                                <TableContainer sx={{ maxHeight: 800, borderRadius: 5 }}>
                                     <Table sx={{ position: "sticky" }} >
                                         <TableHead sx={{ backgroundColor: "black" }}>
                                             <TableRow sx={{ backgroundColor: "black" }}>
@@ -322,7 +321,7 @@ const Collection = () => {
                                     </Table>
                                 </TableContainer>
                                 <TablePagination
-                                    sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 1, color: "black", fontWeight: 600 }}
+                                    sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 3, color: "black", fontWeight: 600, mb: 15 }}
                                     rowsPerPageOptions={[5, 15, 30]}
                                     component="div"
                                     count={collectionsList.collections ? collectionsList.collections.length : 0}

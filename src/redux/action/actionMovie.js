@@ -64,6 +64,17 @@ export const addMovies = (movie) => {
     };
 };
 
+export const getSingleMovies = (id) => {
+    return function (dispatch) {
+        console.log(`${process.env.REACT_APP_API}/movie/getById/${id}`);
+        axios.get(`${process.env.REACT_APP_API}/movie/getById/${id}`).then((resp) => {
+            console.log("resp", resp);
+            dispatch(getmovie(resp.data));
+        })
+        .catch((error) => console.log(error));
+    };
+};
+
 export const deleteMovies = (id) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/delete/movie?movieId=${id}`);

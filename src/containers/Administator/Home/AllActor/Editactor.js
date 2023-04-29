@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import image1 from '../../../../img/moviebackground.jpg';
@@ -13,11 +13,14 @@ import Button from '@mui/material/Button';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { Formik, Field, Form } from 'formik';
 import Autocomplete from '@mui/material/Autocomplete';
-import { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Tooltip from '@mui/material/Tooltip';
 import { useNavigate } from "react-router-dom";
-
+import * as actorActions from "../../../../redux/action/actionActor";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from 'react-router-dom';
+import * as Yup from "yup";
+import Swal from "sweetalert2";
 
 
 
@@ -28,6 +31,38 @@ const Editactor = () => {
     const [filename, setFileName] = useState('')
     const [image, setImage] = useState(null)
     let navigate = useNavigate();
+    let dispatch = useDispatch();
+    const actors = useSelector((state) => state.actors);
+    const { id } = useParams();
+    const [state, setState] = useState({});
+    const actorsById = actors.actor;
+
+    console.log(actorsById);
+
+
+    useEffect(() => {
+        dispatch(actorActions.getSingleActors(id));
+    }, []);
+
+
+    useEffect(() => {
+        if (id) {
+            if (actorsById) {
+                setState({ ...actorsById });
+            }
+        } else {
+            setState({ ...state })
+        }
+    }, [actorsById]);
+
+
+
+
+
+
+
+
+    console.log(actors);
 
 
 
@@ -66,25 +101,17 @@ const Editactor = () => {
         completedIcon: {}
     }
 
-    const top100Films = [
-        { label: 'Action' },
-        { label: 'War ' },
-        { label: 'Adventure ' },
-        { label: 'Western' },
-        { label: 'Comedy' },
-        { label: "Drama" },
-        { label: 'Erotic ' },
-        { label: "Musical" },
-        { label: "Romance" },
-        { label: "Fantasy" },
-        { label: "Science fiction" },
-        { label: "Horror " },
-        { label: "Mystery" },
-        { label: "Animation" },
-        { label: "Documentary " },
-        { label: "Noir" }
+    const convert2base64 = (e) => {
+        console.log(e.target.files)
+        const reader = new FileReader()
+        reader.addEventListener('load', () => {
+            setImage(reader.result)
 
-    ];
+        })
+        reader.readAsDataURL(e.target.files[0])
+    }
+
+
 
 
     return (
@@ -93,80 +120,118 @@ const Editactor = () => {
             <Box style={styles.content}>
                 <Box style={styles.bgcontent}>
                     <Formik
+                        Formik
+                        enableReinitialize
                         initialValues={{
                             fname: '',
-                            lname: '',
+                            faname: '',
+                            mname: '',
                             birthday: '',
-                            age: '',
+                            image: '',
+                            gender: '',
+
                         }}
-                        onSubmit={async (values) => {
-                            await new Promise((r) => setTimeout(r, 500));
-                            alert(JSON.stringify(values, null, 2));
+                        validationSchema={Yup.object().shape({
+                            fname: Yup.string().required("Required"),
+                            // description: Yup.string().required("Required"),
+                        })}
+                        onSubmit={(values) => {
+                            var data = {
+                                "id": values.id,
+                                "firstName": values.fname,
+                                "middleName": values.mname,
+                                "familyName": values.faname,
+                                "birthday": values.birthday,
+                                "image": values.image,
+                                "gender": 0,
+                            }
+
                         }}
                     >
-                        <Form>
+                        {({
+                            values,
+                            errors,
+                            touched,
+                            handleChange,
+                            handleBlur,
+                            handleSubmit,
+                            setFieldValue,
+                            resetForm,
+                        }) => (
 
-                            <Grid
-                                container
-                                direction="column"
-                                justifyContent="center"
-                                alignItems="center"
-                            // sx={{ mt: 20 }}
-                            >
-                                <Grid item xs={12} sx={{ mt: 15, mb: 10 }}>
-                                    <Paper fullWidth elevation={1}
-                                        onClick={() => document.querySelector(".input-field").click()}
-                                        sx={{
-                                            backgroundColor: "transparent",
-                                            borderRadius: 5,
-                                            display: "flex",
-                                            alignItems: "center",
-                                            height: "35vh",
-                                            width: "30vh",
-                                            border: "5px solid #4B4B4B",
-                                            borderStyle: 'dashed',
+                            <Form onSubmit={handleSubmit}>
 
-                                        }} >
-                                        <input
-                                            type='file'
-                                            name='photo'
-                                            className='input-field'
-                                            accept='image/*'
-                                            hidden
-                                            onChange={({ target: { files } }) => {
-                                                files[0] && setFileName(files[0].name)
-                                                if (files) {
-                                                    setImage(URL.createObjectURL(files[0]))
-                                                }
-                                            }}
-                                        />
-                                        {image ?
-                                            <Grid
-                                                container wrap="nowrap" spacing={1} direction="column"
-                                                sx={{ mt: 5 }}
+                                <Grid
+                                    container
+                                    direction="column"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                // sx={{ mt: 20 }}
+                                >
+                                    <Grid item xs={12} sx={{ mt: 25, mb: 20 }}>
+                                        <Paper fullWidth elevation={1}
+                                            onClick={() => document.querySelector(".input-field").click()}
+                                            sx={{
+                                                backgroundColor: "transparent",
+                                                borderRadius: 5,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                height: "35vh",
+                                                width: "30vh",
+                                                border: "5px solid #4B4B4B",
+                                                borderStyle: 'dashed',
 
-                                            >
-                                                <Grid item xs={12} >
-                                                    <img src={image} width={150} height={150} alt={filename} />
+                                            }} >
+
+                                            {image ? (
+                                                <Grid
+                                                    container wrap="nowrap" spacing={1} direction="column"
+                                                    sx={{ mt: 5 }}
+
+                                                >
+                                                    <Grid item xs={12} >
+                                                        <img src={image} width={150} height={150} alt={filename} />
+                                                    </Grid>
+                                                    <Grid item xs={2} sx={{ ml: 2, mr: 2 }} >
+                                                        <Tooltip title={filename}>
+                                                            <Typography noWrap variant="overline" style={styles.multiLineEllipsis} sx={{
+                                                                color: "whitesmoke",
+                                                            }}>
+                                                                {filename}
+                                                            </Typography>
+                                                        </Tooltip>;
+                                                    </Grid>
                                                 </Grid>
-                                                <Grid item xs={2} sx={{ ml: 2, mr: 2 }} >
-                                                    <Tooltip title={filename}>
-                                                        <Typography noWrap variant="overline" style={styles.multiLineEllipsis} sx={{
-                                                            color: "whitesmoke",
-                                                        }}>
-                                                            {filename}
-                                                        </Typography>
-                                                    </Tooltip>;
-                                                </Grid>
-                                            </Grid>
-                                            :
-                                            <>
+                                            ) : (
+
                                                 <Grid
                                                     container
                                                     direction="column"
                                                     justifyContent="center"
                                                     alignItems="center"
                                                 >
+                                                    <input
+                                                        id='image'
+                                                        name='image'
+                                                        type='file'
+                                                        className='input-field'
+                                                        accept='image/*'
+                                                        hidden
+                                                        onChange={(e, values) => {
+                                                            setFieldValue("image", values);
+                                                            convert2base64();
+                                                        }
+                                                        }
+                                                        // onChange={convert2base64}
+                                                        onBlur={handleBlur}
+                                                        value={values.image || ""}
+                                                    // onChange={({ target: { files } }) => {
+                                                    //     files[0] && setFileName(files[0].name)
+                                                    //     if (files) {
+                                                    //         setImage(URL.createObjectURL(files[0]))
+                                                    //     }
+                                                    // }}
+                                                    />
                                                     <Grid item xs={12}>
                                                         <CloudUploadIcon sx={{ color: "#eeeeee", fontSize: "8vh" }} />
                                                     </Grid>
@@ -178,205 +243,235 @@ const Editactor = () => {
 
 
                                                 </Grid>
-                                            </>
 
-                                        }
+                                            )}
 
-                                    </Paper>
+                                        </Paper>
 
+                                    </Grid>
+                                    <Grid container xs={8} spacing={5} sx={{ mb: 10 }}>
+
+                                        <Grid item xs={5}>
+                                            <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
+                                                FIRSTNAME
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            <Paper fullWidth elevation={1}
+                                                sx={{
+                                                    backgroundColor: "#4B4B4B",
+                                                    borderRadius: 25,
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    height: 35,
+
+                                                }} >
+                                                <TextField
+                                                    id='fname'
+                                                    type="text"
+                                                    name="fname"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.fname || ""}
+                                                    fullWidth
+                                                    size="medium"
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                    }}
+                                                    sx={{
+                                                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                        input: { color: "white", fontWeight: 600 },
+                                                    }}
+
+                                                />
+                                            </Paper>
+                                        </Grid>
+                                        <Grid item xs={5}>
+                                            <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
+                                                MIDDLE NAME
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            <Paper fullWidth elevation={1}
+                                                sx={{
+                                                    backgroundColor: "#4B4B4B",
+                                                    borderRadius: 25,
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    height: 35,
+
+                                                }} >
+                                                <TextField
+                                                    id='mname'
+                                                    type="text"
+                                                    name="mname"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.mname || ""}
+                                                    fullWidth
+                                                    size="medium"
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                    }}
+                                                    sx={{
+                                                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                        input: { color: "white", fontWeight: 600 },
+                                                    }}
+
+                                                />
+                                            </Paper>
+                                        </Grid>
+                                        <Grid item xs={5}>
+                                            <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
+                                                FAMILY NAME
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            <Paper fullWidth elevation={1}
+                                                sx={{
+                                                    backgroundColor: "#4B4B4B",
+                                                    borderRadius: 25,
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    height: 35,
+
+                                                }} >
+                                                <TextField
+                                                    id='faname'
+                                                    type="text"
+                                                    name="faname"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.faname || ""}
+                                                    fullWidth
+                                                    size="medium"
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                    }}
+                                                    sx={{
+                                                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                        input: { color: "white", fontWeight: 600 },
+                                                    }}
+
+                                                />
+                                            </Paper>
+                                        </Grid>
+                                        {/* <Grid item xs={5}>
+                                            <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
+                                                Gender
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            <Paper fullWidth elevation={1}
+                                                sx={{
+                                                    backgroundColor: "#4B4B4B",
+                                                    borderRadius: 25,
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    height: 35,
+
+                                                }}  >
+                                                <Autocomplete
+                                                    id="gender"
+                                                    name="gender"
+                                                    options={choosegender}
+                                                    onChange={(e, values) => setFieldValue("gender", values)}
+                                                    fullWidth
+                                                    sx={{
+                                                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                        input: { color: "white", fontWeight: 600 },
+                                                    }}
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                    }}
+                                                    renderInput={(params) => <TextField name="gender" {...params} placeholder="Choose" />}
+                                                />
+                                            </Paper>
+                                        </Grid> */}
+
+                                        <Grid item xs={5}>
+                                            <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
+                                                BIRTHDAY
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            <Paper fullWidth elevation={1}
+                                                sx={{
+                                                    backgroundColor: "#4B4B4B",
+                                                    borderRadius: 25,
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    height: 35,
+
+                                                }} >
+                                                {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                    <DemoContainer components={['DatePicker']}>
+                                                        <DatePicker
+                                                            id="birthday"
+                                                            sx={{
+                                                                mt: -0.7,
+                                                                "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                                input: { color: "white", fontWeight: 600 },
+                                                            }} />
+                                                    </DemoContainer>
+                                                </LocalizationProvider> */}
+                                                <TextField
+                                                    id='birthday'
+                                                    type="text"
+                                                    name="birthday"
+                                                    onChange={handleChange}
+                                                    onBlur={handleBlur}
+                                                    value={values.birthday || ""}
+                                                    fullWidth
+                                                    size="medium"
+                                                    InputProps={{
+                                                        disableUnderline: true,
+                                                    }}
+                                                    sx={{
+                                                        "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                        input: { color: "white", fontWeight: 600 },
+                                                    }}
+
+                                                />
+                                            </Paper>
+                                        </Grid>
+
+                                    </Grid>
+                                    <Grid container justifyContent="end"
+                                        alignItems="center" xs={8} sx={{ mb: 15 }} >
+                                        <Stack
+                                            direction="row"
+                                            justifyContent="end"
+                                            alignItems="end"
+                                            spacing={2}
+                                        >
+                                            <Button onClick={() => navigate((-1), { replace: true })} variant="contained" sx={{
+                                                bgcolor: "#b71c1c", border: '4px solid #b71c1c', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
+                                                "&:hover": {
+                                                    backgroundColor: "#EA5455",
+                                                    color: "black",
+
+                                                },
+                                            }}>
+                                                Back
+                                            </Button>
+                                            <Button type='submit' variant="contained" sx={{
+                                                bgcolor: "#1b5e20", border: '4px solid #1b5e20', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
+                                                "&:hover": {
+                                                    backgroundColor: "#94AF9F",
+                                                    color: "black",
+
+                                                },
+                                            }}>
+                                                Edit
+                                            </Button>
+
+                                        </Stack>
+
+                                    </Grid>
                                 </Grid>
-                                <Grid container xs={8} spacing={5} sx={{ mb: 10 }}>
-
-                                    <Grid item xs={5}>
-                                        <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                            FIRSTNAME
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={7}>
-                                        <Paper fullWidth elevation={1}
-                                            sx={{
-                                                backgroundColor: "#4B4B4B",
-                                                borderRadius: 25,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                height: 35,
-
-                                            }} >
-                                            <TextField
-                                                id='fname'
-                                                type="name"
-                                                fullWidth
-                                                size="medium"
-                                                InputProps={{
-                                                    disableUnderline: true,
-                                                }}
-                                                sx={{
-                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                    input: { color: "white", fontWeight: 600 },
-                                                }}
-
-                                            />
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={5}>
-                                        <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                            LASTNAME
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={7}>
-                                        <Paper fullWidth elevation={1}
-                                            sx={{
-                                                backgroundColor: "#4B4B4B",
-                                                borderRadius: 25,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                height: 35,
-
-                                            }} >
-                                            <TextField
-                                                id='lname'
-                                                type="name"
-                                                fullWidth
-                                                size="medium"
-                                                InputProps={{
-                                                    disableUnderline: true,
-                                                }}
-                                                sx={{
-                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                    input: { color: "white", fontWeight: 600 },
-                                                }}
-
-                                            />
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={5}>
-                                        <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                            BIRTHDAY
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={7}>
-                                        <Paper fullWidth elevation={1}
-                                            sx={{
-                                                backgroundColor: "#4B4B4B",
-                                                borderRadius: 25,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                height: 35,
-
-                                            }} >
-                                            <TextField
-                                                id="birthday"
-                                                type="date"
-                                                fullWidth
-                                                size="medium"
-                                                InputProps={{
-                                                    disableUnderline: true,
-                                                }}
-                                                sx={{
-                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                    input: { color: "white", fontWeight: 600 },
-                                                }}
-
-                                            />
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={5}>
-                                        <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                            AGE
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={7}>
-                                        <Paper fullWidth elevation={1}
-                                            sx={{
-                                                backgroundColor: "#4B4B4B",
-                                                borderRadius: 25,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                height: 35,
-
-                                            }} >
-                                            <TextField
-                                                id="age"
-                                                type="number"
-                                                fullWidth
-                                                size="medium"
-                                                InputProps={{
-                                                    disableUnderline: true,
-                                                }}
-                                                sx={{
-                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                    input: { color: "white", fontWeight: 600 },
-                                                }}
-
-                                            />
-                                        </Paper>
-                                    </Grid>
-                                    <Grid item xs={5}>
-                                        <Typography variant="h6" display="block" gutterBottom sx={{ color: "white", fontWeight: 600, textAlign: "left" }}>
-                                            PERFORMANCE
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={7}>
-                                        <Paper fullWidth elevation={1}
-                                            sx={{
-                                                backgroundColor: "#4B4B4B",
-                                                borderRadius: 5,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                height: "35vh",
-
-                                            }} >
-                                            <TextField
-                                                id="port"
-                                                multiline
-                                                fullWidth
-                                                rows={10}
-                                                InputProps={{
-                                                    disableUnderline: true,
-                                                }}
-                                                sx={{
-                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                    input: { color: "white", fontWeight: 600 },
-                                                }}
-
-                                            />
-                                        </Paper>
-                                    </Grid>
-                                </Grid>
-                                <Grid container justifyContent="end"
-                                    alignItems="center" xs={8} sx={{ mb: 10 }} >
-                                    <Stack
-                                        direction="row"
-                                        justifyContent="end"
-                                        alignItems="end"
-                                        spacing={2}
-                                    >
-                                        <Button onClick={() => navigate((-1), { replace: true })} variant="contained" sx={{
-                                            bgcolor: "#b71c1c", border: '4px solid #b71c1c', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
-                                            "&:hover": {
-                                                backgroundColor: "#EA5455",
-                                                color: "black",
-
-                                            },
-                                        }}>
-                                            Back
-                                        </Button>
-                                        <Button onClick={() => navigate((-1), { replace: true })} variant="contained" sx={{
-                                            bgcolor: "#1b5e20", border: '4px solid #1b5e20', color: "white", width: "25vh", borderRadius: 25, fontWeight: 600,
-                                            "&:hover": {
-                                                backgroundColor: "#94AF9F",
-                                                color: "black",
-
-                                            },
-                                        }}>
-                                            Edit 
-                                        </Button>
-
-                                    </Stack>
-
-                                </Grid>
-                            </Grid>
-                        </Form>
+                            </Form>
+                        )}
                     </Formik>
 
                 </Box>

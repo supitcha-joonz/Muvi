@@ -52,10 +52,10 @@ export const addCollections = (collection) => {
     };
 };
 
-export const getSingleCollections = (collectionId) => {
+export const getSingleCollections = (id) => {
     return function (dispatch) {
-        console.log(`${process.env.REACT_APP_API}/collection/getById/${collectionId}`);
-        axios.get(`${process.env.REACT_APP_API}/collection/getById/${collectionId}`).then((resp) => {
+        console.log(`${process.env.REACT_APP_API}/collection/getById/${id}`);
+        axios.get(`${process.env.REACT_APP_API}/collection/getById/${id}`).then((resp) => {
             console.log("resp", resp);
             dispatch(getcollection(resp.data));
         })
