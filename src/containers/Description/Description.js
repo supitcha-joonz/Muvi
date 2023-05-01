@@ -34,6 +34,7 @@ const Description = () => {
 
     const { id } = useParams();
     const [state, setState] = useState({});
+    const [loading, setLoading] = useState(true);
 
     let dispatch = useDispatch();
     let navigate = useNavigate();
@@ -46,26 +47,6 @@ const Description = () => {
     }, []);
 
 
-    useEffect(() => {
-        if (id) {
-            if (movieById) {
-                setState({ ...movieById });
-            }
-        } else {
-            setState({ ...state })
-        }
-    }, [movieById]);
-
-    // console.log(movieById);
-
-    // useEffect(() => {
-    //     dispatch(movieActions.getSingleMovies(id));
-    // }, []);
-
-    // useEffect(() => {
-    //     dispatch(movieActions.loadmovies());
-    // }, []);
-
     // useEffect(() => {
     //     if (id) {
     //         if (movieById) {
@@ -75,6 +56,18 @@ const Description = () => {
     //         setState({ ...state })
     //     }
     // }, [movieById]);
+
+    useEffect(() => {
+        if (movieById) {
+            if (movieById) {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1500);
+            }
+        }
+    }, [movieById]);
+
+
 
 
     const styles = {
@@ -116,6 +109,13 @@ const Description = () => {
             borderRadius: 100 / 10
 
         },
+        loadingBar: {
+            backgroundColor: 'black',
+            color: "white",
+            '& .MuiLinearProgress-bar': {
+                backgroundColor: 'white'
+            }
+        },
         completedIcon: {}
     }
 
@@ -131,6 +131,8 @@ const Description = () => {
                         <ArrowLeftIcon sx={{ color: "#eeeeee", fontSize: "50px", bgcolor: "#212121", borderRadius: "50px" }} />
                     </IconButton>
                 </Grid>
+
+
                 <Box style={styles.bgheader}>
                     {movieById.movie && movieById.movie.map((item) => (
                         <Grid container
@@ -145,67 +147,72 @@ const Description = () => {
                             }}
                         >
 
+                            {loading ? (
+                                <Box sx={{ width: '100%',mt: -5,  backgroundColor: "black", justifyContent: "center" }}>
+                                    <CircularProgress style={styles.loadingBar} color="inherit" />
+                                </Box>
+                            ) : (
+
+                                <Grid container
+                                    direction="column"
+                                    justifyContent="center"
+                                    alignItems="start">
 
 
-                            <Grid container
-                                direction="column"
-                                justifyContent="center"
-                                alignItems="start">
 
-
-
-                                <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, ml: 5, mr: 5, mt: 5 }}>
-                                    {item.original_title}
-                                </Typography>
-                                {/* <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
+                                    <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, ml: 5, mr: 5, mt: 5 }}>
+                                        {item.original_title}
+                                    </Typography>
+                                    {/* <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
                                     {item.name}
                                 </Typography> */}
-                                <Stack direction="row" spacing={1} sx={{ mb: 1.5, mt: -2, ml: 5, mr: 5 }}>
-                                    <Chip label="ACTION" variant="outlined" sx={{ color: "black", backgroundColor: "white", fontWeight: 600 }} />
-                                    <Chip label={item.runtime} sx={{ color: "white", fontWeight: 600 }} />
-                                    <Chip label={item.release_date} sx={{ color: "white", fontWeight: 600 }} />
-                                </Stack>
-                                <Box sx={{ maxWidth: "95%", mt: 4, ml: 5, mr: 5 }}>
-                                    <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
-                                        {item.overview}
+                                    <Stack direction="row" spacing={1} sx={{ mb: 1.5, mt: -2, ml: 5, mr: 5 }}>
+                                        <Chip label="ACTION" variant="outlined" sx={{ color: "black", backgroundColor: "white", fontWeight: 600 }} />
+                                        <Chip label={item.runtime} sx={{ color: "white", fontWeight: 600 }} />
+                                        <Chip label={item.release_date} sx={{ color: "white", fontWeight: 600 }} />
+                                    </Stack>
+                                    <Box sx={{ maxWidth: "95%", mt: 4, ml: 5, mr: 5 }}>
+                                        <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
+                                            {item.overview}
+                                        </Typography>
+                                    </Box>
+                                    <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 5, ml: 5, mr: 5 }}>
+                                        ACTOR
                                     </Typography>
-                                </Box>
-                                <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 5, ml: 5, mr: 5 }}>
-                                    ACTOR
-                                </Typography>
 
-                                <Stack direction="row" spacing={2} sx={{ ml: 5, mr: 5 }}>
-                                    <Avatar alt="Remy Sharp" sx={{ width: 56, height: 56 }} src="/static/images/avatar/1.jpg" />
-                                    <Avatar alt="Travis Howard" sx={{ width: 56, height: 56 }} src="/static/images/avatar/2.jpg" />
-                                    <Avatar alt="Cindy Baker" sx={{ width: 56, height: 56 }} src="/static/images/avatar/3.jpg" />
-                                    <Avatar alt="Travis Howard" sx={{ width: 56, height: 56 }} src="/static/images/avatar/2.jpg" />
-                                    <Avatar alt="Cindy Baker" sx={{ width: 56, height: 56 }} src="/static/images/avatar/3.jpg" />
-                                </Stack>
+                                    <Stack direction="row" spacing={2} sx={{ ml: 5, mr: 5 }}>
+                                        <Avatar alt="Remy Sharp" sx={{ width: 56, height: 56 }} src="/static/images/avatar/1.jpg" />
+                                        <Avatar alt="Travis Howard" sx={{ width: 56, height: 56 }} src="/static/images/avatar/2.jpg" />
+                                        <Avatar alt="Cindy Baker" sx={{ width: 56, height: 56 }} src="/static/images/avatar/3.jpg" />
+                                        <Avatar alt="Travis Howard" sx={{ width: 56, height: 56 }} src="/static/images/avatar/2.jpg" />
+                                        <Avatar alt="Cindy Baker" sx={{ width: 56, height: 56 }} src="/static/images/avatar/3.jpg" />
+                                    </Stack>
 
-                                <Box sx={{ width: "70%", height: "1px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 10 }}>
+                                    <Box sx={{ width: "70%", height: "1px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 10 }}>
 
-                                </Box>
+                                    </Box>
 
 
 
-                                <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 10, ml: 5, mr: 5 }}>
-                                    RECOMMENDATIONS
-                                </Typography>
+                                    <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 10, ml: 5, mr: 5 }}>
+                                        RECOMMENDATIONS
+                                    </Typography>
 
-                                <Stack direction="row" spacing={5} sx={{ mt: 3, ml: 5, mr: 5 }}>
-                                    <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
-                                    <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
-                                    <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+                                    <Stack direction="row" spacing={5} sx={{ mt: 3, ml: 5, mr: 5 }}>
+                                        <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+                                        <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+                                        <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
 
-                                </Stack>
+                                    </Stack>
 
-                            </Grid>
+                                </Grid>
 
 
-
+                            )}
                         </Grid>
                     ))}
                 </Box>
+
             </Box>
         </Box>
     )

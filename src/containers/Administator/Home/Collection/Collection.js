@@ -32,6 +32,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
 import { useParams } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
+import LinearProgress from '@mui/material/LinearProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
@@ -48,6 +50,17 @@ const Collection = () => {
     const [pg, setpg] = useState(0);
     const [rpg, setrpg] = useState(5);
     let navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (collectionsList) {
+            if (collectionsList) {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1500);
+            }
+        }
+    }, [collectionsList]);
 
     function handleChangePage(event, newpage) {
         setpg(newpage);
@@ -140,6 +153,13 @@ const Collection = () => {
             "& $active": {
                 color: "pink"
             },
+        },
+        loadingBar: {
+            backgroundColor: 'black',
+            color: "white",
+            '& .MuiLinearProgress-bar': {
+                backgroundColor: 'white'
+            }
         },
         completedIcon: {},
         tableRow: {
@@ -238,11 +258,18 @@ const Collection = () => {
                                 justifyContent="flex-start"
                                 alignItems="start" spacing={5}
                                 sx={{ alignItems: "flex-start" }}>
-                                <Grid>
-                                    <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
-                                        {collectionsList.collections ? collectionsList.collections.length : 0}
-                                    </Typography>
-                                </Grid>
+                                {loading ? (
+                                    <Box sx={{ mt: 2, color: "black", justifyContent: "center" }}>
+                                        <CircularProgress style={styles.loadingBar} color="inherit" />
+                                    </Box>
+                                ) : (
+                                    <Grid>
+                                        <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
+                                            {collectionsList.collections ? collectionsList.collections.length : 0}
+                                        </Typography>
+                                    </Grid>
+                                )}
+
                                 <Grid >
                                     <Typography variant="h5" sx={{ color: "whitesmoke", mt: 4 }}>
                                         Collection
@@ -268,6 +295,11 @@ const Collection = () => {
                             </Stack>
                             <Box sx={{ height: 850, width: '100%', mb: 15 }}>
                                 <TableContainer sx={{ maxHeight: 800, borderRadius: 5 }}>
+                                {loading ? (
+                                        <Box sx={{ width: '100%', mt: 5, backgroundColor: "black", color: "black", justifyContent: "center" }}>
+                                            <LinearProgress style={styles.loadingBar} color="inherit" />
+                                        </Box>
+                                    ) : (
                                     <Table sx={{ position: "sticky" }} >
                                         <TableHead sx={{ backgroundColor: "black" }}>
                                             <TableRow sx={{ backgroundColor: "black" }}>
@@ -279,7 +311,7 @@ const Collection = () => {
                                         </TableHead>
 
                                         <TableBody sx={{ backgroundColor: "transparent", borderRadius: 5 }}>
-                                            {collectionsList.collections ? collectionsList.collections && collectionsList.collections.map((item) => (
+                                            {collectionsList.collections && collectionsList.collections.map((item) => (
 
 
                                                 <StyledTableRow key={item.id} sx={{ backgroundColor: "transparent", mb: 2, borderRadius: 5 }} >
@@ -314,11 +346,12 @@ const Collection = () => {
                                                     </StyledTableCell>
 
                                                 </StyledTableRow>
-                                            )) : "-"}
+                                            ))}
 
 
                                         </TableBody>
                                     </Table>
+                                    )}
                                 </TableContainer>
                                 <TablePagination
                                     sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 3, color: "black", fontWeight: 600, mb: 15 }}

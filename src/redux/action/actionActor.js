@@ -31,7 +31,7 @@ const getactor = (actor) => ({
 export const loadactors = () => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/actor/all`);
-        axios.get(`${process.env.REACT_APP_API}/actor/all`).then((resp) => {
+        axios.get(`${process.env.REACT_APP_API}/actor/all?page=1&size=100`).then((resp) => {
             console.log("resp", resp);
             dispatch(getactors(resp.data));
             // dispatch(getDropdownactor(resp.data));
@@ -67,10 +67,10 @@ export const getSingleActors = (id) => {
 
 export const updateActors = (actor, id) => {
     return function (dispatch) {
-        axios.put(`${process.env.REACT_APP_API}/actor/${id}`, actor).then((resp) => {
+        console.log(`${process.env.REACT_APP_API}/edit/actor?actorId=${id}`);
+        axios.put(`${process.env.REACT_APP_API}/edit/actor?actorId=${id}`, actor).then((resp) => {
             console.log("resp", resp);
             dispatch(actorUpdated());
-            dispatch(loadactors());
         })
         .catch((error) => console.log(error));
     };

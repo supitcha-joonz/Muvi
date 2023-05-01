@@ -37,33 +37,24 @@ const Editactor = () => {
     const [state, setState] = useState({});
     const actorsById = actors.actor;
 
-    console.log(actorsById);
-
-
+   
     useEffect(() => {
         dispatch(actorActions.getSingleActors(id));
     }, []);
 
 
-    useEffect(() => {
-        if (id) {
-            if (actorsById) {
-                setState({ ...actorsById });
-            }
-        } else {
-            setState({ ...state })
-        }
-    }, [actorsById]);
+    // useEffect(() => {
+    //     if (id) {
+    //         if (actorsById) {
+    //             setState({ ...actorsById });
+    //         }
+    //     } else {
+    //         setState({ ...state })
+    //     }
+    // }, [actorsById]);
 
 
-
-
-
-
-
-
-    console.log(actors);
-
+    console.log(actorsById);
 
 
     const styles = {
@@ -111,6 +102,51 @@ const Editactor = () => {
         reader.readAsDataURL(e.target.files[0])
     }
 
+    const actionSave = (data) => {
+        Swal.fire({
+            title: 'Do you want to save the changes?',
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                dispatch(actorActions.updateActors(data, id)).then((resp) => {
+                    if (resp.data) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "บันทึกข้อมูลสำเร็จ",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        actionSuccess();
+                    }
+                })
+            } else if (result.isDenied) {
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด",
+                });
+            }
+        })
+    }
+
+    const actionSuccess = () => {
+        Swal.fire({
+            icon: "success",
+            title: "บันทึกข้อมูลสำเร็จ",
+            showConfirmButton: false,
+            timer: 1500,
+        });
+        setTimeout(() => {
+        }, 500);
+        setTimeout(() => {
+            dispatch(actorActions.loadactors());
+            navigate({ pathname: "/allactor" });
+        }, 1500);
+    }
+
 
 
 
@@ -120,17 +156,16 @@ const Editactor = () => {
             <Box style={styles.content}>
                 <Box style={styles.bgcontent}>
                     <Formik
-                        Formik
                         enableReinitialize
-                        initialValues={{
-                            fname: '',
-                            faname: '',
-                            mname: '',
-                            birthday: '',
-                            image: '',
-                            gender: '',
-
-                        }}
+                        initialValues={actorsById ? actorsById : []}
+                        // initialValues={{
+                        //     fname: '',
+                        //     faname: '',
+                        //     mname: '',
+                        //     birthday: '',
+                        //     image: '',
+                        //     gender: '',
+                        // }}
                         validationSchema={Yup.object().shape({
                             fname: Yup.string().required("Required"),
                             // description: Yup.string().required("Required"),
@@ -145,6 +180,7 @@ const Editactor = () => {
                                 "image": values.image,
                                 "gender": 0,
                             }
+                            actionSave(data);
 
                         }}
                     >
@@ -159,7 +195,7 @@ const Editactor = () => {
                             resetForm,
                         }) => (
 
-                            <Form onSubmit={handleSubmit}>
+                            <form onSubmit={handleSubmit}>
 
                                 <Grid
                                     container
@@ -470,7 +506,7 @@ const Editactor = () => {
 
                                     </Grid>
                                 </Grid>
-                            </Form>
+                            </form>
                         )}
                     </Formik>
 

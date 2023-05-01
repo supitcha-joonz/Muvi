@@ -31,6 +31,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Swal from "sweetalert2";
+import LinearProgress from '@mui/material/LinearProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
@@ -42,6 +44,17 @@ const Actorpage = () => {
     const categoriesList = categories.categories;
     const [page, setPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (actorsList) {
+            if (actorsList) {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1500);
+            }
+        }
+    }, [actorsList]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -87,6 +100,13 @@ const Actorpage = () => {
             "& $active": {
                 color: "pink"
             },
+        },
+        loadingBar: {
+            backgroundColor: 'black',
+            color: "white",
+            '& .MuiLinearProgress-bar': {
+                backgroundColor: 'white'
+            }
         },
         completedIcon: {}
 
@@ -221,11 +241,17 @@ const Actorpage = () => {
                                 justifyContent="flex-start"
                                 alignItems="start" spacing={5}
                                 sx={{ alignItems: "flex-start" }}>
-                                <Grid>
-                                    <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
-                                        {actorsList.actors ? actorsList.actors.length : 0}
-                                    </Typography>
-                                </Grid>
+                                {loading ? (
+                                    <Box sx={{ mt: 2, color: "black", justifyContent: "center" }}>
+                                        <CircularProgress style={styles.loadingBar} color="inherit" />
+                                    </Box>
+                                ) : (
+                                    <Grid>
+                                        <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
+                                            {actorsList.actors ? actorsList.actors.length : 0}
+                                        </Typography>
+                                    </Grid>
+                                )}
                                 <Grid >
                                     <Typography variant="h5" sx={{ color: "whitesmoke", mt: 4 }}>
                                         People
@@ -249,57 +275,63 @@ const Actorpage = () => {
                                     <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
                                 </IconButton>
                             </Stack>
-                            <Box sx={{ height: 850, width: '100%',  mb: 10  }}>
+                            <Box sx={{ height: 850, width: '100%', mb: 10 }}>
                                 <TableContainer sx={{ maxHeight: 800, borderRadius: 5 }}>
-                                    <Table sx={{ position: "sticky" }} >
-                                        <TableHead sx={{ backgroundColor: "black" }}>
-                                            <TableRow sx={{ backgroundColor: "black" }}>
-                                                <TableCell sx={{ position: "sticky", top: 0, width: "150px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">ID</TableCell>
-                                                <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">First name</TableCell>
-                                                <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Middle name</TableCell>
-                                                <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Family Name</TableCell>
-                                                <TableCell sx={{ position: "sticky", top: 0, width: "180px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Action</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody sx={{ backgroundColor: "transparent", borderRadius: 5 }}>
-                                            {actorsList.actors && actorsList.actors.map((item) => (
-                                                <StyledTableRow key={item.id} sx={{ backgroundColor: "transparent", mb: 2, borderRadius: 5 }} >
-                                                    <StyledTableCell sx={{ backgroundColor: "rgba(0, 0, 0, 0.1)", color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                        {item.id}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                        {item.firstName}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                        {item.middleName ? item.middleName : "-"}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                        {item.familyName}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                        <IconButton onClick={() => navigate(`/editactor/${item.id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
-                                                            <ArrowRightIcon
-                                                                sx={{
-                                                                    justifyContent: "flex-end", fontSize: 40, color: "white",
+                                    {loading ? (
+                                        <Box sx={{ width: '100%', mt: 5, backgroundColor: "black", color: "black", justifyContent: "center" }}>
+                                            <LinearProgress style={styles.loadingBar} color="inherit" />
+                                        </Box>
+                                    ) : (
+                                        <Table sx={{ position: "sticky" }} >
+                                            <TableHead sx={{ backgroundColor: "black" }}>
+                                                <TableRow sx={{ backgroundColor: "black" }}>
+                                                    <TableCell sx={{ position: "sticky", top: 0, width: "150px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">ID</TableCell>
+                                                    <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">First name</TableCell>
+                                                    <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Middle name</TableCell>
+                                                    <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Family Name</TableCell>
+                                                    <TableCell sx={{ position: "sticky", top: 0, width: "180px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Action</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody sx={{ backgroundColor: "transparent", borderRadius: 5 }}>
+                                                {actorsList.actors && actorsList.actors.map((item) => (
+                                                    <StyledTableRow key={item.id} sx={{ backgroundColor: "transparent", mb: 2, borderRadius: 5 }} >
+                                                        <StyledTableCell sx={{ backgroundColor: "rgba(0, 0, 0, 0.1)", color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                            {item.id}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                            {item.firstName}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                            {item.middleName ? item.middleName : "-"}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                            {item.familyName}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                            <IconButton onClick={() => navigate(`/editactor/${item.id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
+                                                                <ArrowRightIcon
+                                                                    sx={{
+                                                                        justifyContent: "flex-end", fontSize: 40, color: "white",
+                                                                        "&:hover": {
+                                                                            color: "#F2BD00"
+                                                                        },
+                                                                    }} />
+                                                            </IconButton>
+                                                            <IconButton aria-label="delete">
+                                                                <DeleteIcon onClick={() => handleDeleteActors(item.id)} sx={{
+                                                                    justifyContent: "flex-end", fontSize: 30, color: "white",
                                                                     "&:hover": {
                                                                         color: "#F2BD00"
                                                                     },
                                                                 }} />
-                                                        </IconButton>
-                                                        <IconButton aria-label="delete">
-                                                            <DeleteIcon onClick={() => handleDeleteActors(item.id)} sx={{
-                                                                justifyContent: "flex-end", fontSize: 30, color: "white",
-                                                                "&:hover": {
-                                                                    color: "#F2BD00"
-                                                                },
-                                                            }} />
-                                                        </IconButton>
-                                                    </StyledTableCell>
-                                                </StyledTableRow>
-                                            ))}
+                                                            </IconButton>
+                                                        </StyledTableCell>
+                                                    </StyledTableRow>
+                                                ))}
 
-                                        </TableBody>
-                                    </Table>
+                                            </TableBody>
+                                        </Table>
+                                    )}
                                 </TableContainer>
                                 <TablePagination
                                     sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 3, color: "black", fontWeight: 600, mb: 15 }}

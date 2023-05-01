@@ -31,6 +31,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Swal from "sweetalert2";
+import LinearProgress from '@mui/material/LinearProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
@@ -45,6 +47,17 @@ const Moviepage = () => {
     const categoriesList = categories.categories;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (moviesList) {
+            if (moviesList) {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1500);
+            }
+        }
+    }, [moviesList]);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -89,6 +102,13 @@ const Moviepage = () => {
             "& $active": {
                 color: "pink"
             },
+        },
+        loadingBar: {
+            backgroundColor: 'black',
+            color: "white",
+            '& .MuiLinearProgress-bar': {
+                backgroundColor: 'white'
+            }
         },
         completedIcon: {}
 
@@ -216,11 +236,18 @@ const Moviepage = () => {
                                 justifyContent="flex-start"
                                 alignItems="start" spacing={5}
                                 sx={{ alignItems: "flex-start" }}>
-                                <Grid>
-                                    <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
-                                        {moviesList.movies ? moviesList.movies.length : 0}
-                                    </Typography>
-                                </Grid>
+                                {loading ? (
+                                    <Box sx={{ mt: 2, color: "black", justifyContent: "center" }}>
+                                        <CircularProgress  style={styles.loadingBar} color="inherit" />
+                                    </Box>
+                                ) : (
+                                    <Grid>
+
+                                        <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
+                                            {moviesList.movies ? moviesList.movies.length : 0}
+                                        </Typography>
+                                    </Grid>
+                                )}
                                 <Grid >
                                     <Typography variant="h5" sx={{ color: "whitesmoke", mt: 4 }}>
                                         Movie
@@ -243,54 +270,65 @@ const Moviepage = () => {
                                     <AddIcon sx={{ color: "#eeeeee", fontSize: "5vh" }} />
                                 </IconButton>
                             </Stack>
-                            <Box sx={{ height: 850, width: '100%', mb: 10 }}>
-                                <TableContainer sx={{ maxHeight: 800, borderRadius: 5 }}>
-                                    <Table sx={{ position: "sticky" }} >
-                                        <TableHead sx={{ backgroundColor: "black" }}>
-                                            <TableRow sx={{ backgroundColor: "black" }}>
-                                                <TableCell sx={{ position: "sticky", top: 0, width: "150px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">ID</TableCell>
-                                                <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Name</TableCell>
-                                                <TableCell sx={{ position: "sticky", top: 0, width: "250px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Action</TableCell>
-                                            </TableRow>
 
-                                        </TableHead>
-                                        <TableBody sx={{ backgroundColor: "transparent", borderRadius: 5 }}>
-                                            {moviesList.movies && moviesList.movies.map((item) => (
-                                                <StyledTableRow key={item.id} sx={{ backgroundColor: "transparent", mb: 2, borderRadius: 5 }} >
-                                                    <StyledTableCell sx={{ backgroundColor: "rgba(0, 0, 0, 0.1)", color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                        {item.id}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                        {item.title}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                        <IconButton onClick={() => navigate(`/editmovie/${item.movie_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
-                                                            <ArrowRightIcon
-                                                                sx={{
-                                                                    justifyContent: "flex-end", fontSize: 40, color: "white",
+                            <Box sx={{ height: 850, width: '100%', mb: 10 }}>
+
+
+                                <TableContainer sx={{ maxHeight: 800, borderRadius: 5 }}>
+                                    {loading ? (
+                                        <Box sx={{ width: '100%', mt: 5, backgroundColor: "black", color: "black", justifyContent: "center" }}>
+                                            <LinearProgress style={styles.loadingBar} color="inherit" />
+                                        </Box>
+                                    ) : (
+                                        <Table sx={{ position: "sticky" }} >
+                                            <TableHead sx={{ backgroundColor: "black" }}>
+                                                <TableRow sx={{ backgroundColor: "black" }}>
+                                                    <TableCell sx={{ position: "sticky", top: 0, width: "150px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">ID</TableCell>
+                                                    <TableCell sx={{ position: "sticky", top: 0, backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Name</TableCell>
+                                                    <TableCell sx={{ position: "sticky", top: 0, width: "250px", backgroundColor: 'white', color: "black", fontWeight: 600, fontSize: "16px", mb: 2 }} align="center">Action</TableCell>
+                                                </TableRow>
+
+                                            </TableHead>
+
+                                            <TableBody sx={{ backgroundColor: "transparent", borderRadius: 5 }}>
+                                                {moviesList.movies && moviesList.movies.map((item) => (
+                                                    <StyledTableRow key={item.id} sx={{ backgroundColor: "transparent", mb: 2, borderRadius: 5 }} >
+                                                        <StyledTableCell sx={{ backgroundColor: "rgba(0, 0, 0, 0.1)", color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                            {item.id}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                            {item.title}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
+                                                            <IconButton onClick={() => navigate(`/editmovie/${item.movie_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
+                                                                <ArrowRightIcon
+                                                                    sx={{
+                                                                        justifyContent: "flex-end", fontSize: 40, color: "white",
+                                                                        "&:hover": {
+                                                                            color: "#F2BD00"
+                                                                        },
+                                                                    }} />
+                                                            </IconButton>
+                                                            <IconButton aria-label="delete">
+                                                                <DeleteIcon onClick={() => handleDeleteMovies(item.movie_id)} sx={{
+                                                                    justifyContent: "flex-end", fontSize: 30, color: "white",
                                                                     "&:hover": {
                                                                         color: "#F2BD00"
                                                                     },
                                                                 }} />
-                                                        </IconButton>
-                                                        <IconButton aria-label="delete">
-                                                            <DeleteIcon onClick={() => handleDeleteMovies(item.movie_id)} sx={{
-                                                                justifyContent: "flex-end", fontSize: 30, color: "white",
-                                                                "&:hover": {
-                                                                    color: "#F2BD00"
-                                                                },
-                                                            }} />
-                                                        </IconButton>
-                                                    </StyledTableCell>
+                                                            </IconButton>
+                                                        </StyledTableCell>
 
-                                                </StyledTableRow>
-                                            ))}
+                                                    </StyledTableRow>
+                                                ))}
 
-                                        </TableBody>
-                                    </Table>
+                                            </TableBody>
+
+                                        </Table>
+                                    )}
                                 </TableContainer>
                                 <TablePagination
-                                    sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 3, color: "black", fontWeight: 600 , mb: 15}}
+                                    sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 3, color: "black", fontWeight: 600, mb: 15 }}
                                     rowsPerPageOptions={[5, 15, 30]}
                                     component="div"
                                     count={moviesList.movies ? moviesList.movies.length : 0}

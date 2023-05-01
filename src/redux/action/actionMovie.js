@@ -33,7 +33,7 @@ const getmovie = (movie) => ({
 export const loadmovies = () => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/movie/all`);
-        axios.get(`${process.env.REACT_APP_API}/movie/all`).then((resp) => {
+        axios.get(`${process.env.REACT_APP_API}/movie/all?page=1&size=100`).then((resp) => {
             console.log("resp", resp);
             dispatch(getmovies(resp.data));
             // dispatch(getDropdowncategory(resp.data));
@@ -70,6 +70,17 @@ export const getSingleMovies = (id) => {
         axios.get(`${process.env.REACT_APP_API}/movie/getById/${id}`).then((resp) => {
             console.log("resp", resp);
             dispatch(getmovie(resp.data));
+        })
+        .catch((error) => console.log(error));
+    };
+};
+
+export const updateMovies = (movie, id) => {
+    return function (dispatch) {
+        console.log(`${process.env.REACT_APP_API}/edit/movie?movieId=${id}}`);
+        axios.put(`${process.env.REACT_APP_API}/edit/movie?movieId=${id}`, movie).then((resp) => {
+            console.log("resp", resp);
+            dispatch(movieUpdated());
         })
         .catch((error) => console.log(error));
     };

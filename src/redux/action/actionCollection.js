@@ -31,7 +31,7 @@ const getcollection = (collection) => ({
 export const loadcollections = () => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/collection/all`);
-        axios.get(`${process.env.REACT_APP_API}/collection/all`).then((resp) => {
+        axios.get(`${process.env.REACT_APP_API}/collection/all?page=1&size=100`).then((resp) => {
             console.log("resp", resp);
             dispatch(getcollections(resp.data));
             // dispatch(getDropdowncollection(resp.data));
@@ -65,7 +65,8 @@ export const getSingleCollections = (id) => {
 
 export const updateCollections = (collection, id) => {
     return function (dispatch) {
-        axios.put(`${process.env.REACT_APP_API}/edit/collection/${id}`, collection).then((resp) => {
+        console.log(`${process.env.REACT_APP_API}/edit/collection?collectionId=${id}`);
+        axios.put(`${process.env.REACT_APP_API}/edit/collection?collectionId=${id}`, collection).then((resp) => {
             console.log("resp", resp);
             dispatch(collectionUpdated());
         })

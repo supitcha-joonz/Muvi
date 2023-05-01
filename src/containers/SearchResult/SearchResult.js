@@ -18,9 +18,11 @@ import * as movieActions from "../../redux/action/actionMovie";
 import * as categoriesActions from "../../redux/action/actionCategory";
 import * as collectionActions from "../../redux/action/actionCollection";
 import { Link, useNavigate } from 'react-router-dom';
+import LinearProgress from '@mui/material/LinearProgress';
 
 const SearchResult = () => {
 
+    const [loading, setLoading] = useState(true);
     const movies = useSelector((state) => state.movies);
     const moviesList = movies.movies;
 
@@ -41,7 +43,19 @@ const SearchResult = () => {
 
     console.log(moviesList);
     console.log(categoriesList);
-    
+
+   
+
+      useEffect(() => {
+        if (moviesList) {
+          if (moviesList) {
+            setTimeout(() => {
+              setLoading(false);
+            }, 1500);
+          }
+        }
+      }, [moviesList]);
+
 
 
 
@@ -83,6 +97,13 @@ const SearchResult = () => {
             borderRadius: 100 / 10
 
         },
+        loadingBar: {
+            backgroundColor: 'black',
+            color: "white",
+            '& .MuiLinearProgress-bar': {
+              backgroundColor: 'white'
+            }
+        },
         completedIcon: {}
     }
 
@@ -103,126 +124,136 @@ const SearchResult = () => {
     return (
 
         <Box style={styles.header}>
-      <Box style={styles.content}>
-          <Box style={styles.bgcontent}>
+            <Box style={styles.content}>
+                <Box style={styles.bgcontent}>
 
-              <Grid
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
-              // sx={{
-              //     position: 'absolute',
-              //     left: '50%',
-              //     top: '50%',
-              //     transform: 'translate(-50%, -50%)'
-              // }}
-              >
-
-
-                  <Grid container spacing={1}>
-                      <Grid item xs={12} container
-                          direction="column"
-                          justifyContent="center"
-                          alignItems="center"
-                          sx={{ mt: 5 }}>
-                          <Paper elevation={1}
-                              sx={{
-                                  backgroundColor: "#000000",
-                                  borderRadius: 25,
-                                  display: "flex",
-                                  alignItems: "center",
-                                  width: 700,
-                                  height: 35,
-
-                              }} >
-                              <IconButton disabled aria-label="search" size="large" sx={{ m: 0.5 }}>
-                                  <SearchIcon sx={{ color: "#616161" }} />
-                              </IconButton>
-                              <TextField
-                                  fullWidth
-                                  placeholder='Search'
-                                  size="medium"
-                                  InputProps={{
-                                      disableUnderline: true,
-                                  }}
-                                  sx={{
-                                      "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                      input: { color: "#616161", fontWeight: 600, ml: -2, mr: 2 },
-                                  }}
-
-                              />
-                          </Paper>
-                      </Grid>
-                  </Grid>
-                  {moviesList.movies && moviesList.movies.map((item) => (
-                      <Grid
-                          container
-                          direction="column"
-                          sx={{
-                              width: "70%",
-                              height: 250,
-                              backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                              mt: 10,
-                              borderRadius: 2,
-                              mb: 5
-                          }}>
-
-                          <Grid container
-                              justifyContent="center"
-                              alignItems="center"
-                              spacing={2}>
-                              <Grid item xs={6} >
-                                  <Box sx={{ mt: -8 }}>
-                                      <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
-                                  </Box>
-                              </Grid>
-                              <Grid item xs={6} >
-                                  <Typography variant="h6" gutterBottom sx={{ color: "white", textAlign: "left", fontWeight: 600, mt: 2 }}>
-                                      {item.original_title}
-                                  </Typography>
-                                  <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-                                      <Chip label="ACTION" variant="outlined" sx={{ color: "black", backgroundColor: "white", fontWeight: 600 }} />
-                                      <Chip label={item.release_date} sx={{ color: "white" }} />
-                                  </Stack>
-                                  <Box sx={{ maxWidth: "90%" }}>
-                                      <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
-                                          {item.overview}
-                                      </Typography>
-                                  </Box>
-                                  <Box
-                                      display="flex"
-                                      justifyContent="flex-end" sx={{ mr: 2 }}>
-                                      <IconButton onClick={() => navigate(`/description/${item.movie_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
-                                          <ArrowRightIcon
-                                        //   to={{ pathname: `/description/${item.id}` }}
-                                           sx={{
-                                              justifyContent: "flex-end", fontSize: 40, color: "white",
-                                              "&:hover": {
-                                                  color: "#F2BD00"
-                                              },
-                                          }} />
-                                      </IconButton>
-                                  </Box>
-                              </Grid>
-                          </Grid>
+                    <Grid
+                        container
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                    // sx={{
+                    //     position: 'absolute',
+                    //     left: '50%',
+                    //     top: '50%',
+                    //     transform: 'translate(-50%, -50%)'
+                    // }}
+                    >
 
 
+                        <Grid container spacing={1}>
+                            <Grid item xs={12} container
+                                direction="column"
+                                justifyContent="center"
+                                alignItems="center"
+                                sx={{ mt: 5 }}>
+                                <Paper elevation={1}
+                                    sx={{
+                                        backgroundColor: "#000000",
+                                        borderRadius: 25,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        width: 700,
+                                        height: 35,
 
-                      </Grid>
+                                    }} >
+                                    <IconButton disabled aria-label="search" size="large" sx={{ m: 0.5 }}>
+                                        <SearchIcon sx={{ color: "#616161" }} />
+                                    </IconButton>
+                                    <TextField
+                                        fullWidth
+                                        placeholder='Search'
+                                        size="medium"
+                                        InputProps={{
+                                            disableUnderline: true,
+                                        }}
+                                        sx={{
+                                            "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                            input: { color: "#616161", fontWeight: 600, ml: -2, mr: 2 },
+                                        }}
+
+                                    />
+                                </Paper>
+                            </Grid>
+                        </Grid>
+
+                        {loading ? (
+                            <Box sx={{ width: '80%', mt: 5 , backgroundColor: "black", color: "black"}}>
+                                <LinearProgress style={styles.loadingBar} color="inherit"/>
+                            </Box>
+                        ) : (
+                            <Grid container
+                                direction="column"
+                                justifyContent="center"
+                                alignItems="center" >
+                                {moviesList.movies && moviesList.movies.map((item) => (
+                                    <Grid
+                                        container
+                                        direction="column"
+                                        sx={{
+                                            width: "70%",
+                                            height: 250,
+                                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                            mt: 10,
+                                            borderRadius: 2,
+                                            mb: 5
+                                        }}>
+
+                                        <Grid container
+                                            justifyContent="center"
+                                            alignItems="center"
+                                            spacing={2}>
+                                            <Grid item xs={6} >
+                                                <Box sx={{ mt: -8 }}>
+                                                    <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+                                                </Box>
+                                            </Grid>
+                                            <Grid item xs={6} >
+                                                <Typography variant="h6" gutterBottom sx={{ color: "white", textAlign: "left", fontWeight: 600, mt: 2 }}>
+                                                    {item.original_title}
+                                                </Typography>
+                                                <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
+                                                    <Chip label="ACTION" variant="outlined" sx={{ color: "black", backgroundColor: "white", fontWeight: 600 }} />
+                                                    <Chip label={item.release_date} sx={{ color: "white" }} />
+                                                </Stack>
+                                                <Box sx={{ maxWidth: "90%" }}>
+                                                    <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
+                                                        {item.overview}
+                                                    </Typography>
+                                                </Box>
+                                                <Box
+                                                    display="flex"
+                                                    justifyContent="flex-end" sx={{ mr: 2 }}>
+                                                    <IconButton onClick={() => navigate(`/description/${item.movie_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
+                                                        <ArrowRightIcon
+                                                            //   to={{ pathname: `/description/${item.id}` }}
+                                                            sx={{
+                                                                justifyContent: "flex-end", fontSize: 40, color: "white",
+                                                                "&:hover": {
+                                                                    color: "#F2BD00"
+                                                                },
+                                                            }} />
+                                                    </IconButton>
+                                                </Box>
+                                            </Grid>
+                                        </Grid>
+
+                                    </Grid>
+
+                                ))}
+                            </Grid>
+                        )}
+
+
+                    </Grid>
 
 
 
-                   ))} 
-
-              </Grid>
 
 
-
-
-          </Box>
-      </Box>
-  </Box>
+                </Box>
+            </Box>
+        </Box>
     )
 }
 

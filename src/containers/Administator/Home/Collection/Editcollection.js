@@ -99,7 +99,7 @@ const Editcollection = (props) => {
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                dispatch(collectionActions.updateCollections(data, data.id)).then((resp) => {
+                dispatch(collectionActions.updateCollections(data, id)).then((resp) => {
                     if (resp.data) {
                         Swal.fire({
                             icon: "success",
@@ -143,11 +143,9 @@ const Editcollection = (props) => {
             <Box style={styles.content}>
                 <Box style={styles.bgcontent}>
                     <Formik
-                        Formik
                         enableReinitialize
                         // initialValues={collectionById}
                         initialValues={{
-                            id: "",
                             name: "",
                         }}
                         validationSchema={Yup.object().shape({
@@ -324,7 +322,7 @@ const Editcollection = (props) => {
                                                 },
 
                                             }}>
-                                                Create
+                                                Edit
                                             </Button>
 
                                         </Stack>
