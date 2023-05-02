@@ -12,8 +12,12 @@ import LooksOneRoundedIcon from '@mui/icons-material/LooksOneRounded';
 import LooksTwoRoundedIcon from '@mui/icons-material/LooksTwoRounded';
 import Looks3RoundedIcon from '@mui/icons-material/Looks3Rounded';
 import Divider from '@mui/material/Divider';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Searchmain = () => {
+
+    let navigate = useNavigate();
 
 
     const styles = {
@@ -62,8 +66,21 @@ const Searchmain = () => {
     return (
 
         <Box style={styles.header}>
+
             <Box style={styles.content}>
+
                 <Box style={styles.bgcontent}>
+                    <Grid
+                        container
+                        direction="row"
+                        justifyContent="flex-end"
+                        alignItems="center"
+                    >
+                        <IconButton onClick={() => navigate(`/login`)}>
+                            <AccountCircleIcon sx={{ color: "#eeeeee", fontSize: "40px", bgcolor: "#212121", borderRadius: "50px" }} />
+                        </IconButton>
+                    </Grid>
+
 
                     <Grid
                         container

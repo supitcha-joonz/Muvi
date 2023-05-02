@@ -206,6 +206,7 @@ const Createactor = () => {
                                 // sx={{ mt: 20 }}
                                 >
                                     <Grid item xs={12} sx={{ mt: 25, mb: 20 }}>
+                                        {/* add data image ไม่เข้า */}
                                         <Paper fullWidth elevation={1}
                                             onClick={() => document.querySelector(".input-field").click()}
                                             sx={{

@@ -178,15 +178,17 @@ const SearchResult = () => {
                         </Grid>
 
                         {loading ? (
-                            <Box sx={{ width: '80%', mt: 5 , backgroundColor: "black", color: "black"}}>
+                            <Box sx={{width: '80%', mt: 5 , backgroundColor: "black", color: "black"}}>
                                 <LinearProgress style={styles.loadingBar} color="inherit"/>
                             </Box>
                         ) : (
                             <Grid container
                                 direction="column"
                                 justifyContent="center"
-                                alignItems="center" >
+                                alignItems="center"
+                                 >
                                 {moviesList.movies && moviesList.movies.map((item) => (
+                                    
                                     <Grid
                                         container
                                         direction="column"

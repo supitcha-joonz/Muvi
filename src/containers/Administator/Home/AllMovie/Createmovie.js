@@ -22,6 +22,7 @@ import * as movieActions from "../../../../redux/action/actionMovie";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
+import * as actorActions from "../../../../redux/action/actionActor";
 
 
 
@@ -37,7 +38,7 @@ const Createmovie = () => {
         const reader = new FileReader()
         reader.addEventListener('load', () => {
             setImage(reader.result)
-            
+
         })
         reader.readAsDataURL(e.target.files[0])
     }
@@ -115,14 +116,20 @@ const Createmovie = () => {
     const categoriesList = categories.categories;
     const collections = useSelector((state) => state.collections);
     const collectionsList = collections.collections;
+    const actors = useSelector((state) => state.actors);
+    const actorsList = actors.actors;
+
+
 
     useEffect(() => {
         dispatch(categoryActions.loadcategories());
         dispatch(collectionActions.loadcollections());
+        dispatch(actorActions.loadactors());
     }, []);
 
     console.log(categoriesList);
     console.log(collectionsList);
+    console.log(actorsList);
 
     const actionSave = (data) => {
         Swal.fire({
@@ -207,6 +214,9 @@ const Createmovie = () => {
                                 "collection": values.collection.collection_id ? values.collection.collection_id : 0,
                                 "overview": values.plot ? values.plot : "",
                                 "image": values.image ? values.image : null,
+                                "actor_id": values.actor.id ? values.actor.id : 0,
+                                "movie_id": 0,
+                                "genre_id": values.categories.id ? values.categories.id : 0,
                             }
                             actionSave(data);
                         }}
@@ -232,6 +242,7 @@ const Createmovie = () => {
                                 >
 
                                     <Grid item xs={12} sx={{ mt: 15, mb: 10 }}>
+                                        {/* add data image ไม่เข้า */}
                                         <Paper fullWidth elevation={1}
                                             onClick={() => document.querySelector(".input-field").click()}
                                             sx={{
@@ -266,46 +277,46 @@ const Createmovie = () => {
                                                     </Grid>
                                                 </Grid>
                                             ) : (
-                                                
-                                                    <Grid
-                                                        container
-                                                        direction="column"
-                                                        justifyContent="center"
-                                                        alignItems="center"
-                                                    >
-                                                        <input
-                                                            id='image'
-                                                            name='image'
-                                                            type='file'
-                                                            className='input-field'
-                                                            accept='image/*'
-                                                            hidden
-                                                            onChange={(e, values) => {
-                                                                    setFieldValue("image", values);
-                                                                    convert2base64(e)
-                                                                }
-                                                            }
-                                                            // onChange={convert2base64}
-                                                            onBlur={handleBlur}
-                                                            value={values.image || ""}
-                                                        // onChange={({ target: { files } }) => {
-                                                        //     files[0] && setFileName(files[0].name)
-                                                        //     if (files) {
-                                                        //         setImage(URL.createObjectURL(files[0]))
-                                                        //     }
-                                                        // }}
-                                                        />
-                                                        <Grid item xs={12}>
-                                                            <CloudUploadIcon sx={{ color: "#eeeeee", fontSize: "8vh" }} />
-                                                        </Grid>
-                                                        <Grid item xs={12}>
-                                                            <Typography variant="overline" sx={{ color: "whitesmoke" }}>
-                                                                Browse Files To Upload
-                                                            </Typography>
-                                                        </Grid>
 
-
+                                                <Grid
+                                                    container
+                                                    direction="column"
+                                                    justifyContent="center"
+                                                    alignItems="center"
+                                                >
+                                                    <input
+                                                        id='image'
+                                                        name='image'
+                                                        type='file'
+                                                        className='input-field'
+                                                        accept='image/*'
+                                                        hidden
+                                                        onChange={(e, values) => {
+                                                            setFieldValue("image", values);
+                                                            convert2base64(e)
+                                                        }
+                                                        }
+                                                        // onChange={convert2base64}
+                                                        onBlur={handleBlur}
+                                                        value={values.image || ""}
+                                                    // onChange={({ target: { files } }) => {
+                                                    //     files[0] && setFileName(files[0].name)
+                                                    //     if (files) {
+                                                    //         setImage(URL.createObjectURL(files[0]))
+                                                    //     }
+                                                    // }}
+                                                    />
+                                                    <Grid item xs={12}>
+                                                        <CloudUploadIcon sx={{ color: "#eeeeee", fontSize: "8vh" }} />
                                                     </Grid>
+                                                    <Grid item xs={12}>
+                                                        <Typography variant="overline" sx={{ color: "whitesmoke" }}>
+                                                            Browse Files To Upload
+                                                        </Typography>
+                                                    </Grid>
+
+
+                                                </Grid>
 
                                             )}
 
@@ -391,6 +402,7 @@ const Createmovie = () => {
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={7}>
+                                            {/* อยู่คนละ path กันเลยงงการ add เข้า  */}
                                             <Paper fullWidth elevation={1}
                                                 sx={{
                                                     backgroundColor: "#4B4B4B",
@@ -546,20 +558,28 @@ const Createmovie = () => {
                                                 ACTOR
                                             </Typography>
                                         </Grid>
+                                        {/* อยู่คนละ path กันเลยงงการ add เข้า  */}
                                         <Grid item xs={7}>
                                             <Paper fullWidth elevation={1}
                                                 sx={{
                                                     backgroundColor: "#4B4B4B",
-                                                    borderRadius: 25,
+                                                    borderRadius: 5,
                                                     display: "flex",
                                                     alignItems: "center",
-                                                    height: 35,
+                                                    height: "15vh",
 
                                                 }} >
                                                 <Autocomplete
-                                                    id="categories"
-                                                    type="text"
-                                                    options={categories16}
+                                                    multiple
+                                                    id="actor"
+                                                    name="actor"
+                                                    options={actorsList.actors ?
+                                                        actorsList.actors : []}
+                                                    getOptionLabel={(option) =>
+                                                        option.firstName ? option.firstName : ""
+                                                    }
+                                                    limitTags={5}
+                                                    filterSelectedOptions
                                                     fullWidth
                                                     sx={{
                                                         "& .MuiOutlinedInput-notchedOutline": { border: "none" },
@@ -568,7 +588,13 @@ const Createmovie = () => {
                                                     InputProps={{
                                                         disableUnderline: true,
                                                     }}
-                                                    renderInput={(params) => <TextField {...params} placeholder="Choose" />}
+                                                    renderInput={(params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            name="actor"
+                                                            placeholder="Choose"
+                                                        />
+                                                    )}
                                                 />
                                             </Paper>
                                         </Grid>

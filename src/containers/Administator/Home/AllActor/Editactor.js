@@ -37,21 +37,22 @@ const Editactor = () => {
     const [state, setState] = useState({});
     const actorsById = actors.actor;
 
-   
+
     useEffect(() => {
         dispatch(actorActions.getSingleActors(id));
+        dispatch(actorActions.loadactors);
     }, []);
 
 
-    // useEffect(() => {
-    //     if (id) {
-    //         if (actorsById) {
-    //             setState({ ...actorsById });
-    //         }
-    //     } else {
-    //         setState({ ...state })
-    //     }
-    // }, [actorsById]);
+    useEffect(() => {
+        if (id) {
+            if (actorsById) {
+                setState({ ...actorsById });
+            }
+        } else {
+            setState({ ...state })
+        }
+    }, [actorsById]);
 
 
     console.log(actorsById);
@@ -158,6 +159,7 @@ const Editactor = () => {
                     <Formik
                         enableReinitialize
                         initialValues={actorsById ? actorsById : []}
+                        //ข้อมูลไม่ดึงมาโชว์
                         // initialValues={{
                         //     fname: '',
                         //     faname: '',
@@ -205,6 +207,7 @@ const Editactor = () => {
                                 // sx={{ mt: 20 }}
                                 >
                                     <Grid item xs={12} sx={{ mt: 25, mb: 20 }}>
+                                        {/* add data image ไม่เข้า */}
                                         <Paper fullWidth elevation={1}
                                             onClick={() => document.querySelector(".input-field").click()}
                                             sx={{
@@ -255,7 +258,7 @@ const Editactor = () => {
                                                         hidden
                                                         onChange={(e, values) => {
                                                             setFieldValue("image", values);
-                                                            convert2base64();
+                                                            convert2base64(e)
                                                         }
                                                         }
                                                         // onChange={convert2base64}

@@ -327,6 +327,7 @@ const Moviepage = () => {
                                         </Table>
                                     )}
                                 </TableContainer>
+                                {/* แก้ตรงกด TablePagination */}
                                 <TablePagination
                                     sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 3, color: "black", fontWeight: 600, mb: 15 }}
                                     rowsPerPageOptions={[5, 15, 30]}

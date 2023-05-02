@@ -144,10 +144,10 @@ const Editcollection = (props) => {
                 <Box style={styles.bgcontent}>
                     <Formik
                         enableReinitialize
-                        // initialValues={collectionById}
-                        initialValues={{
-                            name: "",
-                        }}
+                        initialValues={collectionById ? collectionById : [] }
+                        // initialValues={{
+                        //     name: "",
+                        // }}
                         validationSchema={Yup.object().shape({
                             name: Yup.string().required("Required"),
                             // description: Yup.string().required("Required"),

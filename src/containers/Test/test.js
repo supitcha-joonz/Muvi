@@ -1,229 +1,182 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import image from '../../img/moviebackground.jpg';
-import logo from '../../img/logo.png';
-import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import SearchIcon from '@mui/icons-material/Search';
-import IconButton from '@mui/material/IconButton';
-import LooksOneRoundedIcon from '@mui/icons-material/LooksOneRounded';
-import LooksTwoRoundedIcon from '@mui/icons-material/LooksTwoRounded';
-import Looks3RoundedIcon from '@mui/icons-material/Looks3Rounded';
-import Divider from '@mui/material/Divider';
-import piture1 from '../../img/wakanda2.jpg';
+import React, { useEffect, useState } from 'react';
 import Chip from '@mui/material/Chip';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import * as actorActions from "../../redux/action/actionActor";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from 'react-router-dom';
 
-const Test = () => {
+export default function Test() {
+    const actors = useSelector((state) => state.actors);
+    const actorsList = actors.actors;
 
+    let dispatch = useDispatch();
+    let navigate = useNavigate();
 
-    const styles = {
-        header: {
-            backgroundImage: `url(${image})`,
-            height: '100vh',
-            display: "flex",
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
-        },
-
-        content: {
-            height: '100%',
-            width: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-        },
-        bgcontent: {
-            height: '100%',
-            width: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        },
-        icon: {
-            "& $active": {
-                color: "pink"
-            },
-        },
-        completedIcon: {},
-        multiLineEllipsis: {
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          display: '-webkit-box',
-          WebkitLineClamp: '4',
-          WebkitBoxOrient: 'vertical',
-      },
-      image: {
-        borderRadius: 100 / 10
-
-    },
-    }
-
-    const steps = [
-        'Type keywords that you are looking for ',
-        'Select the movie from our recommendations ',
-        'Enjoy the movie',
-    ];
-
-    const stepperstyles = {
-        icon: {
-            color: "red",
-        },
-        completedIcon: {}
-    }
-
+    useEffect(() => {
+        dispatch(actorActions.loadactors());
+    }, []);
 
 
     return (
+        <Stack spacing={3} sx={{ width: 500 }}>
+            <Autocomplete
+                multiple
+                id="actor"
+                name="actor"
+                options={actorsList.actors ?
+                    actorsList.actors : []}
+                getOptionLabel={(option) =>
+                    option.firstName ? option.firstName : ""
+                }
+                limitTags={5}
+                filterSelectedOptions
+                fullWidth
+                sx={{
+                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                    input: { color: "white", fontWeight: 600 },
+                }}
+                InputProps={{
+                    disableUnderline: true,
+                }}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        name="actor"
+                        placeholder="Choose"
+                    />
+                )}
+            />
 
-      <Box style={styles.header}>
-      <Box style={styles.content}>
-          <Box style={styles.bgcontent}>
-
-              <Grid
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
-              // sx={{
-              //     position: 'absolute',
-              //     left: '50%',
-              //     top: '50%',
-              //     transform: 'translate(-50%, -50%)'
-              // }}
-              >
-                  {/* {moviesList.movies && moviesList.movies.map((item) => (
-                                          <StyledTableRow key={item.id} sx={{ backgroundColor: "transparent", mb: 2, borderRadius: 5 }} >
-                                              <StyledTableCell sx={{ backgroundColor: "rgba(0, 0, 0, 0.1)", color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                  {item.id}
-                                              </StyledTableCell>
-                                              <StyledTableCell sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)', color: "whitesmoke" }} component="th" scope="row" align="center">
-                                                  {item.original_title}
-                                              </StyledTableCell>
-                                          </StyledTableRow>
-                                      ))} */}
-
-
-                  <Grid container spacing={1}>
-                      <Grid item xs={12} container
-                          direction="column"
-                          justifyContent="center"
-                          alignItems="center"
-                          sx={{ mt: 5 }}>
-                          <Paper elevation={1}
-                              sx={{
-                                  backgroundColor: "#000000",
-                                  borderRadius: 25,
-                                  display: "flex",
-                                  alignItems: "center",
-                                  width: 700,
-                                  height: 35,
-
-                              }} >
-                              <IconButton disabled aria-label="search" size="large" sx={{ m: 0.5 }}>
-                                  <SearchIcon sx={{ color: "#616161" }} />
-                              </IconButton>
-                              <TextField
-                                  fullWidth
-                                  placeholder='Search'
-                                  size="medium"
-                                  InputProps={{
-                                      disableUnderline: true,
-                                  }}
-                                  sx={{
-                                      "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                      input: { color: "#616161", fontWeight: 600, ml: -2, mr: 2 },
-                                  }}
-
-                              />
-                          </Paper>
-                      </Grid>
-                  </Grid>
-                  {/* {categoriesList.genres && categoriesList.genres.map((item) => ( */}
-                      <Grid
-                          container
-                          direction="column"
-                          sx={{
-                              width: "70%",
-                              height: 250,
-                              backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                              mt: 10,
-                              borderRadius: 2,
-                              mb: 5
-                          }}>
-
-                          <Grid container
-                              justifyContent="center"
-                              alignItems="center"
-                              spacing={2}>
-                              <Grid item xs={6} >
-                                  <Box sx={{ mt: -8 }}>
-                                      <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
-                                  </Box>
-                              </Grid>
-                              <Grid item xs={6} >
-                                  <Typography variant="h6" gutterBottom sx={{ color: "white", textAlign: "left", fontWeight: 600, mt: 2 }}>
-                                      {/* {item.name} */}
-                                      Joonz
-                                  </Typography>
-                                  <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-                                      <Chip label="ACTION" variant="outlined" sx={{ color: "black", backgroundColor: "white", fontWeight: 600 }} />
-                                      <Chip label="2022" sx={{ color: "white" }} />
-                                  </Stack>
-                                  <Box sx={{ maxWidth: "90%" }}>
-                                      <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
-                                          subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                                          blanditiis tenetur subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                                          blanditiis tenetur subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                                          blanditiis tenetur subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                                          blanditiis tenetur
-                                          subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                                          blanditiis tenetur subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                                          blanditiis tenetur subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                                          blanditiis tenetur subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                                          blanditiis tenetur subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                                          blanditiis tenetur subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                                          blanditiis tenetur subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                                          blanditiis tenetur subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-                                          blanditiis tenetur
-                                      </Typography>
-                                  </Box>
-                                  <Box
-                                      display="flex"
-                                      justifyContent="flex-end" sx={{ mr: 2 }}>
-                                      <IconButton aria-label="detail" sx={{ justifyContent: "flex-end" }}>
-                                          <ArrowRightIcon sx={{
-                                              justifyContent: "flex-end", fontSize: 40, color: "white",
-                                              "&:hover": {
-                                                  color: "#F2BD00"
-                                              },
-                                          }} />
-                                      </IconButton>
-                                  </Box>
-
-
-
-
-                              </Grid>
-                          </Grid>
-
-
-
-                      </Grid>
-
-
-
-                  {/* ))} */}
-
-              </Grid>
-
-
-
-
-          </Box>
-      </Box>
-  </Box>
-    )
+        </Stack>
+    );
 }
 
-export default Test
+// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
+const top100Films = [
+    { title: 'The Shawshank Redemption', year: 1994 },
+    { title: 'The Godfather', year: 1972 },
+    { title: 'The Godfather: Part II', year: 1974 },
+    { title: 'The Dark Knight', year: 2008 },
+    { title: '12 Angry Men', year: 1957 },
+    { title: "Schindler's List", year: 1993 },
+    { title: 'Pulp Fiction', year: 1994 },
+    {
+        title: 'The Lord of the Rings: The Return of the King',
+        year: 2003,
+    },
+    { title: 'The Good, the Bad and the Ugly', year: 1966 },
+    { title: 'Fight Club', year: 1999 },
+    {
+        title: 'The Lord of the Rings: The Fellowship of the Ring',
+        year: 2001,
+    },
+    {
+        title: 'Star Wars: Episode V - The Empire Strikes Back',
+        year: 1980,
+    },
+    { title: 'Forrest Gump', year: 1994 },
+    { title: 'Inception', year: 2010 },
+    {
+        title: 'The Lord of the Rings: The Two Towers',
+        year: 2002,
+    },
+    { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
+    { title: 'Goodfellas', year: 1990 },
+    { title: 'The Matrix', year: 1999 },
+    { title: 'Seven Samurai', year: 1954 },
+    {
+        title: 'Star Wars: Episode IV - A New Hope',
+        year: 1977,
+    },
+    { title: 'City of God', year: 2002 },
+    { title: 'Se7en', year: 1995 },
+    { title: 'The Silence of the Lambs', year: 1991 },
+    { title: "It's a Wonderful Life", year: 1946 },
+    { title: 'Life Is Beautiful', year: 1997 },
+    { title: 'The Usual Suspects', year: 1995 },
+    { title: 'Léon: The Professional', year: 1994 },
+    { title: 'Spirited Away', year: 2001 },
+    { title: 'Saving Private Ryan', year: 1998 },
+    { title: 'Once Upon a Time in the West', year: 1968 },
+    { title: 'American History X', year: 1998 },
+    { title: 'Interstellar', year: 2014 },
+    { title: 'Casablanca', year: 1942 },
+    { title: 'City Lights', year: 1931 },
+    { title: 'Psycho', year: 1960 },
+    { title: 'The Green Mile', year: 1999 },
+    { title: 'The Intouchables', year: 2011 },
+    { title: 'Modern Times', year: 1936 },
+    { title: 'Raiders of the Lost Ark', year: 1981 },
+    { title: 'Rear Window', year: 1954 },
+    { title: 'The Pianist', year: 2002 },
+    { title: 'The Departed', year: 2006 },
+    { title: 'Terminator 2: Judgment Day', year: 1991 },
+    { title: 'Back to the Future', year: 1985 },
+    { title: 'Whiplash', year: 2014 },
+    { title: 'Gladiator', year: 2000 },
+    { title: 'Memento', year: 2000 },
+    { title: 'The Prestige', year: 2006 },
+    { title: 'The Lion King', year: 1994 },
+    { title: 'Apocalypse Now', year: 1979 },
+    { title: 'Alien', year: 1979 },
+    { title: 'Sunset Boulevard', year: 1950 },
+    {
+        title: 'Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb',
+        year: 1964,
+    },
+    { title: 'The Great Dictator', year: 1940 },
+    { title: 'Cinema Paradiso', year: 1988 },
+    { title: 'The Lives of Others', year: 2006 },
+    { title: 'Grave of the Fireflies', year: 1988 },
+    { title: 'Paths of Glory', year: 1957 },
+    { title: 'Django Unchained', year: 2012 },
+    { title: 'The Shining', year: 1980 },
+    { title: 'WALL·E', year: 2008 },
+    { title: 'American Beauty', year: 1999 },
+    { title: 'The Dark Knight Rises', year: 2012 },
+    { title: 'Princess Mononoke', year: 1997 },
+    { title: 'Aliens', year: 1986 },
+    { title: 'Oldboy', year: 2003 },
+    { title: 'Once Upon a Time in America', year: 1984 },
+    { title: 'Witness for the Prosecution', year: 1957 },
+    { title: 'Das Boot', year: 1981 },
+    { title: 'Citizen Kane', year: 1941 },
+    { title: 'North by Northwest', year: 1959 },
+    { title: 'Vertigo', year: 1958 },
+    {
+        title: 'Star Wars: Episode VI - Return of the Jedi',
+        year: 1983,
+    },
+    { title: 'Reservoir Dogs', year: 1992 },
+    { title: 'Braveheart', year: 1995 },
+    { title: 'M', year: 1931 },
+    { title: 'Requiem for a Dream', year: 2000 },
+    { title: 'Amélie', year: 2001 },
+    { title: 'A Clockwork Orange', year: 1971 },
+    { title: 'Like Stars on Earth', year: 2007 },
+    { title: 'Taxi Driver', year: 1976 },
+    { title: 'Lawrence of Arabia', year: 1962 },
+    { title: 'Double Indemnity', year: 1944 },
+    {
+        title: 'Eternal Sunshine of the Spotless Mind',
+        year: 2004,
+    },
+    { title: 'Amadeus', year: 1984 },
+    { title: 'To Kill a Mockingbird', year: 1962 },
+    { title: 'Toy Story 3', year: 2010 },
+    { title: 'Logan', year: 2017 },
+    { title: 'Full Metal Jacket', year: 1987 },
+    { title: 'Dangal', year: 2016 },
+    { title: 'The Sting', year: 1973 },
+    { title: '2001: A Space Odyssey', year: 1968 },
+    { title: "Singin' in the Rain", year: 1952 },
+    { title: 'Toy Story', year: 1995 },
+    { title: 'Bicycle Thieves', year: 1948 },
+    { title: 'The Kid', year: 1921 },
+    { title: 'Inglourious Basterds', year: 2009 },
+    { title: 'Snatch', year: 2000 },
+    { title: '3 Idiots', year: 2009 },
+    { title: 'Monty Python and the Holy Grail', year: 1975 },
+];

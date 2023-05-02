@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from 'react-router-dom';
 import * as categoryActions from "../../../../redux/action/actionCategory";
 import * as collectionActions from "../../../../redux/action/actionCollection";
+import * as actorActions from "../../../../redux/action/actionActor";
 
 const Editmovie = () => {
 
@@ -37,10 +38,13 @@ const Editmovie = () => {
     const categoriesList = categories.categories;
     const collections = useSelector((state) => state.collections);
     const collectionsList = collections.collections;
+    const actors = useSelector((state) => state.actors);
+    const actorsList = actors.actors;
 
     useEffect(() => {
         dispatch(categoryActions.loadcategories());
         dispatch(collectionActions.loadcollections());
+        dispatch(actorActions.loadactors());
     }, []);
 
     console.log(categoriesList);
@@ -178,6 +182,7 @@ const Editmovie = () => {
                         Formik
                         enableReinitialize
                         initialValues={movieById ? movieById : []}
+                        // ข้อมูลไม่โชว์
                         // initialValues={{
                         //     title: '',
                         //     collection: '',
@@ -217,7 +222,7 @@ const Editmovie = () => {
                         }) => (
                             <Form onSubmit={handleSubmit}>
 
-<Grid
+                                <Grid
                                     container
                                     direction="column"
                                     justifyContent="center"
@@ -226,6 +231,7 @@ const Editmovie = () => {
                                 >
 
                                     <Grid item xs={12} sx={{ mt: 15, mb: 10 }}>
+                                        {/* add image ไม่เข้า */}
                                         <Paper fullWidth elevation={1}
                                             onClick={() => document.querySelector(".input-field").click()}
                                             sx={{
@@ -260,46 +266,46 @@ const Editmovie = () => {
                                                     </Grid>
                                                 </Grid>
                                             ) : (
-                                                
-                                                    <Grid
-                                                        container
-                                                        direction="column"
-                                                        justifyContent="center"
-                                                        alignItems="center"
-                                                    >
-                                                        <input
-                                                            id='image'
-                                                            name='image'
-                                                            type='file'
-                                                            className='input-field'
-                                                            accept='image/*'
-                                                            hidden
-                                                            onChange={(e, values) => {
-                                                                    setFieldValue("image", values);
-                                                                    convert2base64(e)
-                                                                }
-                                                            }
-                                                            // onChange={convert2base64}
-                                                            onBlur={handleBlur}
-                                                            value={values.image || ""}
-                                                        // onChange={({ target: { files } }) => {
-                                                        //     files[0] && setFileName(files[0].name)
-                                                        //     if (files) {
-                                                        //         setImage(URL.createObjectURL(files[0]))
-                                                        //     }
-                                                        // }}
-                                                        />
-                                                        <Grid item xs={12}>
-                                                            <CloudUploadIcon sx={{ color: "#eeeeee", fontSize: "8vh" }} />
-                                                        </Grid>
-                                                        <Grid item xs={12}>
-                                                            <Typography variant="overline" sx={{ color: "whitesmoke" }}>
-                                                                Browse Files To Upload
-                                                            </Typography>
-                                                        </Grid>
 
-
+                                                <Grid
+                                                    container
+                                                    direction="column"
+                                                    justifyContent="center"
+                                                    alignItems="center"
+                                                >
+                                                    <input
+                                                        id='image'
+                                                        name='image'
+                                                        type='file'
+                                                        className='input-field'
+                                                        accept='image/*'
+                                                        hidden
+                                                        onChange={(e, values) => {
+                                                            setFieldValue("image", values);
+                                                            convert2base64(e)
+                                                        }
+                                                        }
+                                                        // onChange={convert2base64}
+                                                        onBlur={handleBlur}
+                                                        value={values.image || ""}
+                                                    // onChange={({ target: { files } }) => {
+                                                    //     files[0] && setFileName(files[0].name)
+                                                    //     if (files) {
+                                                    //         setImage(URL.createObjectURL(files[0]))
+                                                    //     }
+                                                    // }}
+                                                    />
+                                                    <Grid item xs={12}>
+                                                        <CloudUploadIcon sx={{ color: "#eeeeee", fontSize: "8vh" }} />
                                                     </Grid>
+                                                    <Grid item xs={12}>
+                                                        <Typography variant="overline" sx={{ color: "whitesmoke" }}>
+                                                            Browse Files To Upload
+                                                        </Typography>
+                                                    </Grid>
+
+
+                                                </Grid>
 
                                             )}
 
@@ -384,6 +390,7 @@ const Editmovie = () => {
                                                 CATEGORY
                                             </Typography>
                                         </Grid>
+                                         {/* อยู่คนละ path กันเลยงงการ add เข้า  */}
                                         <Grid item xs={7}>
                                             <Paper fullWidth elevation={1}
                                                 sx={{
@@ -541,19 +548,27 @@ const Editmovie = () => {
                                             </Typography>
                                         </Grid>
                                         <Grid item xs={7}>
+                                             {/* อยู่คนละ path กันเลยงงการ add เข้า  */}
                                             <Paper fullWidth elevation={1}
                                                 sx={{
                                                     backgroundColor: "#4B4B4B",
-                                                    borderRadius: 25,
+                                                    borderRadius: 5,
                                                     display: "flex",
                                                     alignItems: "center",
-                                                    height: 35,
+                                                    height: "15vh",
 
                                                 }} >
                                                 <Autocomplete
-                                                    id="categories"
-                                                    type="text"
-                                                    options={categories16}
+                                                    multiple
+                                                    id="actor"
+                                                    name="actor"
+                                                    options={actorsList.actors ?
+                                                        actorsList.actors : []}
+                                                    getOptionLabel={(option) =>
+                                                        option.firstName ? option.firstName : ""
+                                                    }
+                                                    limitTags={5}
+                                                    filterSelectedOptions
                                                     fullWidth
                                                     sx={{
                                                         "& .MuiOutlinedInput-notchedOutline": { border: "none" },
@@ -562,7 +577,13 @@ const Editmovie = () => {
                                                     InputProps={{
                                                         disableUnderline: true,
                                                     }}
-                                                    renderInput={(params) => <TextField {...params} placeholder="Choose" />}
+                                                    renderInput={(params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            name="actor"
+                                                            placeholder="Choose"
+                                                        />
+                                                    )}
                                                 />
                                             </Paper>
                                         </Grid>
@@ -593,7 +614,7 @@ const Editmovie = () => {
 
                                                 },
                                             }}>
-                                                Create
+                                                Edit
                                             </Button>
 
                                         </Stack>
