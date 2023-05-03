@@ -28,10 +28,10 @@ const getcollection = (collection) => ({
     payload: collection,
 });
 
-export const loadcollections = () => {
+export const loadcollections = (page=1, size=5) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/collection/all`);
-        axios.get(`${process.env.REACT_APP_API}/collection/all?page=1&size=100`).then((resp) => {
+        axios.get(`${process.env.REACT_APP_API}/collection/all?page=${page}&size=${size}`).then((resp) => {
             console.log("resp", resp);
             dispatch(getcollections(resp.data));
             // dispatch(getDropdowncollection(resp.data));

@@ -42,7 +42,7 @@ const Actorpage = () => {
     const actorsList = actors.actors;
     const categories = useSelector((state) => state.categories);
     const categoriesList = categories.categories;
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [loading, setLoading] = useState(true);
 
@@ -57,11 +57,13 @@ const Actorpage = () => {
     }, [actorsList]);
 
     const handleChangePage = (event, newPage) => {
+        dispatch(actorActions.loadactors(newPage+1, rowsPerPage))
         setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(event.target.value);
+        dispatch(actorActions.loadactors(page, event.target.value))
         setPage(0);
     };
 
@@ -70,7 +72,7 @@ const Actorpage = () => {
     let navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(actorActions.loadactors());
+        dispatch(actorActions.loadactors(page, rowsPerPage));
         dispatch(categoryActions.loadcategories());
     }, []);
 
@@ -248,7 +250,7 @@ const Actorpage = () => {
                                 ) : (
                                     <Grid>
                                         <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
-                                            {actorsList.actors ? actorsList.actors.length : 0}
+                                            {actorsList.count}
                                         </Typography>
                                     </Grid>
                                 )}
@@ -338,7 +340,7 @@ const Actorpage = () => {
                                     sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 3, color: "black", fontWeight: 600, mb: 15 }}
                                     rowsPerPageOptions={[5, 15, 30]}
                                     component="div"
-                                    count={actorsList.actors ? actorsList.actors.length : 0}
+                                    count={actorsList.count ? actorsList.count : 0}
                                     rowsPerPage={rowsPerPage}
                                     page={page}
                                     onPageChange={handleChangePage}

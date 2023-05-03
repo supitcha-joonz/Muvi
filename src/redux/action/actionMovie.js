@@ -30,10 +30,10 @@ const getmovie = (movie) => ({
 
 
 
-export const loadmovies = () => {
+export const loadmovies = (page=1, size=5) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/movie/all`);
-        axios.get(`${process.env.REACT_APP_API}/movie/all?page=1&size=100`).then((resp) => {
+        axios.get(`${process.env.REACT_APP_API}/movie/all?page=${page}&size=${size}`).then((resp) => {
             console.log("resp", resp);
             dispatch(getmovies(resp.data));
             // dispatch(getDropdowncategory(resp.data));

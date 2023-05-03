@@ -69,7 +69,7 @@ const Login = () => {
                         <Formik
                             initialValues={{
 
-                                email: '',
+                                username: '',
                                 password: '',
                             }}
                             onSubmit={async (values) => {
@@ -116,9 +116,9 @@ const Login = () => {
 
                                                         }} >
                                                         <TextField
-                                                            id="email"
-                                                            name="email"
-                                                            type="email"
+                                                            id="username"
+                                                            name="username"
+                                                            type="username"
                                                             fullWidth
                                                             size="medium"
                                                             InputProps={{
