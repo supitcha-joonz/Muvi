@@ -63,11 +63,13 @@ const Collection = () => {
     }, [collectionsList]);
 
     function handleChangePage(event, newpage) {
+        dispatch(collectionActions.loadcollections(newpage+1, rowsPerPage));
         setpg(newpage);
     }
 
     function handleChangeRowsPerPage(event) {
         setrpg(parseInt(event.target.value, 10));
+        dispatch(collectionActions.loadcollections(page, event.target.value));
         setpg(0);
     }
 
@@ -265,7 +267,7 @@ const Collection = () => {
                                 ) : (
                                     <Grid>
                                         <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
-                                            {collectionsList.collections ? collectionsList.collections.length : 0}
+                                            {collectionsList.count ? collectionsList.count : 0}
                                         </Typography>
                                     </Grid>
                                 )}
@@ -358,7 +360,7 @@ const Collection = () => {
                                     sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 3, color: "black", fontWeight: 600, mb: 15 }}
                                     rowsPerPageOptions={[5, 15, 30]}
                                     component="div"
-                                    count={collectionsList.collections ? collectionsList.collections.length : 0}
+                                    count={collectionsList.count ? collectionsList.count : 0}
                                     rowsPerPage={rpg}
                                     page={pg}
                                     onPageChange={handleChangePage}

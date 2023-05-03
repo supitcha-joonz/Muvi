@@ -28,10 +28,10 @@ const getactor = (actor) => ({
     payload: actor,
 });
 
-export const loadactors = () => {
+export const loadactors = (page=1, size=5) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/actor/all`);
-        axios.get(`${process.env.REACT_APP_API}/actor/all?page=1&size=100`).then((resp) => {
+        axios.get(`${process.env.REACT_APP_API}/actor/all?page=${page}&size=${size}`).then((resp) => {
             console.log("resp", resp);
             dispatch(getactors(resp.data));
             // dispatch(getDropdownactor(resp.data));

@@ -60,10 +60,12 @@ const Moviepage = () => {
     }, [moviesList]);
 
     const handleChangePage = (event, newPage) => {
+        dispatch(movieActions.loadmovies(newPage+1, rowsPerPage));
         setPage(newPage);
     };
 
     const handleChangeRowsPerPage = (event) => {
+        dispatch(movieActions.loadmovies(page, event.target.value));
         setRowsPerPage(event.target.value);
         setPage(0);
     };
@@ -244,7 +246,7 @@ const Moviepage = () => {
                                     <Grid>
 
                                         <Typography variant="h2" sx={{ color: "whitesmoke", fontWeight: 600 }}>
-                                            {moviesList.movies ? moviesList.movies.length : 0}
+                                            {moviesList.count ? moviesList.count : 0}
                                         </Typography>
                                     </Grid>
                                 )}
@@ -332,7 +334,7 @@ const Moviepage = () => {
                                     sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 3, color: "black", fontWeight: 600, mb: 15 }}
                                     rowsPerPageOptions={[5, 15, 30]}
                                     component="div"
-                                    count={moviesList.movies ? moviesList.movies.length : 0}
+                                    count={moviesList.count ? moviesList.count : 0}
                                     rowsPerPage={rowsPerPage}
                                     page={page}
                                     onPageChange={handleChangePage}
