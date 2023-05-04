@@ -34,26 +34,46 @@ const Editmovie = () => {
     const { id } = useParams();
     const movies = useSelector((state) => state.movies);
     const movieById = movies.movie;
+    const movie = movieById.movie ? movieById.movie[0] : []
     const categories = useSelector((state) => state.categories);
     const categoriesList = categories.categories;
     const collections = useSelector((state) => state.collections);
     const collectionsList = collections.collections;
     const actors = useSelector((state) => state.actors);
     const actorsList = actors.actors;
+    const casts = actors.casts ? actors.casts.casts : []
+    const [movieCollection, setMovieCollection] = useState({})
+    if (collections.collection.collections && Object.keys(movieCollection).length === 0) {
+        setMovieCollection(collections.collection.collections[0])
+    } 
+    const [movieCategories, setMovieCategories] = useState({})
+    if (categories.movieCategories.genres && Object.keys(movieCategories).length === 0) {
+        setMovieCategories(categories.movieCategories.genres[0])
+    }
+
 
     useEffect(() => {
         dispatch(categoryActions.loadcategories());
-        dispatch(collectionActions.loadcollections());
-        dispatch(actorActions.loadactors());
+        dispatch(categoryActions.loadMovieGenres(id))
+        dispatch(collectionActions.loadcollections(1, 100));
+        dispatch(actorActions.loadCasts(id))
+        dispatch(actorActions.loadactors(1, 100));
     }, []);
 
-    console.log(categoriesList);
-    console.log(collectionsList);
+    console.log(actorsList);
+    console.log(casts);
 
-    console.log(movieById);
+    console.log(collectionsList.collections);
+    console.log(movieCollection)
+
+    if (movie && Object.keys(movieCollection).length === 0 && movie.belongs_to_collection) {
+        dispatch(collectionActions.getSingleCollections(movie.belongs_to_collection))
+       
+    }
 
     useEffect(() => {
-        dispatch(movieActions.getSingleMovies(id));
+        dispatch(movieActions.getSingleMovies(id, false));
+        
     }, []);
 
     const styles = {
@@ -181,7 +201,7 @@ const Editmovie = () => {
                     <Formik
                         Formik
                         enableReinitialize
-                        initialValues={movieById ? movieById : []}
+                        initialValues={movie ? movie : []}
                         // ข้อมูลไม่โชว์
                         // initialValues={{
                         //     title: '',
@@ -371,7 +391,11 @@ const Editmovie = () => {
                                                     getOptionLabel={(option) =>
                                                         option.name ? option.name : ""
                                                     }
-                                                    onChange={(e, values) => setFieldValue("collection", values)}
+                                                    isOptionEqualToValue={(option, value) => option.collection_id === value.collection_id}
+                                                    value={movieCollection}
+                                                    onInputChange={(e, values) => dispatch(collectionActions.loadCollectionsByKeyword(values))}
+                                                    onChange={(e, values) => {
+                                                        setMovieCollection(values)}}
                                                     fullWidth
                                                     sx={{
                                                         "& .MuiOutlinedInput-notchedOutline": { border: "none" },
@@ -409,8 +433,10 @@ const Editmovie = () => {
                                                     getOptionLabel={(option) =>
                                                         option.name ? option.name : ""
                                                     }
+                                                    isOptionEqualToValue={(option, value) => option.id === value.id}
+                                                    value={movieCategories}
                                                     fullWidth
-                                                    onChange={(e, values) => setFieldValue("categories", values)}
+                                                    onChange={(e, values) => setMovieCategories(values)}
                                                     sx={{
                                                         "& .MuiOutlinedInput-notchedOutline": { border: "none" },
                                                         input: { color: "white", fontWeight: 600 },
@@ -442,7 +468,7 @@ const Editmovie = () => {
                                                     type="text"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
-                                                    value={values.timemovie || ""}
+                                                    value={values.runtime || ""}
                                                     fullWidth
                                                     size="medium"
                                                     InputProps={{
@@ -511,7 +537,7 @@ const Editmovie = () => {
                                                     type="text"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
-                                                    value={values.plot || ""}
+                                                    value={values.overview || ""}
                                                     rows={10}
                                                     fullWidth
                                                     size="medium"
@@ -565,8 +591,10 @@ const Editmovie = () => {
                                                     options={actorsList.actors ?
                                                         actorsList.actors : []}
                                                     getOptionLabel={(option) =>
-                                                        option.firstName ? option.firstName : ""
+                                                        option.firstName ? `${option.firstName} ${option.familyName}` : ""
                                                     }
+                                                    isOptionEqualToValue={(option, value) => option.id === value.actor_id}
+                                                    value={casts}
                                                     limitTags={5}
                                                     filterSelectedOptions
                                                     fullWidth

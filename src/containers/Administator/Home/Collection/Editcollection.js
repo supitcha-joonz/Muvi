@@ -30,6 +30,7 @@ const Editcollection = (props) => {
     const [state, setState] = useState({});
     const collections = useSelector((state) => state.collections);
     const collectionById = collections.collection;
+    const collection = collectionById.collections ? collectionById.collections[0] : []
 
     console.log(collectionById);
 
@@ -144,7 +145,7 @@ const Editcollection = (props) => {
                 <Box style={styles.bgcontent}>
                     <Formik
                         enableReinitialize
-                        initialValues={collectionById ? collectionById : [] }
+                        initialValues={collection ? collection : [] }
                         // initialValues={{
                         //     name: "",
                         // }}
