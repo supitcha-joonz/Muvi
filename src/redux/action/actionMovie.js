@@ -19,6 +19,10 @@ const movieAdded = () => ({
     type: types.ADD_MOVIE,
 });
 
+const movieGenreAdded = () => ({
+    type: types.ADD_GENREMOVIE,
+});
+
 const movieUpdated = () => ({
     type: types.UPDATE_MOVIE,
 });
@@ -27,9 +31,6 @@ const getmovie = (movie) => ({
     type: types.GET_SINGLE_MOVIE,
     payload: movie,
 });
-
-
-
 
 
 export const loadmovies = (page = 1, size = 5) => {
@@ -66,14 +67,22 @@ export const addMovies = (movie) => {
     };
 };
 
+export const addGenreMovies = (movie) => {
+    return function (dispatch) {
+        console.log(`${process.env.REACT_APP_API}/add/movieGenre`);
+        axios.post(`${process.env.REACT_APP_API}/add/movieGenre`, movie).then((resp) => {
+            console.log("resp", resp);
+            dispatch(movieGenreAdded());
+            dispatch(loadmovies());
+        })
+            .catch((error) => console.log(error));
+    };
+};
+
 export const getSingleMovies = (id, isGoogleSearch=true) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/movie/getById/${id}`);
-<<<<<<< HEAD
-        axios.get(`${process.env.REACT_APP_API}/movie/getById/${id}?isGoogleSearch=false`).then((resp) => {
-=======
         axios.get(`${process.env.REACT_APP_API}/movie/getById/${id}?isGoogleSearch=${isGoogleSearch}`).then((resp) => {
->>>>>>> origin/master
             console.log("resp", resp);
             dispatch(getmovie(resp.data));
         })

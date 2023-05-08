@@ -166,6 +166,7 @@ const Createmovie = () => {
         })
     }
 
+   
 
     const actionSuccess = () => {
         Swal.fire({
@@ -216,7 +217,7 @@ const Createmovie = () => {
                                 "image": values.image ? values.image : null,
                                 "actor_id": values.actor.id ? values.actor.id : 0,
                                 "movie_id": 0,
-                                "genre_id": values.categories.id ? values.categories.id : 0,
+                                "genre_id": values.categories.genre_id ? values.categories.genre_id : 0,
                             }
                             actionSave(data);
                         }}
@@ -523,7 +524,7 @@ const Createmovie = () => {
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     value={values.plot || ""}
-                                                    rows={10}
+                                                    rows={7}
                                                     fullWidth
                                                     size="medium"
                                                     InputProps={{

@@ -37,7 +37,6 @@ const Editactor = () => {
     const { id } = useParams();
     const [state, setState] = useState({});
     const actorsById = actors.actor;
-<<<<<<< HEAD
     const { pathname } = useLocation();
 
 
@@ -45,9 +44,7 @@ const Editactor = () => {
         window.scrollTo(0, 0);
       }, [pathname]);
 
-=======
     const actor = actorsById.actor ? actorsById.actor[0] : []
->>>>>>> origin/master
 
 
     useEffect(() => {

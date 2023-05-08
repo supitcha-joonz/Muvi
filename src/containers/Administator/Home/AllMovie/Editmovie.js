@@ -117,7 +117,10 @@ const Editmovie = () => {
             WebkitLineClamp: '2',
             WebkitBoxOrient: 'vertical',
         },
-        completedIcon: {}
+        completedIcon: {},
+        chipTag: {
+            backgroundColor: 'red'
+          },
     }
 
 
@@ -551,7 +554,7 @@ const Editmovie = () => {
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     value={values.overview || ""}
-                                                    rows={10}
+                                                    rows={7}
                                                     fullWidth
                                                     size="medium"
                                                     InputProps={{
@@ -604,7 +607,7 @@ const Editmovie = () => {
                                                     options={actorsList.actors ?
                                                         actorsList.actors : []}
                                                     getOptionLabel={(option) =>
-                                                        option.firstName ? `${option.firstName} ${option.familyName}` : ""
+                                                        option.firstName ? `${option.firstName}` : "-"
                                                     }
                                                     isOptionEqualToValue={(option, value) => option.id === value.actor_id}
                                                     value={casts}

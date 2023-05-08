@@ -332,7 +332,7 @@ const Moviepage = () => {
                                 {/* แก้ตรงกด TablePagination */}
                                 <TablePagination
                                     sx={{ position: "sticky", top: 0, bgcolor: "whitesmoke", borderRadius: 5, mt: 3, color: "black", fontWeight: 600, mb: 15 }}
-                                    rowsPerPageOptions={[5, 15, 30]}
+                                    rowsPerPageOptions={[5, 20, 100]}
                                     component="div"
                                     count={moviesList.count ? moviesList.count : 0}
                                     rowsPerPage={rowsPerPage}

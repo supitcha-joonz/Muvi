@@ -1,11 +1,10 @@
 export const GET_MOVIES = "GET_MOVIES";
 export const DELETE_MOVIE = "DELETE_MOVIE";
 export const ADD_MOVIE = "ADD_MOVIE";
+export const ADD_GENREMOVIE = "ADD_GENREMOVIE";
 export const UPDATE_MOVIE = "UPDATE_MOVIE";
 export const GET_SINGLE_MOVIE = "GET_SINGLE_MOVIE";
 export const GET_MOVIE_COUNT = "GET_MOVIE_COUNT";
-
-
 
 export const GET_ACTORS = "GET_ACTORS";
 export const GET_CASTS = "GET_CASTS";
@@ -22,7 +21,7 @@ export const UPDATE_CATEGORY = "UPDATE_CATEGORY";
 export const GET_SINGLE_CATEGORY = "GET_SINGLE_CATEGORY";
 export const GET_MOVIE_CATEGORIES = "GET_MOVIE_CATEGORIES";
 
-export const GET_CASTS = "GET_CASTS";
+
 export const GET_SINGLE_CAST = "GET_SINGLE_CAST";
 
 export const GET_COLLECTIONS = "GET_COLLECTIONS";

@@ -47,7 +47,6 @@ export const loadcategories = () => {
     };
 };
 
-<<<<<<< HEAD
 export const getGenreSingleMovies = (id) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/genre/${id}`);
@@ -69,7 +68,6 @@ export const getCastSingleMovies = (id) => {
         .catch((error) => console.log(error));
     };
 };
-=======
 export const loadMovieGenres = (id) => {
     return function (dispatch) {
         axios.get(`${process.env.REACT_APP_API}/genre/${id}`).then((resp) => {
@@ -79,7 +77,6 @@ export const loadMovieGenres = (id) => {
         .catch((error) => console.log(error))
     }
 }
->>>>>>> origin/master
 
 // export const getBycategorys = (id) => {
 //     return function (dispatch) {

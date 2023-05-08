@@ -62,7 +62,7 @@ const Description = () => {
     console.log(collectionsById);
 
     useEffect(() => {
-        dispatch(movieActions.getSingleMovies(id));
+        dispatch(movieActions.getSingleMovies(id, false));
         dispatch(castActions.getCastSingleMovies(id));
         dispatch(categoryActions.getGenreSingleMovies(id));
         // dispatch(collectionActions.getSingleCollections(id));
