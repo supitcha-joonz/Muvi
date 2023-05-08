@@ -43,8 +43,9 @@ const Editmovie = () => {
     const actorsList = actors.actors;
     const casts = actors.casts ? actors.casts.casts : []
     const [movieCollection, setMovieCollection] = useState({})
-    if (collections.collection.collections && Object.keys(movieCollection).length === 0) {
+    if (collections.collection.collections && movieCollection !== null && Object.keys(movieCollection).length === 0) {
         setMovieCollection(collections.collection.collections[0])
+        Object.assign(movie, {movieCollection: movieCollection})
     } 
     const [movieCategories, setMovieCategories] = useState({})
     if (categories.movieCategories.genres && Object.keys(movieCategories).length === 0) {
@@ -60,13 +61,13 @@ const Editmovie = () => {
         dispatch(actorActions.loadactors(1, 100));
     }, []);
 
-    console.log(actorsList);
+    console.log(movie.movieCollection);
     console.log(casts);
 
     console.log(collectionsList.collections);
     console.log(movieCollection)
 
-    if (movie && Object.keys(movieCollection).length === 0 && movie.belongs_to_collection) {
+    if (movie && movieCollection !== null && Object.keys(movieCollection).length === 0 && movie.belongs_to_collection) {
         dispatch(collectionActions.getSingleCollections(movie.belongs_to_collection))
        
     }
@@ -221,12 +222,13 @@ const Editmovie = () => {
                             var data = {
                                 "id": values.id,
                                 "title": values.title,
-                                "runtime": values.timemovie,
+                                "runtime": values.runtime,
                                 "release_date": values.release_date,
-                                "collection": values.collection.collection_id ? values.collection.collection_id : 0,
-                                "overview": values.plot,
+                                "collection": values.movieCollection ? values.movieCollection.collection_id : 0,
+                                "overview": values.overview,
                                 "image": values.image,
                             }
+                            console.log(data)
                             actionSave(data);
                         }}
                     >
@@ -395,7 +397,10 @@ const Editmovie = () => {
                                                     value={movieCollection}
                                                     onInputChange={(e, values) => dispatch(collectionActions.loadCollectionsByKeyword(values))}
                                                     onChange={(e, values) => {
-                                                        setMovieCollection(values)}}
+                                                        setMovieCollection(values)
+                                                        console.log(values)
+                                                        console.log(movieCollection)
+                                                        Object.assign(movie, {movieCollection: values})}}
                                                     fullWidth
                                                     sx={{
                                                         "& .MuiOutlinedInput-notchedOutline": { border: "none" },
@@ -464,7 +469,7 @@ const Editmovie = () => {
 
                                                 }} >
                                                 <TextField
-                                                    id="timemovie"
+                                                    id="runtime"
                                                     type="text"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
@@ -532,7 +537,7 @@ const Editmovie = () => {
 
                                                 }} >
                                                 <TextField
-                                                    id='plot'
+                                                    id='overview'
                                                     multiline
                                                     type="text"
                                                     onChange={handleChange}
