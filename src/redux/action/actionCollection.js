@@ -40,6 +40,16 @@ export const loadcollections = (page=1, size=5) => {
     };
 };
 
+export const loadCollectionsByKeyword = (keyword="") => {
+    return function (dispatch) {
+        axios.get(`${process.env.REACT_APP_API}/collection/getByKeyword/${keyword}`).then((resp) => {
+            console.log("resp", resp);
+            dispatch(getcollections(resp.data));
+        })
+        .catch((error) => console.log(error))
+    }
+}
+
 export const addCollections = (collection) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/add/collection`);

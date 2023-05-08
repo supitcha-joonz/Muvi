@@ -3,6 +3,7 @@ import * as types from "../actionType";
 
 const initialState = {
     actors: [],
+    casts: [],
     actor: {},
     data: null,
     loading: true,
@@ -16,6 +17,12 @@ const actorsReducers = (state = initialState, action) => {
                 actors: action.payload,
                 loading: false,
             };
+        case types.GET_CASTS:
+            return {
+                ...state,
+                casts: action.payload,
+                loading: false
+            }
         case types.DELETE_ACTOR:
         case types.ADD_ACTOR:
         case types.UPDATE_ACTOR:

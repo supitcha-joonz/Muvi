@@ -37,6 +37,7 @@ const Editactor = () => {
     const { id } = useParams();
     const [state, setState] = useState({});
     const actorsById = actors.actor;
+<<<<<<< HEAD
     const { pathname } = useLocation();
 
 
@@ -44,10 +45,13 @@ const Editactor = () => {
         window.scrollTo(0, 0);
       }, [pathname]);
 
+=======
+    const actor = actorsById.actor ? actorsById.actor[0] : []
+>>>>>>> origin/master
 
 
     useEffect(() => {
-        dispatch(actorActions.getSingleActors(id));
+        dispatch(actorActions.getSingleActors(id, false));
         dispatch(actorActions.loadactors);
     }, []);
 
@@ -65,7 +69,7 @@ const Editactor = () => {
   
 
 
-    console.log(actorsById);
+    console.log(actor);
 
 
     const styles = {
@@ -168,7 +172,7 @@ const Editactor = () => {
                 <Box style={styles.bgcontent}>
                     <Formik
                         enableReinitialize
-                        initialValues={actorsById ? actorsById : []}
+                        initialValues={actor ? actor : []}
                         //ข้อมูลไม่ดึงมาโชว์
                         // initialValues={{
                         //     fname: '',
@@ -321,7 +325,7 @@ const Editactor = () => {
                                                     name="fname"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
-                                                    value={values.fname || ""}
+                                                    value={values.firstName || ""}
                                                     fullWidth
                                                     size="medium"
                                                     InputProps={{
@@ -356,7 +360,7 @@ const Editactor = () => {
                                                     name="mname"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
-                                                    value={values.mname || ""}
+                                                    value={values.middleName || ""}
                                                     fullWidth
                                                     size="medium"
                                                     InputProps={{
@@ -391,7 +395,7 @@ const Editactor = () => {
                                                     name="faname"
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
-                                                    value={values.faname || ""}
+                                                    value={values.familyName || ""}
                                                     fullWidth
                                                     size="medium"
                                                     InputProps={{

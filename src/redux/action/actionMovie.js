@@ -66,10 +66,14 @@ export const addMovies = (movie) => {
     };
 };
 
-export const getSingleMovies = (id) => {
+export const getSingleMovies = (id, isGoogleSearch=true) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/movie/getById/${id}`);
+<<<<<<< HEAD
         axios.get(`${process.env.REACT_APP_API}/movie/getById/${id}?isGoogleSearch=false`).then((resp) => {
+=======
+        axios.get(`${process.env.REACT_APP_API}/movie/getById/${id}?isGoogleSearch=${isGoogleSearch}`).then((resp) => {
+>>>>>>> origin/master
             console.log("resp", resp);
             dispatch(getmovie(resp.data));
         })
