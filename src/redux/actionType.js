@@ -42,3 +42,6 @@ export const GET_BY_MOVIE = "GET_BY_MOVIE";
 export const GET_BY_ACTOR  = "GET_BY_ACTOR";
 export const GET_BY_CATEGORY = "GET_BY_CATEGORY";
 export const GET_BY_COLLECTION  = "GET_BY_COLLECTION";
+
+// Login
+export const LOGIN = "LOGIN";

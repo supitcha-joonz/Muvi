@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import image from '../../../img/moviebackground.jpg';
 import { maxHeight } from '@mui/system';
@@ -16,9 +16,15 @@ import { autocompleteClasses } from '@mui/material';
 import Button from '@mui/material/Button';
 import { blue } from '@mui/material/colors';
 import { Formik, Field, Form } from 'formik';
+import * as loginActions from "../../../redux/action/actionLogin";
+import { useDispatch } from 'react-redux';
+import * as Yup from "yup";
 
 const Login = () => {
 
+    let dispatch = useDispatch();
+    const [user, setUser] = useState('')
+    const [password, setPassword] = useState('')
 
     const styles = {
         header: {
@@ -68,16 +74,34 @@ const Login = () => {
                     <Box >
                         <Formik
                             initialValues={{
-
-                                username: '',
-                                password: '',
+                                user: user,
+                                password: password,
                             }}
-                            onSubmit={async (values) => {
-                                await new Promise((r) => setTimeout(r, 500));
-                                alert(JSON.stringify(values, null, 2));
+                            validationSchema={Yup.object().shape({
+                                user: Yup.string().required("Required").nullable(),
+                                password: Yup.string().required("Required").nullable()
+                            })}
+                            onSubmit={(values) => {
+                                console.log(values)
+                                dispatch(loginActions.login(values)).then((resp) => {
+                                    if (resp.data) {
+                                        console.log(resp.data)
+                                    }
+                                })
+                                
                             }}
                         >
-                            <Form>
+                            {({
+                                values,
+                                errors,
+                                touched,
+                                handleChange,
+                                handleBlur,
+                                handleSubmit,
+                                setFieldValue,
+                                resetForm,
+                            }) => (
+                                <Form onSubmit={handleSubmit}>
                                 <Grid
                                     container
                                     direction="row"
@@ -116,10 +140,15 @@ const Login = () => {
 
                                                         }} >
                                                         <TextField
-                                                            id="username"
-                                                            name="username"
-                                                            type="username"
+                                                            id="user"
+                                                            name="user"
+                                                            type="text"
                                                             fullWidth
+                                                            value={values.user || ""}
+                                                            onChange={handleChange}
+                                                            error={
+                                                                touched.user && Boolean(errors.user)
+                                                            }
                                                             size="medium"
                                                             InputProps={{
                                                                 disableUnderline: true,
@@ -161,7 +190,12 @@ const Login = () => {
                                                             id="password"
                                                             name="password"
                                                             type="password"
+                                                            value={values.password || ""}
                                                             fullWidth
+                                                            onChange={handleChange}
+                                                            error={
+                                                                touched.password && Boolean(errors.password)
+                                                            }
                                                             size="medium"
                                                             InputProps={{
                                                                 disableUnderline: true,
@@ -172,6 +206,7 @@ const Login = () => {
                                                             }}
 
                                                         />
+                                                        <Typography variant="subtitle1" color="red" sx={{ fontWeight: 'bold' }}>{errors.title && touched.title && errors.title}</Typography>
                                                     </Paper>
                                                 </Grid>
                                             </Grid>
@@ -194,6 +229,7 @@ const Login = () => {
 
                                 </Grid>
                             </Form>
+                            )}
                         </Formik>
                     </Box>
 
