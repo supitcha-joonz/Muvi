@@ -24,6 +24,7 @@ import { Link, useParams } from 'react-router-dom';
 import * as categoryActions from "../../../../redux/action/actionCategory";
 import * as collectionActions from "../../../../redux/action/actionCollection";
 import * as actorActions from "../../../../redux/action/actionActor";
+import { useLocation } from 'react-router-dom';
 
 const Editmovie = () => {
 
@@ -55,6 +56,13 @@ const Editmovie = () => {
     useEffect(() => {
         dispatch(movieActions.getSingleMovies(id));
     }, []);
+
+    const { pathname } = useLocation();
+
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, [pathname]);
 
     const styles = {
         header: {

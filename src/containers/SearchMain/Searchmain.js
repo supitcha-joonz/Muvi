@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import image from '../../img/moviebackground.jpg';
 import logo from '../../img/logo.png';
@@ -14,10 +14,19 @@ import Looks3RoundedIcon from '@mui/icons-material/Looks3Rounded';
 import Divider from '@mui/material/Divider';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import * as movieActions from "../../redux/action/actionMovie";
+import * as categoryActions from "../../redux/action/actionCategory";
+import * as collectionActions from "../../redux/action/actionCollection";
+import * as castActions from "../../redux/action/actionCast";
+import { InputBase } from '@mui/material';
 
 const Searchmain = () => {
 
     let navigate = useNavigate();
+    let dispatch = useDispatch();
+    const [text, setText] = useState("");
+
 
 
     const styles = {
@@ -60,6 +69,9 @@ const Searchmain = () => {
         },
         completedIcon: {}
     }
+
+
+
 
 
 
@@ -159,6 +171,15 @@ const Searchmain = () => {
                                 justifyContent="center"
                                 alignItems="center">
                                 <Paper elevation={1}
+                                    onSubmit={() => {
+                                        if (text) {
+                                            navigate('/searchresult', {
+                                                state: {
+                                                    text: text,
+                                                }
+                                            });
+                                        }
+                                    }}
                                     sx={{
                                         backgroundColor: "#242424",
                                         borderRadius: 25,
@@ -168,22 +189,22 @@ const Searchmain = () => {
                                         height: 35,
 
                                     }} >
-                                    <IconButton disabled aria-label="search" size="large" sx={{ m: 1 }}>
+                                    <IconButton type='submit' aria-label="search" size="large" sx={{ m: 1 }}>
                                         <SearchIcon sx={{ color: "white" }} />
                                     </IconButton>
-                                    <TextField
-                                        fullWidth
-                                        placeholder='Search'
-                                        size="medium"
-                                        InputProps={{
-                                            disableUnderline: true,
+                                    <InputBase
+                                        autoFocus
+                                        onChange={(e) => {
+                                            setText(e.target.value)
                                         }}
+                                        fullWidth
+                                        placeholder="Search"
+                                        inputProps={{ "aria-label": "search google maps" }}
                                         sx={{
                                             "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                            input: { color: "white", fontWeight: 600, ml: -2, mr: 2 },
+                                            input: { color: "#616161", fontWeight: 600, ml: -2, mr: 2 },
                                         }}
-
-                                    />
+                                        size="medium" />
                                 </Paper>
                             </Grid>
                         </Grid>

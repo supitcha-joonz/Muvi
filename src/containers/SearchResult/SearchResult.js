@@ -19,6 +19,8 @@ import * as categoriesActions from "../../redux/action/actionCategory";
 import * as collectionActions from "../../redux/action/actionCollection";
 import { Link, useNavigate } from 'react-router-dom';
 import LinearProgress from '@mui/material/LinearProgress';
+import { useParams } from 'react-router-dom';
+import { InputBase } from '@mui/material';
 
 const SearchResult = () => {
 
@@ -28,33 +30,50 @@ const SearchResult = () => {
 
     const categories = useSelector((state) => state.categories);
     const categoriesList = categories.categories;
+    const categoriesById = categories.category;
 
     const collections = useSelector((state) => state.collections);
     const collectionsList = collections.collections;
 
     let navigate = useNavigate();
+    const { id } = useParams();
     let dispatch = useDispatch();
 
     useEffect(() => {
+
         dispatch(collectionActions.loadcollections());
         dispatch(movieActions.loadmovies());
         dispatch(categoriesActions.loadcategories());
+        dispatch(categoriesActions.getGenreSingleMovies(id));
+
     }, []);
+
+    const searchHandle = (e) => {
+        let key = e.target.value;
+        if (key) {
+            let result = fetch(`${process.env.REACT_APP_API}/${key}`);
+            result = result.json()
+            if (result) {
+                dispatch(movieActions.loadmovies);
+            }
+        }
+    }
 
     console.log(moviesList);
     console.log(categoriesList);
+    console.log(categoriesById);
 
-   
 
-      useEffect(() => {
+
+    useEffect(() => {
         if (moviesList) {
-          if (moviesList) {
-            setTimeout(() => {
-              setLoading(false);
-            }, 1500);
-          }
+            if (moviesList) {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1500);
+            }
         }
-      }, [moviesList]);
+    }, [moviesList]);
 
 
 
@@ -62,11 +81,12 @@ const SearchResult = () => {
     const styles = {
         header: {
             backgroundImage: `url(${image})`,
-            // height: '100%',
-            // display: "flex",
+            height: '100%',
+            display: "flex",
             backgroundPosition: 'center',
             backgroundRepeat: 'repeat-y',
             backgroundSize: '250vh'
+
         },
 
         content: {
@@ -99,9 +119,9 @@ const SearchResult = () => {
         },
         loadingBar: {
             backgroundColor: 'black',
-            color: "white",
+            color: "#424242",
             '& .MuiLinearProgress-bar': {
-              backgroundColor: 'white'
+                backgroundColor: 'white'
             }
         },
         completedIcon: {}
@@ -157,10 +177,20 @@ const SearchResult = () => {
                                         height: 35,
 
                                     }} >
-                                    <IconButton disabled aria-label="search" size="large" sx={{ m: 0.5 }}>
+                                    <IconButton onClick={searchHandle} aria-label="search" size="large" sx={{ m: 0.5 }}>
                                         <SearchIcon sx={{ color: "#616161" }} />
                                     </IconButton>
-                                    <TextField
+                                    <InputBase
+                                        autoFocus
+                                        fullWidth
+                                        placeholder="Search"
+                                        inputProps={{ "aria-label": "search google maps" }}
+                                        sx={{
+                                            "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                            input: { color: "#616161", fontWeight: 600, ml: -2, mr: 2 },
+                                        }}
+                                        size="medium" />
+                                    {/* <TextField
                                         fullWidth
                                         placeholder='Search'
                                         size="medium"
@@ -172,23 +202,23 @@ const SearchResult = () => {
                                             input: { color: "#616161", fontWeight: 600, ml: -2, mr: 2 },
                                         }}
 
-                                    />
+                                    /> */}
                                 </Paper>
                             </Grid>
                         </Grid>
 
                         {loading ? (
-                            <Box sx={{width: '80%', mt: 5 , backgroundColor: "black", color: "black"}}>
-                                <LinearProgress style={styles.loadingBar} color="inherit"/>
+                            <Box sx={{ height: "100vh", width: '80%', mt: 5, backgroundColor: "tranparent", color: "black" }}>
+                                <LinearProgress style={styles.loadingBar} color="inherit" />
                             </Box>
                         ) : (
                             <Grid container
                                 direction="column"
                                 justifyContent="center"
                                 alignItems="center"
-                                 >
+                            >
                                 {moviesList.movies && moviesList.movies.map((item) => (
-                                    
+
                                     <Grid
                                         container
                                         direction="column"
@@ -207,15 +237,20 @@ const SearchResult = () => {
                                             spacing={2}>
                                             <Grid item xs={6} >
                                                 <Box sx={{ mt: -8 }}>
-                                                    <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+                                                    <img style={styles.image} src={item.image} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
                                                 </Box>
                                             </Grid>
                                             <Grid item xs={6} >
                                                 <Typography variant="h6" gutterBottom sx={{ color: "white", textAlign: "left", fontWeight: 600, mt: 2 }}>
-                                                    {item.original_title}
+                                                    {item.title}
                                                 </Typography>
                                                 <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-                                                    <Chip label="ACTION" variant="outlined" sx={{ color: "black", backgroundColor: "white", fontWeight: 600 }} />
+
+                                                    {categoriesById.genres && categoriesById.genres.map((cate) => (
+                                                        <Chip label={cate.name} variant="outlined" nowrap sx={{ color: "black", backgroundColor: "white", fontWeight: 600, limit: 1, }} />
+                                                    ))}
+
+
                                                     <Chip label={item.release_date} sx={{ color: "white" }} />
                                                 </Stack>
                                                 <Box sx={{ maxWidth: "90%" }}>

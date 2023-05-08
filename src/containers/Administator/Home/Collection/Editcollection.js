@@ -16,6 +16,7 @@ import * as collectionActions from "../../../../redux/action/actionCollection";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -47,6 +48,13 @@ const Editcollection = (props) => {
             setState({ ...state })
         }
     }, [collectionById]);
+
+    const { pathname } = useLocation();
+
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, [pathname]);
 
 
 

@@ -33,6 +33,7 @@ import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Swal from "sweetalert2";
 import LinearProgress from '@mui/material/LinearProgress';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -75,6 +76,13 @@ const Actorpage = () => {
         dispatch(actorActions.loadactors(page, rowsPerPage));
         dispatch(categoryActions.loadcategories());
     }, []);
+
+    const { pathname } = useLocation();
+
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, [pathname]);
 
     console.log(categoriesList);
     console.log(actorsList);

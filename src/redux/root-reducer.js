@@ -4,6 +4,7 @@ import actorsReducers from "./reducer/reducerActor";
 import collectionsReducers from "./reducer/reducerCollection";
 import dropdownsReducers from "./reducer/reducerDropdown";
 import categorysReducers from "./reducer/reducerCategory";
+import castsReducers from "./reducer/reducerCast";
 
 const rootReducer = combineReducers({
     // users: usersReducers,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
     collections: collectionsReducers,
     dropdowns: dropdownsReducers,
     categories: categorysReducers,
+    casts: castsReducers
 
 
 });

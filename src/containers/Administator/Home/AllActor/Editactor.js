@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from 'react-router-dom';
 import * as Yup from "yup";
 import Swal from "sweetalert2";
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -36,6 +37,13 @@ const Editactor = () => {
     const { id } = useParams();
     const [state, setState] = useState({});
     const actorsById = actors.actor;
+    const { pathname } = useLocation();
+
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+      }, [pathname]);
+
 
 
     useEffect(() => {
@@ -53,6 +61,8 @@ const Editactor = () => {
             setState({ ...state })
         }
     }, [actorsById]);
+
+  
 
 
     console.log(actorsById);

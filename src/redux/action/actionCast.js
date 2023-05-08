@@ -3,9 +3,9 @@ import axios from "axios";
 
 
 
-const getcategories = (categories) => ({
-    type: types.GET_CATEGORIES,
-    payload: categories,
+const getcastmovies = (casts) => ({
+    type: types.GET_CASTS,
+    payload: casts,
 });
 
 const categoryDeleted = () => ({
@@ -25,33 +25,12 @@ const getcategory = (category) => ({
     payload: category,
 });
 
-const getcastmovie = (movie) => ({
-    type: types.GET_SINGLE_MOVIE,
-    payload: movie,
+const getcastmovie = (cast) => ({
+    type: types.GET_SINGLE_CAST,
+    payload: cast,
 });
 
-export const loadcategories = () => {
-    return function (dispatch) {
-        // console.log(`${process.env.REACT_APP_API}/genre/all`);
-        axios.get(`${process.env.REACT_APP_API}/genre/all`).then((resp) => {
-            console.log("resp", resp);
-            dispatch(getcategories(resp.data));
-            // dispatch(getDropdowncategory(resp.data));
-        })
-        .catch((error) => console.log(error));
-    };
-};
 
-export const getGenreSingleMovies = (id) => {
-    return function (dispatch) {
-        console.log(`${process.env.REACT_APP_API}/genre/${id}`);
-        axios.get(`${process.env.REACT_APP_API}/genre/${id}`).then((resp) => {
-            console.log("resp", resp);
-            dispatch(getcategory(resp.data));
-        })
-        .catch((error) => console.log(error));
-    };
-};
 
 export const getCastSingleMovies = (id) => {
     return function (dispatch) {

@@ -30,7 +30,9 @@ const getmovie = (movie) => ({
 
 
 
-export const loadmovies = (page=1, size=5) => {
+
+
+export const loadmovies = (page = 1, size = 5) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/movie/all`);
         axios.get(`${process.env.REACT_APP_API}/movie/all?page=${page}&size=${size}`).then((resp) => {
@@ -38,7 +40,7 @@ export const loadmovies = (page=1, size=5) => {
             dispatch(getmovies(resp.data));
             // dispatch(getDropdowncategory(resp.data));
         })
-        .catch((error) => console.log(error));
+            .catch((error) => console.log(error));
     };
 };
 
@@ -60,20 +62,36 @@ export const addMovies = (movie) => {
             dispatch(movieAdded());
             dispatch(loadmovies());
         })
-        .catch((error) => console.log(error));
+            .catch((error) => console.log(error));
     };
 };
 
 export const getSingleMovies = (id) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/movie/getById/${id}`);
-        axios.get(`${process.env.REACT_APP_API}/movie/getById/${id}`).then((resp) => {
+        axios.get(`${process.env.REACT_APP_API}/movie/getById/${id}?isGoogleSearch=false`).then((resp) => {
             console.log("resp", resp);
             dispatch(getmovie(resp.data));
         })
         .catch((error) => console.log(error));
     };
 };
+
+export const searchMovie = (key) => {
+    return function (dispatch) {
+        console.log(`${process.env.REACT_APP_API}/${key}`);
+        axios.get(`${process.env.REACT_APP_API}/${key}`).then((resp) => {
+            console.log("resp", resp);
+            dispatch(getmovies(resp.data));
+        })
+        .catch((error) => console.log(error));
+    };
+};
+
+
+
+
+
 
 export const updateMovies = (movie, id) => {
     return function (dispatch) {
@@ -82,7 +100,7 @@ export const updateMovies = (movie, id) => {
             console.log("resp", resp);
             dispatch(movieUpdated());
         })
-        .catch((error) => console.log(error));
+            .catch((error) => console.log(error));
     };
 };
 
@@ -93,7 +111,7 @@ export const deleteMovies = (id) => {
             console.log("resp", resp);
             dispatch(movieDeleted());
         })
-        .catch((error) => console.log(error));
+            .catch((error) => console.log(error));
     };
 };
 
