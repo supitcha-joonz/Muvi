@@ -11,6 +11,11 @@ const getactors = (actors) => ({
     payload: actors,
 });
 
+const getCasts = (casts) => ({
+    type: types.GET_CASTS,
+    payload: casts
+})
+
 const actorDeleted = () => ({
     type: types.DELETE_ACTOR,
 });
@@ -40,6 +45,26 @@ export const loadactors = (page=1, size=5) => {
     };
 };
 
+export const loadActorsByKeyword = (keyword) => {
+    return function (dispatch) {
+        axios.get(`${process.env.REACT_APP_API}/actor/getByKeyword/${keyword}`).then((resp) => {
+            console.log("resp", resp)
+            dispatch(getactors(resp.data))
+        })
+        .catch((error) => console.log(error))
+    }
+}
+
+export const loadCasts = (id, isGoogleSearch=false) => {
+    return function (dispatch) {
+        axios.get(`${process.env.REACT_APP_API}/cast/getById/${id}?isGoogleSearch=${isGoogleSearch}`).then((resp) => {
+            console.log("resp", resp);
+            dispatch(getCasts(resp.data));
+        })
+        .catch((error) => console.log(error))
+    }
+}
+
 export const addActors = (actor) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/add/actor`);
@@ -52,10 +77,10 @@ export const addActors = (actor) => {
     };
 };
 
-export const getSingleActors = (id) => {
+export const getSingleActors = (id, isGoogleSearch=true) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/actor/getById/${id}`);
-        axios.get(`${process.env.REACT_APP_API}/actor/getById/${id}`).then((resp) => {
+        axios.get(`${process.env.REACT_APP_API}/actor/getById/${id}?isGoogleSearch=${isGoogleSearch}`).then((resp) => {
             console.log("resp", resp);
             dispatch(getactor(resp.data));
         })

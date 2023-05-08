@@ -11,6 +11,11 @@ const getcategories = (categories) => ({
     payload: categories,
 });
 
+const getMovieCategories = (categories) => ({
+    type: types.GET_MOVIE_CATEGORIES,
+    payload: categories
+})
+
 const categoryDeleted = () => ({
     type: types.DELETE_CATEGORY,
 });
@@ -39,6 +44,16 @@ export const loadcategories = () => {
         .catch((error) => console.log(error));
     };
 };
+
+export const loadMovieGenres = (id) => {
+    return function (dispatch) {
+        axios.get(`${process.env.REACT_APP_API}/genre/${id}`).then((resp) => {
+            console.log("resp", resp);
+            dispatch(getMovieCategories(resp.data))
+        })
+        .catch((error) => console.log(error))
+    }
+}
 
 // export const getBycategorys = (id) => {
 //     return function (dispatch) {

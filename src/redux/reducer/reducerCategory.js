@@ -3,6 +3,7 @@ import * as types from "../actionType";
 
 const initialState = {
     categories: [],
+    movieCategories: [],
     category: {},
     loading: true,
 };
@@ -28,6 +29,12 @@ const categorysReducers = (state = initialState, action) => {
                 category: action.payload,
                 loading: false,
             };
+        case types.GET_MOVIE_CATEGORIES:
+            return {
+                ...state,
+                movieCategories: action.payload,
+                loading: false
+            }
         default:
             return state;
     }
