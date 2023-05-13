@@ -29,6 +29,8 @@ import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { useLocation } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import { BounceyLoader, SpinLoader, BoxLoader } from 'react-loaders-spinners';
+import Tooltip from '@mui/material/Tooltip';
+
 
 const SearchResult = (props) => {
 
@@ -154,6 +156,13 @@ const SearchResult = (props) => {
 
 
         },
+        bggrid: {
+            height: '100%',
+            width: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.4)',
+
+
+        },
         multiLineEllipsis: {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
@@ -182,7 +191,7 @@ const SearchResult = (props) => {
             width: "100%",
             height: "100vh",
             position: "fixed",
-            backgroundColor: 'rgba(0, 0, 0, 0.834)',
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
             zindex: 1,
             position: 'absolute',
             left: '50%',
@@ -219,8 +228,8 @@ const SearchResult = (props) => {
                         //     height: "100vh", width: '80%', mt: 5, backgroundColor: "tranparent", color: "black",
                         // }}
                         >
-                            <BounceyLoader style={styles.loadingBar}  color="inherit" />
-                             {/* <CircularProgress style={styles.loadingBar}  color="inherit" /> */}
+                            <CircularProgress style={styles.loadingBar} sx={{ color: "black" }} />
+                            {/* <CircularProgress style={styles.loadingBar}  color="inherit" /> */}
                             {/* <LinearProgress style={styles.loadingBar} color="inherit" /> */}
 
 
@@ -232,6 +241,7 @@ const SearchResult = (props) => {
                             direction="column"
                             justifyContent="flex-start"
                             alignItems="center"
+                            style={styles.bggrid}
                         >
 
 
@@ -276,7 +286,7 @@ const SearchResult = (props) => {
                                 direction="column"
                                 justifyContent="center"
                                 alignItems="center"
-                                sx={{height: "100%"}}
+                                sx={{ height: "100%", backgroundColor: "tranparent" }}
 
 
                             >
@@ -334,9 +344,11 @@ const SearchResult = (props) => {
 
 
                                                     <Grid item xs={6} >
-                                                        <Typography variant="h5" noWrap gutterBottom sx={{ color: "white", textAlign: "left", fontWeight: 600, mt: 4 }}>
-                                                            {item.title}
-                                                        </Typography>
+                                                        <Tooltip title={item.title}>
+                                                            <Typography variant="h5" noWrap gutterBottom sx={{ color: "white", textAlign: "left", fontWeight: 600, mt: 4 }}>
+                                                                {item.title}
+                                                            </Typography>
+                                                        </Tooltip>
                                                         <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
 
                                                             {/* {categoriesById.genres && categoriesById.genres.map((cate) => (
@@ -355,16 +367,18 @@ const SearchResult = (props) => {
                                                         <Box
                                                             display="flex"
                                                             justifyContent="flex-end" sx={{ mr: 2 }}>
-                                                            <IconButton onClick={() => navigate(`/description/${item.movie_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
-                                                                <ArrowRightIcon
-                                                                    //   to={{ pathname: `/description/${item.id}` }}
-                                                                    sx={{
-                                                                        justifyContent: "flex-end", fontSize: 40, color: "white",
-                                                                        "&:hover": {
-                                                                            color: "#F2BD00"
-                                                                        },
-                                                                    }} />
-                                                            </IconButton>
+                                                            <Tooltip title="Next Page">
+                                                                <IconButton onClick={() => navigate(`/description/${item.movie_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
+                                                                    <ArrowRightIcon
+                                                                        //   to={{ pathname: `/description/${item.id}` }}
+                                                                        sx={{
+                                                                            justifyContent: "flex-end", fontSize: 40, color: "white",
+                                                                            "&:hover": {
+                                                                                color: "#F2BD00"
+                                                                            },
+                                                                        }} />
+                                                                </IconButton>
+                                                            </Tooltip>
                                                         </Box>
                                                     </Grid>
                                                 </Grid>

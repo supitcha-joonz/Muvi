@@ -39,6 +39,7 @@ import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
 import { Image } from 'semantic-ui-react'
 import Container from '@mui/material/Container';
+import Tooltip from '@mui/material/Tooltip';
 
 const Description = () => {
 
@@ -137,7 +138,7 @@ const Description = () => {
             // backgroundSize: 'cover',
         },
         bgheader: {
-            height: '70vh',
+            height: '90vh',
             width: '100%',
             display: "flex",
             backgroundImage: "linear-gradient(to bottom,transparent,black 100%)",
@@ -165,6 +166,10 @@ const Description = () => {
             borderRadius: 100 / 10
 
         },
+        img: {
+            backgroundColor: "linear-gradient(to bottom,transparent,black 100%)",
+        },
+
         loadingBar: {
             backgroundColor: 'black',
             color: "white",
@@ -174,22 +179,20 @@ const Description = () => {
         },
         completedIcon: {},
         imageList: {
-            flexWrap: 'nowrap',
-            flex: "1",
-            // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-            transform: 'translateZ(0)',
-            /* Firefox */
-            '&::-webkit-scrollbar': { /* Chrome */
-                display: "none",
-            },
-
+            height: "170vh",
+            width: "100%",
+            backgroundImage: "linear-gradient(to bottom,transparent,black 100%)",
+            justifyContent: 'end',
+            alignItems: 'end',
+            position: 'absolute', //Here is the trick
+            bottom: -14,
         },
 
 
     }
 
     const placeholderImage =
-        'https://i.pinimg.com/564x/8b/51/86/8b5186653e901ff9136637f9b38925f2.jpg'
+        'https://i.pinimg.com/564x/cf/e3/70/cfe3702f27b3f3939410f8b1b41a01a4.jpg'
 
     const onImageError = (e) => {
         e.target.src = placeholderImage
@@ -250,14 +253,13 @@ const Description = () => {
                             </Box>
                         </Container> */}
 
-                        <Grid container xs={12} sx={{ mt: -2, backgroundColor: "white", width: "100%" }}>
+                        <Grid container xs={12} sx={{ mt: -2, width: "100%" }}>
 
                             <ImageList
-                                sx={{ height: "97vh", width: "100%", overflow: "hidden"  }}
+                                sx={{ overflow: "hidden", width: "100%", }}
                                 cols={1}
-                                rowHeight={270}
+                                style={styles.imageList}
                             >
-
 
                                 <ImageListItem key={item.id}>
                                     <img
@@ -286,7 +288,7 @@ const Description = () => {
                                 sx={{
                                     position: 'absolute',
                                     left: '50%',
-                                    top: '105%',
+                                    top: '104%',
                                     transform: 'translate(-50%, -40%)',
                                 }}
                             >
@@ -368,7 +370,10 @@ const Description = () => {
                                                         <Avatar key={img.id} alt={img.thumbnail} sx={{ width: 56, height: 56, mr: 2, mb: 2 }} src={img.thumbnail} />
                                                     ))} */}
                                                 {castById.casts && castById.casts.map((castActor) => (
-                                                    <Avatar alt={castActor.name} sx={{ width: 56, height: 56, mr: 2, mb: 2 }} src={castActor.gender_desc} />
+                                                    <Tooltip title={castActor.name}>
+                                                        <Avatar alt={castActor.name} sx={{ width: 56, height: 56, mr: 2, mb: 2 }} src={castActor.name} />
+                                                    </Tooltip>
+
                                                 ))}
                                             </Box>
 
