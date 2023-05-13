@@ -21,12 +21,20 @@ import { Link, useNavigate } from 'react-router-dom';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useParams } from 'react-router-dom';
 import { InputBase } from '@mui/material';
+import Skeleton from '@mui/material/Skeleton';
+import { Formik } from 'formik';
+import ReactPlaceholder from 'react-placeholder';
+import SpeedDial from '@mui/material/SpeedDial';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import { useLocation } from "react-router-dom";
 
-const SearchResult = () => {
+const SearchResult = (props) => {
 
     const [loading, setLoading] = useState(true);
     const movies = useSelector((state) => state.movies);
     const moviesList = movies.movies;
+    const moviesListSearch = movies.keyword;
+    const movieskeySearch = movies.keyword.keyword;
 
     const categories = useSelector((state) => state.categories);
     const categoriesList = categories.categories;
@@ -35,45 +43,83 @@ const SearchResult = () => {
     const collections = useSelector((state) => state.collections);
     const collectionsList = collections.collections;
 
+    const location = useLocation();
+    const [text, setText] = useState(location.state && location.state.text ? location.state.text : "");
+
     let navigate = useNavigate();
-    const { id } = useParams();
+    const { id, key } = useParams();
     let dispatch = useDispatch();
 
-    useEffect(() => {
 
+    useEffect(() => {
         dispatch(collectionActions.loadcollections());
         dispatch(movieActions.loadmovies());
         dispatch(categoriesActions.loadcategories());
         dispatch(categoriesActions.getGenreSingleMovies(id));
+        dispatch(movieActions.searchMovie(key));
 
     }, []);
-
-    const searchHandle = (e) => {
-        let key = e.target.value;
-        if (key) {
-            let result = fetch(`${process.env.REACT_APP_API}/${key}`);
-            result = result.json()
-            if (result) {
-                dispatch(movieActions.loadmovies);
-            }
-        }
-    }
-
-    console.log(moviesList);
-    console.log(categoriesList);
-    console.log(categoriesById);
 
 
 
     useEffect(() => {
-        if (moviesList) {
-            if (moviesList) {
+        window.scrollTo(0, 0)
+    }, [])
+
+
+
+    console.log(moviesList);
+    console.log(categoriesList);
+    console.log(categoriesById);
+    console.log(moviesListSearch);
+    console.log(movieskeySearch);
+
+
+    // useEffect(() => {
+    //     if (moviesList) {
+    //         if (moviesList) {
+    //             setTimeout(() => {
+    //                 setLoading(false);
+    //             }, 1500);
+    //         }
+    //     }
+    // }, [moviesList]);
+
+
+
+    useEffect(() => {
+        if (movieskeySearch) {
+            if (movieskeySearch) {
                 setTimeout(() => {
                     setLoading(false);
                 }, 1500);
             }
         }
-    }, [moviesList]);
+    }, [movieskeySearch]);
+
+
+
+    useEffect(() => {
+        if (moviesListSearch) {
+            if (moviesListSearch) {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1500);
+            }
+        }
+    }, [moviesListSearch]);
+
+
+
+    const externalImage =
+        'http://image.tmdb.org/t/p/original';
+
+    const placeholderImage =
+        'https://i.pinimg.com/564x/8b/51/86/8b5186653e901ff9136637f9b38925f2.jpg'
+
+    const onImageError = (e) => {
+        e.target.src = placeholderImage
+    }
 
 
 
@@ -110,7 +156,7 @@ const SearchResult = () => {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             display: '-webkit-box',
-            WebkitLineClamp: '4',
+            WebkitLineClamp: '3',
             WebkitBoxOrient: 'vertical',
         },
         image: {
@@ -141,6 +187,8 @@ const SearchResult = () => {
     }
 
 
+
+
     return (
 
         <Box style={styles.header}>
@@ -150,8 +198,9 @@ const SearchResult = () => {
                     <Grid
                         container
                         direction="column"
-                        justifyContent="center"
+                        justifyContent="flex-start"
                         alignItems="center"
+                    // sx={{ height: "100vh" }}
                     // sx={{
                     //     position: 'absolute',
                     //     left: '50%',
@@ -162,6 +211,73 @@ const SearchResult = () => {
 
 
                         <Grid container spacing={1}>
+                            {/* <Grid item xs={12} container
+                                    direction="column"
+                                    justifyContent="flex-start"
+                                    alignItems="center">
+                                    <Formik
+                                        enableReinitialize
+                                        initialValues={{
+                                            title: ""
+                                        }}
+                                        onSubmit={(values) => {
+                                            if (text) {
+                                                const { state } = location;
+                                                var data = {
+                                                    "title": text,
+                                                }
+                                            }
+                                        }}
+                                    >
+                                        {({
+                                            values,
+                                            handleSubmit,
+                                            setFieldValue
+                                        }) => (
+                                            <form onSubmit={handleSubmit}>
+                                                <Grid container justifyContent="center" spacing={1} sx={{ mt: 2 }}>
+                                                    <Grid item xs={12}>
+                                                        <Paper
+                                                            sx={{
+                                                                backgroundColor: "#000000",
+                                                                borderRadius: 25,
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                width: 700,
+                                                                height: 35,
+
+                                                            }}
+                                                            margin="dense"
+                                                        >
+
+                                                            <IconButton
+                                                                aria-label="search" size="large" disabled sx={{ m: 1 }}>
+                                                                <SearchIcon sx={{ color: "white" }} />
+                                                            </IconButton>
+
+                                                            <InputBase
+                                                                label="Disabled"
+                                                                defaultValue="Hello World"
+                                                                disabled
+                                                                autoFocus
+                                                                fullWidth
+                                                                onChange={(e) => {
+                                                                    setText(e.target.value)
+                                                                }}
+                                                                placeholder="Search"
+                                                                inputProps={{ "aria-label": "search google maps" }}
+                                                                sx={{
+                                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                                    input: { color: "white", fontWeight: 600, ml: -2, mr: 2 },
+                                                                }}
+                                                                size="medium" />
+                                                        </Paper>
+                                                    </Grid>
+                                                </Grid >
+                                            </form>
+                                        )}
+                                    </Formik>
+                                </Grid> */}
                             <Grid item xs={12} container
                                 direction="column"
                                 justifyContent="center"
@@ -177,109 +293,149 @@ const SearchResult = () => {
                                         height: 35,
 
                                     }} >
-                                    <IconButton onClick={searchHandle} aria-label="search" size="large" sx={{ m: 0.5 }}>
+                                    <IconButton disabled aria-label="search" size="large" sx={{ m: 0.5 }}>
                                         <SearchIcon sx={{ color: "#616161" }} />
                                     </IconButton>
-                                    <InputBase
+                                    <TextField
+                                        value={movieskeySearch}
                                         autoFocus
                                         fullWidth
-                                        placeholder="Search"
-                                        inputProps={{ "aria-label": "search google maps" }}
-                                        sx={{
-                                            "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                            input: { color: "#616161", fontWeight: 600, ml: -2, mr: 2 },
-                                        }}
-                                        size="medium" />
-                                    {/* <TextField
-                                        fullWidth
-                                        placeholder='Search'
-                                        size="medium"
                                         InputProps={{
-                                            disableUnderline: true,
+                                            readOnly: true,
                                         }}
                                         sx={{
                                             "& .MuiOutlinedInput-notchedOutline": { border: "none" },
                                             input: { color: "#616161", fontWeight: 600, ml: -2, mr: 2 },
-                                        }}
-
-                                    /> */}
+                                        }}/>
                                 </Paper>
                             </Grid>
                         </Grid>
 
-                        {loading ? (
+                        {loading ?
                             <Box sx={{ height: "100vh", width: '80%', mt: 5, backgroundColor: "tranparent", color: "black" }}>
                                 <LinearProgress style={styles.loadingBar} color="inherit" />
+
                             </Box>
-                        ) : (
+                            :
+
+
                             <Grid container
                                 direction="column"
                                 justifyContent="center"
                                 alignItems="center"
-                            >
-                                {moviesList.movies && moviesList.movies.map((item) => (
 
+
+                            >
+
+                                {moviesListSearch.movies && moviesListSearch.movies && moviesListSearch.movies.length ? (
+
+                                    <Grid container
+                                        direction="column"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        sx={{ height: "100%" }}
+                                    >
+                                        {moviesListSearch.movies && moviesListSearch.movies.map((item) => (
+
+
+
+                                            <Grid
+                                                container
+                                                direction="column"
+                                                sx={{
+                                                    width: "70%",
+                                                    height: 250,
+                                                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                                                    mt: 10,
+                                                    borderRadius: 2,
+                                                    mb: 5,
+                                                }}>
+
+                                                <Grid container
+                                                    justifyContent="center"
+                                                    alignItems="center"
+                                                    spacing={2}>
+
+
+
+
+                                                    {externalImage !== null ?
+
+                                                        <Grid item xs={5.5} >
+                                                            <Box sx={{ mt: -8 }}>
+                                                                <img style={styles.image} src={`${externalImage}${item.poster_path}` ? `${externalImage}${item.poster_path}` : placeholderImage} onError={onImageError} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+
+
+                                                            </Box>
+                                                        </Grid>
+
+                                                        : <Grid item xs={5.5} >
+                                                            <Box sx={{ mt: -8 }}>
+                                                                <img style={styles.image} src={"https://www.vacationstravel.com/wp-content/uploads/2020/06/no-image-placeholder-2.jpg"} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+                                                            </Box>
+                                                        </Grid>
+
+                                                    }
+
+
+
+                                                    <Grid item xs={6} >
+                                                        <Typography variant="h5" noWrap gutterBottom sx={{ color: "white", textAlign: "left", fontWeight: 600, mt: 4 }}>
+                                                            {item.title}
+                                                        </Typography>
+                                                        <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
+
+                                                            {/* {categoriesById.genres && categoriesById.genres.map((cate) => (
+                                                        <Chip label={cate.name} variant="outlined" nowrap sx={{ color: "black", backgroundColor: "white", fontWeight: 600, limit: 1, }} />
+                                                    ))} */}
+
+
+                                                            <Chip label={item.release_date} variant="outlined" nowrap sx={{ color: "black", backgroundColor: "white", fontWeight: 600, limit: 1, }} />
+
+                                                        </Stack>
+                                                        <Box sx={{ maxWidth: "90%" }}>
+                                                            <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
+                                                                {item.overview}
+                                                            </Typography>
+                                                        </Box>
+                                                        <Box
+                                                            display="flex"
+                                                            justifyContent="flex-end" sx={{ mr: 2 }}>
+                                                            <IconButton onClick={() => navigate(`/description/${item.movie_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
+                                                                <ArrowRightIcon
+                                                                    //   to={{ pathname: `/description/${item.id}` }}
+                                                                    sx={{
+                                                                        justifyContent: "flex-end", fontSize: 40, color: "white",
+                                                                        "&:hover": {
+                                                                            color: "#F2BD00"
+                                                                        },
+                                                                    }} />
+                                                            </IconButton>
+                                                        </Box>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+
+                                        ))}
+                                    </Grid>
+                                ) : moviesListSearch.movies && moviesListSearch.movies ? (
                                     <Grid
                                         container
                                         direction="column"
-                                        sx={{
-                                            width: "70%",
-                                            height: 250,
-                                            backgroundColor: 'rgba(0, 0, 0, 0.9)',
-                                            mt: 10,
-                                            borderRadius: 2,
-                                            mb: 5
-                                        }}>
-
-                                        <Grid container
-                                            justifyContent="center"
-                                            alignItems="center"
-                                            spacing={2}>
-                                            <Grid item xs={6} >
-                                                <Box sx={{ mt: -8 }}>
-                                                    <img style={styles.image} src={item.image} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
-                                                </Box>
-                                            </Grid>
-                                            <Grid item xs={6} >
-                                                <Typography variant="h6" gutterBottom sx={{ color: "white", textAlign: "left", fontWeight: 600, mt: 2 }}>
-                                                    {item.title}
-                                                </Typography>
-                                                <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-
-                                                    {categoriesById.genres && categoriesById.genres.map((cate) => (
-                                                        <Chip label={cate.name} variant="outlined" nowrap sx={{ color: "black", backgroundColor: "white", fontWeight: 600, limit: 1, }} />
-                                                    ))}
-
-
-                                                    <Chip label={item.release_date} sx={{ color: "white" }} />
-                                                </Stack>
-                                                <Box sx={{ maxWidth: "90%" }}>
-                                                    <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
-                                                        {item.overview}
-                                                    </Typography>
-                                                </Box>
-                                                <Box
-                                                    display="flex"
-                                                    justifyContent="flex-end" sx={{ mr: 2 }}>
-                                                    <IconButton onClick={() => navigate(`/description/${item.movie_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
-                                                        <ArrowRightIcon
-                                                            //   to={{ pathname: `/description/${item.id}` }}
-                                                            sx={{
-                                                                justifyContent: "flex-end", fontSize: 40, color: "white",
-                                                                "&:hover": {
-                                                                    color: "#F2BD00"
-                                                                },
-                                                            }} />
-                                                    </IconButton>
-                                                </Box>
-                                            </Grid>
-                                        </Grid>
-
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        sx={{ height: "100vh" }}
+                                    >
+                                        <Typography variant="subtitle" noWrap sx={{ fontSize: 20, color: "#616161",fontWeight: 600 }}>
+                                            {" - No search information available - "}
+                                        </Typography>
                                     </Grid>
 
-                                ))}
+                                ) : null}
+
                             </Grid>
-                        )}
+                        }
+
 
 
                     </Grid>

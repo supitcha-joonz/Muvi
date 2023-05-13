@@ -131,7 +131,7 @@ const Createmovie = () => {
     console.log(collectionsList);
     console.log(actorsList);
 
-    const actionSave = (data) => {
+    const actionSave = (data, dataGenre) => {
         Swal.fire({
             title: "Do you want to save?",
             // text: "คุณต้องการเพิ่ม Knowledge ?",
@@ -163,10 +163,28 @@ const Createmovie = () => {
                     title: "เกิดข้อผิดพลาด",
                 });
             }
+            if (result.isConfirmed) {
+                dispatch(movieActions.addGenreMovies(dataGenre)).then((resp) => {
+                    if (resp.dataGenre) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "บันทึกข้อมูลสำเร็จ",
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        actionSuccess();
+                    }
+                })
+            } else if (result.isDenied) {
+                Swal.fire({
+                    icon: "error",
+                    title: "เกิดข้อผิดพลาด",
+                });
+            }
         })
     }
 
-   
+
 
     const actionSuccess = () => {
         Swal.fire({
@@ -219,7 +237,12 @@ const Createmovie = () => {
                                 "movie_id": 0,
                                 "genre_id": values.categories.genre_id ? values.categories.genre_id : 0,
                             }
-                            actionSave(data);
+                            var dataGenre = {
+                                "id": 0,
+                                "movie_id": values.categories.movie_id ? values.categories.movie_id : 0,
+                                "genre_id": values.categories.genre_id ? values.categories.genre_id : 0,
+                            }
+                            actionSave(data, dataGenre);
                         }}
                     >
                         {({

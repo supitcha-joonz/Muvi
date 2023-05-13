@@ -33,6 +33,7 @@ const getmovie = (movie) => ({
 });
 
 
+
 export const loadmovies = (page = 1, size = 5) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/movie/all`);
@@ -92,10 +93,10 @@ export const getSingleMovies = (id, isGoogleSearch=true) => {
 
 export const searchMovie = (key) => {
     return function (dispatch) {
-        console.log(`${process.env.REACT_APP_API}/${key}`);
-        axios.get(`${process.env.REACT_APP_API}/${key}`).then((resp) => {
+        console.log(`${process.env.REACT_APP_API}/search/${key}`);
+        axios.get(`${process.env.REACT_APP_API}/search/${key}`).then((resp) => {
             console.log("resp", resp);
-            dispatch(getmovies(resp.data));
+            dispatch(getmovie(resp.data));
         })
         .catch((error) => console.log(error));
     };

@@ -39,7 +39,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Searchmain />} />
-          <Route exact path="/searchresult" element={<SearchResult />} />
+          <Route exact path="/searchresult/:key" element={<SearchResult />} />
           <Route exact path="/description/:id" element={<Description />} />
           <Route exact path="/actor" element={<Actor />} />
           <Route exact path="/login" element={<Login />} />

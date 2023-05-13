@@ -4,6 +4,7 @@ import * as types from "../actionType";
 const initialState = {
     movies: [],
     movie: {},
+    keyword: {},
     loading: true,
 };
 
@@ -17,6 +18,7 @@ const moviesReducers = (state = initialState, action) => {
             };
         case types.DELETE_MOVIE:
         case types.ADD_MOVIE:
+        case types.ADD_GENREMOVIE:
         case types.UPDATE_MOVIE:
             return {
                 ...state,
@@ -26,6 +28,7 @@ const moviesReducers = (state = initialState, action) => {
             return {
                 ...state,
                 movie: action.payload,
+                keyword: action.payload,
                 loading: false,
             };
         default:

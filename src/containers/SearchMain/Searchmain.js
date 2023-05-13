@@ -20,6 +20,7 @@ import * as categoryActions from "../../redux/action/actionCategory";
 import * as collectionActions from "../../redux/action/actionCollection";
 import * as castActions from "../../redux/action/actionCast";
 import { InputBase } from '@mui/material';
+import { Formik } from 'formik';
 
 const Searchmain = () => {
 
@@ -82,7 +83,7 @@ const Searchmain = () => {
             <Box style={styles.content}>
 
                 <Box style={styles.bgcontent}>
-                    <Grid
+                    {/* <Grid
                         container
                         direction="row"
                         justifyContent="flex-end"
@@ -91,7 +92,7 @@ const Searchmain = () => {
                         <IconButton onClick={() => navigate(`/login`)}>
                             <AccountCircleIcon sx={{ color: "#eeeeee", fontSize: "40px", bgcolor: "#212121", borderRadius: "50px" }} />
                         </IconButton>
-                    </Grid>
+                    </Grid> */}
 
 
                     <Grid
@@ -170,16 +171,89 @@ const Searchmain = () => {
                                 direction="column"
                                 justifyContent="center"
                                 alignItems="center">
-                                <Paper elevation={1}
-                                    onSubmit={() => {
+                                <Formik
+                                    enableReinitialize
+                                    initialValues={{
+                                        name: ""
+                                      }}
+                                    onSubmit={(values) => {
                                         if (text) {
-                                            navigate('/searchresult', {
+                                            navigate(`/searchresult/${text}`, {
                                                 state: {
                                                     text: text,
                                                 }
                                             });
                                         }
                                     }}
+                                >
+                                    {({
+                                        handleSubmit,
+                                    }) => (
+                                        <form onSubmit={handleSubmit}>
+                                            <Grid container justifyContent="center" spacing={1} sx={{ mt: 2 }}>
+                                                <Grid item xs={12}>
+                                                    <Paper
+                                                        onSubmit={() => {
+                                                            if (text) {
+                                                                navigate(`/searchresult/${text}`, {
+                                                                    state: {
+                                                                        text: text,
+                                                                    }
+                                                                });
+                                                            }
+                                                        }}
+                                                        sx={{
+                                                            backgroundColor: "#242424",
+                                                            borderRadius: 25,
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            width: 700,
+                                                            height: 35,
+
+                                                        }}
+                                                        margin="dense"
+                                                    >
+
+                                                        <IconButton
+                                                            aria-label="search" size="large" sx={{ m: 1 }}
+                                                            type='submit'>
+                                                            <SearchIcon sx={{ color: "white" }} />
+                                                        </IconButton>
+
+                                                        <InputBase
+                                                            onChange={(e) => {
+                                                                setText(e.target.value)
+                                                            }}
+                                                            autoFocus
+                                                            fullWidth
+                                                            placeholder="Search"
+                                                            inputProps={{ "aria-label": "search google maps" }}
+                                                            sx={{
+                                                                "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                                input: { color: "#e0e0e0", fontWeight: 600, ml: -2, mr: 2 },
+                                                            }}
+                                                            size="medium" />
+                                                    </Paper>
+                                                </Grid>
+                                            </Grid >
+                                        </form>
+                                    )}
+                                </Formik>
+                            </Grid>
+                            {/* <Grid item xs={12} container
+                                direction="column"
+                                justifyContent="center"
+                                alignItems="center">
+                                <Paper elevation={1}
+                                    // onSubmit={() => {
+                                    //     if (text) {
+                                    //         navigate(`/searchresult/${text}`, {
+                                    //             state: {
+                                    //                 text: text,
+                                    //             }
+                                    //         });
+                                    //     }
+                                    // }}
                                     sx={{
                                         backgroundColor: "#242424",
                                         borderRadius: 25,
@@ -189,7 +263,7 @@ const Searchmain = () => {
                                         height: 35,
 
                                     }} >
-                                    <IconButton type='submit' aria-label="search" size="large" sx={{ m: 1 }}>
+                                    <IconButton onClick={() => navigate(`/searchresult/${text}`)} aria-label="search" size="large" sx={{ m: 1 }}>
                                         <SearchIcon sx={{ color: "white" }} />
                                     </IconButton>
                                     <InputBase
@@ -206,7 +280,7 @@ const Searchmain = () => {
                                         }}
                                         size="medium" />
                                 </Paper>
-                            </Grid>
+                            </Grid> */}
                         </Grid>
 
 
