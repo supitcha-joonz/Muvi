@@ -9015,6 +9015,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-loaders-spinners@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-loaders-spinners/-/react-loaders-spinners-0.4.0.tgz#0c7ad77b0db16eb2e4dd1166d4006f22f6f584b5"
+  integrity sha512-KI7DzLAUrtwJdin64yneRnKbjcOUyrKIqjPoQ9xQuaQQfBRMJBciZ9odvstG07QLkyNcjl3SGGup7RLIvXOELg==
+
 react-onclickoutside@^6.12.2:
   version "6.12.2"
   resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.12.2.tgz#8e6cf80c7d17a79f2c908399918158a7b02dda01"

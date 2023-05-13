@@ -27,6 +27,8 @@ import ReactPlaceholder from 'react-placeholder';
 import SpeedDial from '@mui/material/SpeedDial';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { useLocation } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
+import { BounceyLoader, SpinLoader, BoxLoader } from 'react-loaders-spinners';
 
 const SearchResult = (props) => {
 
@@ -164,13 +166,29 @@ const SearchResult = (props) => {
 
         },
         loadingBar: {
-            backgroundColor: 'black',
-            color: "#424242",
+            width: "10%",
+            color: "#212121",
             '& .MuiLinearProgress-bar': {
                 backgroundColor: 'white'
-            }
+            },
+            position: "absolute",
+            left: '45%',
+            top: "50%",
+            transform: "translate(0px, -50%)",
+
         },
-        completedIcon: {}
+        completedIcon: {},
+        loadercontainer: {
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            backgroundColor: 'rgba(0, 0, 0, 0.834)',
+            zindex: 1,
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)'
+        }
     }
 
     const steps = [
@@ -195,134 +213,70 @@ const SearchResult = (props) => {
             <Box style={styles.content}>
                 <Box style={styles.bgcontent}>
 
-                    <Grid
-                        container
-                        direction="column"
-                        justifyContent="flex-start"
-                        alignItems="center"
-                    // sx={{ height: "100vh" }}
-                    // sx={{
-                    //     position: 'absolute',
-                    //     left: '50%',
-                    //     top: '50%',
-                    //     transform: 'translate(-50%, -50%)'
-                    // }}
-                    >
+                    {loading ?
+                        <Box style={styles.loadercontainer}
+                        // sx={{
+                        //     height: "100vh", width: '80%', mt: 5, backgroundColor: "tranparent", color: "black",
+                        // }}
+                        >
+                            <BounceyLoader style={styles.loadingBar}  color="inherit" />
+                             {/* <CircularProgress style={styles.loadingBar}  color="inherit" /> */}
+                            {/* <LinearProgress style={styles.loadingBar} color="inherit" /> */}
 
 
-                        <Grid container spacing={1}>
-                            {/* <Grid item xs={12} container
+                        </Box>
+                        :
+
+                        <Grid
+                            container
+                            direction="column"
+                            justifyContent="flex-start"
+                            alignItems="center"
+                        >
+
+
+                            <Grid container spacing={1}>
+                                <Grid item xs={12} container
                                     direction="column"
-                                    justifyContent="flex-start"
-                                    alignItems="center">
-                                    <Formik
-                                        enableReinitialize
-                                        initialValues={{
-                                            title: ""
-                                        }}
-                                        onSubmit={(values) => {
-                                            if (text) {
-                                                const { state } = location;
-                                                var data = {
-                                                    "title": text,
-                                                }
-                                            }
-                                        }}
-                                    >
-                                        {({
-                                            values,
-                                            handleSubmit,
-                                            setFieldValue
-                                        }) => (
-                                            <form onSubmit={handleSubmit}>
-                                                <Grid container justifyContent="center" spacing={1} sx={{ mt: 2 }}>
-                                                    <Grid item xs={12}>
-                                                        <Paper
-                                                            sx={{
-                                                                backgroundColor: "#000000",
-                                                                borderRadius: 25,
-                                                                display: "flex",
-                                                                alignItems: "center",
-                                                                width: 700,
-                                                                height: 35,
-
-                                                            }}
-                                                            margin="dense"
-                                                        >
-
-                                                            <IconButton
-                                                                aria-label="search" size="large" disabled sx={{ m: 1 }}>
-                                                                <SearchIcon sx={{ color: "white" }} />
-                                                            </IconButton>
-
-                                                            <InputBase
-                                                                label="Disabled"
-                                                                defaultValue="Hello World"
-                                                                disabled
-                                                                autoFocus
-                                                                fullWidth
-                                                                onChange={(e) => {
-                                                                    setText(e.target.value)
-                                                                }}
-                                                                placeholder="Search"
-                                                                inputProps={{ "aria-label": "search google maps" }}
-                                                                sx={{
-                                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                                    input: { color: "white", fontWeight: 600, ml: -2, mr: 2 },
-                                                                }}
-                                                                size="medium" />
-                                                        </Paper>
-                                                    </Grid>
-                                                </Grid >
-                                            </form>
-                                        )}
-                                    </Formik>
-                                </Grid> */}
-                            <Grid item xs={12} container
-                                direction="column"
-                                justifyContent="center"
-                                alignItems="center"
-                                sx={{ mt: 5 }}>
-                                <Paper elevation={1}
-                                    sx={{
-                                        backgroundColor: "#000000",
-                                        borderRadius: 25,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        width: 700,
-                                        height: 35,
-
-                                    }} >
-                                    <IconButton disabled aria-label="search" size="large" sx={{ m: 0.5 }}>
-                                        <SearchIcon sx={{ color: "#616161" }} />
-                                    </IconButton>
-                                    <TextField
-                                        value={movieskeySearch}
-                                        autoFocus
-                                        fullWidth
-                                        InputProps={{
-                                            readOnly: true,
-                                        }}
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    sx={{ mt: 5 }}>
+                                    <Paper elevation={1}
                                         sx={{
-                                            "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                            input: { color: "#616161", fontWeight: 600, ml: -2, mr: 2 },
-                                        }}/>
-                                </Paper>
+                                            backgroundColor: "#000000",
+                                            borderRadius: 25,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            width: 700,
+                                            height: 35,
+
+                                        }} >
+                                        <IconButton disabled aria-label="search" size="large" sx={{ m: 0.5 }}>
+                                            <SearchIcon sx={{ color: "#616161" }} />
+                                        </IconButton>
+                                        <TextField
+                                            value={movieskeySearch}
+                                            autoFocus
+                                            fullWidth
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
+                                            sx={{
+                                                "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                input: { color: "#616161", fontWeight: 600, ml: -2, mr: 2 },
+                                            }} />
+                                    </Paper>
+                                </Grid>
                             </Grid>
-                        </Grid>
 
-                        {loading ?
-                            <Box sx={{ height: "100vh", width: '80%', mt: 5, backgroundColor: "tranparent", color: "black" }}>
-                                <LinearProgress style={styles.loadingBar} color="inherit" />
 
-                            </Box>
-                            :
 
 
                             <Grid container
                                 direction="column"
                                 justifyContent="center"
                                 alignItems="center"
+                                sx={{height: "100%"}}
 
 
                             >
@@ -426,7 +380,7 @@ const SearchResult = (props) => {
                                         alignItems="center"
                                         sx={{ height: "100vh" }}
                                     >
-                                        <Typography variant="subtitle" noWrap sx={{ fontSize: 20, color: "#616161",fontWeight: 600 }}>
+                                        <Typography variant="subtitle" noWrap sx={{ fontSize: 20, color: "#616161", fontWeight: 600 }}>
                                             {" - No search information available - "}
                                         </Typography>
                                     </Grid>
@@ -434,11 +388,12 @@ const SearchResult = (props) => {
                                 ) : null}
 
                             </Grid>
-                        }
 
 
 
-                    </Grid>
+
+                        </Grid>
+                    }
 
 
 
