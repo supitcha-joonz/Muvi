@@ -30,6 +30,8 @@ import { useLocation } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import { BounceyLoader, SpinLoader, BoxLoader } from 'react-loaders-spinners';
 import Tooltip from '@mui/material/Tooltip';
+import Input from '@mui/material/Input';
+
 
 
 const SearchResult = (props) => {
@@ -48,7 +50,7 @@ const SearchResult = (props) => {
     const collectionsList = collections.collections;
 
     const location = useLocation();
-    const [text, setText] = useState(location.state && location.state.text ? location.state.text : "");
+    const [text, setText] = useState("");
 
     let navigate = useNavigate();
     const { id, key } = useParams();
@@ -63,6 +65,10 @@ const SearchResult = (props) => {
         dispatch(movieActions.searchMovie(key));
 
     }, []);
+
+    function refreshPage() {
+        window.location.reload(false);
+    }
 
 
 
@@ -88,6 +94,8 @@ const SearchResult = (props) => {
     //         }
     //     }
     // }, [moviesList]);
+
+    
 
 
 
@@ -213,6 +221,8 @@ const SearchResult = (props) => {
         completedIcon: {}
     }
 
+    const min = "min";
+
 
 
 
@@ -245,12 +255,79 @@ const SearchResult = (props) => {
                         >
 
 
-                            <Grid container spacing={1}>
+                            <Grid container spacing={1} sx={{backgroundColor: "transparent"}} >
                                 <Grid item xs={12} container
                                     direction="column"
                                     justifyContent="center"
+                                    alignItems="center">
+                                    <Formik
+                                        enableReinitialize
+                                        initialValues={{movieskeySearch: text}}
+                                        onSubmit={(values) => {
+                                            if (text) {
+                                                navigate(`/searchresult/${text}`, {
+                                                    state: {
+                                                        text: text,
+                                                        refreshPage,
+                                                        
+                                                    }
+                                                });
+                                            }
+                                        }}
+                                    >
+                                        {({
+                                            values,
+                                            handleSubmit,
+                                        }) => (
+                                            <form onSubmit={handleSubmit}>
+                                                <Grid container justifyContent="center" spacing={1} sx={{ mt: 2 }}>
+                                                    <Grid item xs={12}>
+                                                        <Paper
+                                                            
+                                                            sx={{
+                                                                backgroundColor: "#000000",
+                                                                borderRadius: 25,
+                                                                display: "flex",
+                                                                alignItems: "center",
+                                                                width: 700,
+                                                                height: 35,
+
+                                                            }}
+                                                            margin="dense"
+                                                        >
+
+                                                            <IconButton
+                                                                aria-label="search" size="large" sx={{ m: 1 }}
+                                                                type='submit'>
+                                                                <SearchIcon sx={{ color: "#e0e0e0" }} />
+                                                            </IconButton>
+
+                                                            <InputBase
+                                                                onChange={(e) => {
+                                                                    setText(e.target.value);
+                                                                }}
+                                                                value={text}
+                                                                defaultValue={movieskeySearch}
+                                                                autoFocus
+                                                                fullWidth
+                                                                inputProps={{ "aria-label": "search google maps" }}
+                                                                sx={{
+                                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                                    input: { color: "#e0e0e0", fontWeight: 600, ml: -2, mr: 2 },
+                                                                }}
+                                                                size="medium" />
+                                                        </Paper>
+                                                    </Grid>
+                                                </Grid >
+                                            </form>
+                                        )}
+                                    </Formik>
+                                </Grid>
+                                {/* <Grid item xs={12} container
+                                    direction="column"
+                                    justifyContent="center"
                                     alignItems="center"
-                                    sx={{ mt: 5 }}>
+                                    sx={{ mt: 5, mb: 5 }}>
                                     <Paper elevation={1}
                                         sx={{
                                             backgroundColor: "#000000",
@@ -276,7 +353,7 @@ const SearchResult = (props) => {
                                                 input: { color: "#616161", fontWeight: 600, ml: -2, mr: 2 },
                                             }} />
                                     </Paper>
-                                </Grid>
+                                </Grid> */}
                             </Grid>
 
 
@@ -318,7 +395,7 @@ const SearchResult = (props) => {
                                                 <Grid container
                                                     justifyContent="center"
                                                     alignItems="center"
-                                                    spacing={2}>
+                                                    spacing={2} >
 
 
 
@@ -357,6 +434,7 @@ const SearchResult = (props) => {
 
 
                                                             <Chip label={item.release_date} variant="outlined" nowrap sx={{ color: "black", backgroundColor: "white", fontWeight: 600, limit: 1, }} />
+                                                            <Chip label={`${item.runtime}  ${min}`} sx={{ color: "white", fontWeight: 600 }} />
 
                                                         </Stack>
                                                         <Box sx={{ maxWidth: "90%" }}>

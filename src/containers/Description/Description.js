@@ -40,6 +40,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import { Image } from 'semantic-ui-react'
 import Container from '@mui/material/Container';
 import Tooltip from '@mui/material/Tooltip';
+import PersonIcon from '@mui/icons-material/Person';
 
 const Description = () => {
 
@@ -136,6 +137,8 @@ const Description = () => {
             // backgroundPosition: 'center',
             // backgroundRepeat: 'no-repeat',
             // backgroundSize: 'cover',
+
+
         },
         bgheader: {
             height: '90vh',
@@ -192,7 +195,9 @@ const Description = () => {
     }
 
     const placeholderImage =
-        'https://i.pinimg.com/564x/cf/e3/70/cfe3702f27b3f3939410f8b1b41a01a4.jpg'
+        'https://i.pinimg.com/564x/cf/e3/70/cfe3702f27b3f3939410f8b1b41a01a4.jpg';
+
+    const min = "min";
 
     const onImageError = (e) => {
         e.target.src = placeholderImage
@@ -202,193 +207,196 @@ const Description = () => {
     return (
 
         <Box style={{
-            height: '200vh', width: "100%", backgroundColor: "black"
-        }}>
+            height: '200vh', width: "100%", backgroundColor: "black",
+        }} >
 
 
-            {movieById.movie && movieById.movie.map((item) => (
-                <Box style={styles.header} >
-                    <SpeedDial
-                        ariaLabel="SpeedDial basic example"
-                        sx={{
-                            position: 'absolute', top: 10,
-                            left: 20, backgroundColor: "transparent"
-                        }}
-                        icon={<ArrowLeftIcon sx={{
-                            color: "#eeeeee", fontSize: "60px", bgcolor: "#212121", '&:hover': {
-                                bgcolor: 'white', color: "black"
-                            }, borderRadius: "50px"
-                        }} />}
-                        onClick={() => navigate(-1)}
-                        FabProps={{
-                            sx: {
-                                bgcolor: 'transparent',
-                                '&:hover': {
-                                    bgcolor: 'white',
+            {
+                movieById.movie && movieById.movie.map((item) => (
+                    <Box style={styles.header} >
+                        <SpeedDial
+                            ariaLabel="SpeedDial basic example"
+                            sx={{
+                                position: 'absolute', top: 10,
+                                left: 20, backgroundColor: "transparent"
+                            }}
+                            icon={<ArrowLeftIcon sx={{
+                                color: "#eeeeee", fontSize: "60px", bgcolor: "#212121", '&:hover': {
+                                    bgcolor: 'white', color: "black"
+                                }, borderRadius: "50px"
+                            }} />}
+                            onClick={() => navigate(-1)}
+                            FabProps={{
+                                sx: {
+                                    bgcolor: 'transparent',
+                                    '&:hover': {
+                                        bgcolor: 'white',
+                                    }
                                 }
-                            }
-                        }}
-                    />
+                            }}
+                        />
 
-                    {/* <Box style={styles.header} sx={{ backgroundImage: `url(${externalImage}${item.poster_path})`   }}> */}
+                        {/* <Box style={styles.header} sx={{ backgroundImage: `url(${externalImage}${item.poster_path})`   }}> */}
 
-                    <Box style={styles.header}>
-                        {/* <Grid sx={{ mt: 2, ml: 2 }}>
+                        <Box style={styles.header}>
+                            {/* <Grid sx={{ mt: 2, ml: 2 }}>
                                     <IconButton onClick={() => navigate(-1)}>
                                         <ArrowLeftIcon sx={{ color: "#eeeeee", fontSize: "50px", bgcolor: "#212121", borderRadius: "50px" }} />
                                     </IconButton>
                                 </Grid> */}
 
 
-                        {/* <Grid sx={{ mt: 2, ml: 2 }}>
+                            {/* <Grid sx={{ mt: 2, ml: 2 }}>
                             <IconButton onClick={() => navigate(-1)}>
                                 <ArrowLeftIcon sx={{ color: "#eeeeee", fontSize: "50px", bgcolor: "#212121", borderRadius: "50px" }} />
                             </IconButton>
                         </Grid> */}
 
-                        {/* <Container maxWidth={false} disableGutters>
+                            {/* <Container maxWidth={false} disableGutters>
                             <Box sx={{height: '100vh'}} >
                                 <Image src={`${externalImage}${item.poster_path}` ? `${externalImage}${item.poster_path}` : placeholderImage}
                                     onError={onImageError} size='massive' width="100%" height="100%"  />
                             </Box>
                         </Container> */}
 
-                        <Grid container xs={12} sx={{ mt: -2, width: "100%" }}>
+                            <Grid container xs={12} sx={{ mt: -2, width: "100%" }}>
 
-                            <ImageList
-                                sx={{ overflow: "hidden", width: "100%", }}
-                                cols={1}
-                                style={styles.imageList}
-                            >
+                                <ImageList
+                                    sx={{ overflow: "hidden", width: "100%", }}
+                                    cols={1}
+                                    style={styles.imageList}
+                                >
 
-                                <ImageListItem key={item.id}>
-                                    <img
-                                        src={`${externalImage}${item.poster_path}` ? `${externalImage}${item.poster_path}` : placeholderImage}
-                                        onError={onImageError}
-                                        loading="lazy"
+                                    <ImageListItem key={item.id}>
+                                        <img
+                                            src={`${externalImage}${item.poster_path}` ? `${externalImage}${item.poster_path}` : placeholderImage}
+                                            onError={onImageError}
+                                            loading="lazy"
 
-                                    />
-                                </ImageListItem>
-                            </ImageList>
+                                        />
+                                    </ImageListItem>
+                                </ImageList>
 
-                        </Grid>
-
-
+                            </Grid>
 
 
 
 
 
-                        <Box style={styles.bgheader}>
-
-                            <Grid container
-                                direction="column"
-                                justifyContent="center"
-                                alignItems="start"
-                                sx={{
-                                    position: 'absolute',
-                                    left: '50%',
-                                    top: '104%',
-                                    transform: 'translate(-50%, -40%)',
-                                }}
-                            >
 
 
-                                {loading ? (
-                                    <Box sx={{ width: '100%', mt: -5, backgroundColor: "black", justifyContent: "center" }}>
-                                        <CircularProgress style={styles.loadingBar} color="inherit" />
-                                    </Box>
-                                ) : (
+                            <Box style={styles.bgheader}>
 
-                                    <Grid container
-                                        direction="column"
-                                        justifyContent="center"
-                                        alignItems="start">
+                                <Grid container
+                                    direction="column"
+                                    justifyContent="center"
+                                    alignItems="start"
+                                    sx={{
+                                        position: 'absolute',
+                                        left: '50%',
+                                        top: '104%',
+                                        transform: 'translate(-50%, -40%)',
+                                    }}
+                                >
+
+
+                                    {loading ? (
+                                        <Box sx={{ width: '100%', mt: -5, backgroundColor: "black", justifyContent: "center" }}>
+                                            <CircularProgress style={styles.loadingBar} color="inherit" />
+                                        </Box>
+                                    ) : (
+
+                                        <Grid container
+                                            direction="column"
+                                            justifyContent="center"
+                                            alignItems="start">
 
 
 
-                                        {/* <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, ml: 5, mr: 5, mt: 5 }}>
+                                            {/* <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, ml: 5, mr: 5, mt: 5 }}>
                                         {item.original_title}
                                     </Typography> */}
 
-                                        {/* {collectionsById.collections && collectionsById.collections.map((coll) => (
+                                            {/* {collectionsById.collections && collectionsById.collections.map((coll) => (
                                         <Typography variant="h4" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
                                             {coll.name}
                                         </Typography>
                                     ))} */}
 
-                                        {/* <Typography variant="h4" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
+                                            {/* <Typography variant="h4" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
                                         {item.belongs_to_collection}
                                     </Typography> */}
 
-                                        {item.collection_name !== null ?
-                                            <Typography variant="h4" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
-                                                {item.collection_name}
+                                            {item.collection_name !== null ?
+                                                <Typography variant="h4" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
+                                                    {item.collection_name}
+                                                </Typography>
+                                                : <Typography variant="h4" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
+                                                    -
+                                                </Typography>}
+
+
+                                            <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -1, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
+                                                {item.title}
                                             </Typography>
-                                            : <Typography variant="h4" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
-                                                -
-                                            </Typography>}
 
-
-                                        <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -1, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
-                                            {item.title}
-                                        </Typography>
-
-                                        <Stack direction="row" spacing={1} sx={{ mb: 1.5, mt: -2, ml: 5, mr: 5 }}>
-                                            {categoriesById.genres && categoriesById.genres.map((cate) => (
-                                                <Chip label={cate.name} variant="outlined" sx={{ color: "black", backgroundColor: "white", fontWeight: 600, limit: 1, }} />
-                                            ))}
-                                            <Chip label={item.runtime} sx={{ color: "white", fontWeight: 600 }} />
-                                            <Chip label={item.release_date} sx={{ color: "white", fontWeight: 600 }} />
-                                        </Stack>
-
-                                        <Box sx={{ maxWidth: "95%", mt: 4, ml: 5, mr: 5 }}>
-                                            <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
-                                                {item.overview}
-                                            </Typography>
-                                        </Box>
-
-
-                                        <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 10, ml: 5, mr: 5 }}>
-                                            ACTOR
-                                        </Typography>
-
-                                        <Grid container
-                                            direction="row"
-                                            justifyContent="flex-start"
-                                            alignItems="flex-start" xs={12} >
-                                            <Box
-
-                                                sx={{
-                                                    display: 'flex',
-                                                    flexWrap: 'wrap',
-                                                    p: 1,
-                                                    m: 3,
-                                                }}
-                                            >
-                                                {/* {item.image_results && item.image_results.map((img) => (
-                                                        <Avatar key={img.id} alt={img.thumbnail} sx={{ width: 56, height: 56, mr: 2, mb: 2 }} src={img.thumbnail} />
-                                                    ))} */}
-                                                {castById.casts && castById.casts.map((castActor) => (
-                                                    <Tooltip title={castActor.name}>
-                                                        <Avatar alt={castActor.name} sx={{ width: 56, height: 56, mr: 2, mb: 2 }} src={castActor.name} />
-                                                    </Tooltip>
-
+                                            <Stack direction="row" spacing={1} sx={{ mb: 1.5, mt: -2, ml: 5, mr: 5 }}>
+                                                {categoriesById.genres && categoriesById.genres.map((cate) => (
+                                                    <Chip label={cate.name} variant="outlined" sx={{ color: "black", backgroundColor: "white", fontWeight: 600, limit: 1, }} />
                                                 ))}
+                                                <Chip label={`${item.runtime}  ${min}`} sx={{ color: "white", fontWeight: 600 }} />
+                                                {/* <Chip label={item.runtime} sx={{ color: "white", fontWeight: 600 }} />
+                                            <Chip label="min" sx={{ color: "white", fontWeight: 600 }} /> */}
+                                                <Chip label={item.release_date} sx={{ color: "white", fontWeight: 600 }} />
+                                            </Stack>
+
+                                            <Box sx={{ maxWidth: "95%", mt: 4, ml: 5, mr: 5 }}>
+                                                <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
+                                                    {item.overview}
+                                                </Typography>
                                             </Box>
 
-                                        </Grid>
 
-                                        <Box sx={{ width: "70%", height: "1px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 2 }}>
+                                            <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 10, ml: 5, mr: 5 }}>
+                                                ACTOR
+                                            </Typography>
 
-                                        </Box>
+                                            <Grid container
+                                                direction="row"
+                                                justifyContent="flex-start"
+                                                alignItems="flex-start" xs={12} >
+                                                <Box
+
+                                                    sx={{
+                                                        display: 'flex',
+                                                        flexWrap: 'wrap',
+                                                        p: 1,
+                                                        m: 3,
+                                                    }}
+                                                >
+                                                    {/* {item.image_results && item.image_results.map((img) => (
+                                                        <Avatar key={img.id} alt={img.thumbnail} sx={{ width: 56, height: 56, mr: 2, mb: 2 }} src={img.thumbnail} />
+                                                    ))} */}
+                                                    {castById.casts && castById.casts.map((castActor) => (
+                                                        <Tooltip title={castActor.name}>
+                                                            <Avatar alt={castActor.name} sx={{ width: 56, height: 56, mr: 2, mb: 2 }} src={`${externalImage}${castActor.profile_path}` ? `${externalImage}${castActor.profile_path}` : <PersonIcon />} />
+                                                        </Tooltip>
+
+                                                    ))}
+                                                </Box>
+
+                                            </Grid>
+
+                                            <Box sx={{ width: "70%", height: "1px", background: 'linear-gradient(to right , #942617, black)', ml: 5, mr: 5, mt: 2 }}>
+
+                                            </Box>
 
 
 
 
 
 
-                                        {/* 
+                                            {/* 
                                     <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 10, ml: 5, mr: 5 }}>
                                         RECOMMENDATIONS
                                     </Typography>
@@ -400,28 +408,29 @@ const Description = () => {
 
                                     </Stack> */}
 
-                                    </Grid>
+                                        </Grid>
 
 
 
-                                )}
+                                    )}
 
-                            </Grid>
+                                </Grid>
+
+                            </Box>
+
+
 
                         </Box>
-
-
-
-                    </Box>
 
 
                 // </Box >
 
 
-            ))}
+                ))
+            }
 
 
-        </Box>
+        </Box >
 
     )
 }
