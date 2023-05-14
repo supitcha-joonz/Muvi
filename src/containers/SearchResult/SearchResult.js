@@ -95,7 +95,7 @@ const SearchResult = (props) => {
     //     }
     // }, [moviesList]);
 
-    
+
 
 
 
@@ -255,21 +255,21 @@ const SearchResult = (props) => {
                         >
 
 
-                            <Grid container spacing={1} sx={{backgroundColor: "transparent"}} >
+                            <Grid container spacing={1} sx={{ backgroundColor: "transparent" }} >
                                 <Grid item xs={12} container
                                     direction="column"
                                     justifyContent="center"
                                     alignItems="center">
                                     <Formik
                                         enableReinitialize
-                                        initialValues={{movieskeySearch: text}}
+                                        initialValues={{ movieskeySearch: text }}
                                         onSubmit={(values) => {
                                             if (text) {
                                                 navigate(`/searchresult/${text}`, {
                                                     state: {
                                                         text: text,
                                                         refreshPage,
-                                                        
+
                                                     }
                                                 });
                                             }
@@ -283,7 +283,7 @@ const SearchResult = (props) => {
                                                 <Grid container justifyContent="center" spacing={1} sx={{ mt: 2 }}>
                                                     <Grid item xs={12}>
                                                         <Paper
-                                                            
+
                                                             sx={{
                                                                 backgroundColor: "#000000",
                                                                 borderRadius: 25,
@@ -302,11 +302,13 @@ const SearchResult = (props) => {
                                                                 <SearchIcon sx={{ color: "#e0e0e0" }} />
                                                             </IconButton>
 
+                                                            
+                                                            {/* ตรงนี้นะ */}
                                                             <InputBase
                                                                 onChange={(e) => {
                                                                     setText(e.target.value);
                                                                 }}
-                                                                value={text}
+                                                                // value={text}
                                                                 defaultValue={movieskeySearch}
                                                                 autoFocus
                                                                 fullWidth
