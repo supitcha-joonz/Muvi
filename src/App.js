@@ -54,7 +54,7 @@ function App() {
           <Route exact path="/createcollection" element={<Createcollection />} />
           <Route exact path="/editcollection/:id" element={<Editcollection />} />
           <Route exact path="/sidebar" element={<Sidebar />} />
-          <Route exact path="/test" element={<Test />} />
+          {/* <Route exact path="/test" element={<Test />} /> */}
         </Routes>
       </BrowserRouter>
 

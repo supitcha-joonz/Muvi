@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import image from '../../img/predict-movie-04.jpg';
+import image from '../../img/moviebackground.jpg';
 import logo from '../../img/logo.png';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
@@ -42,6 +42,7 @@ import Container from '@mui/material/Container';
 import Tooltip from '@mui/material/Tooltip';
 import PersonIcon from '@mui/icons-material/Person';
 import Button from '@mui/material/Button';
+import { Helmet } from "react-helmet";
 
 const Description = () => {
 
@@ -70,7 +71,7 @@ const Description = () => {
     const { id } = useParams();
     const [state, setState] = useState({});
     const [loading, setLoading] = useState(true);
-    const [visible, setvisible] = useState(6);
+    const [visible, setvisible] = useState(18);
 
     const [expanded, setExpanded] = useState(false)
 
@@ -138,15 +139,7 @@ const Description = () => {
 
     const styles = {
         header: {
-            // backgroundImage: `url(${image})`,
             height: '100vh',
-            // width: "100%",
-            // display: "flex",
-            // backgroundPosition: 'center',
-            // backgroundRepeat: 'no-repeat',
-            // backgroundSize: 'cover',
-
-
         },
         bgheader: {
             height: '90vh',
@@ -219,14 +212,14 @@ const Description = () => {
 
     return (
 
-        <Box style={{
-            height: '200vh', width: "100%", backgroundColor: "black",
-        }} >
-
-
+        <Box sx={{ backgroundColor: "black", height: "200vh" }}>
             {
                 movieById.movie && movieById.movie.map((item) => (
+
                     <Box style={styles.header} >
+                        <Helmet>
+                            <title>{item.title}</title>
+                        </Helmet>
                         <SpeedDial
                             ariaLabel="SpeedDial basic example"
                             sx={{
@@ -253,24 +246,24 @@ const Description = () => {
 
                         <Box style={styles.header}>
                             {/* <Grid sx={{ mt: 2, ml: 2 }}>
-                                    <IconButton onClick={() => navigate(-1)}>
-                                        <ArrowLeftIcon sx={{ color: "#eeeeee", fontSize: "50px", bgcolor: "#212121", borderRadius: "50px" }} />
-                                    </IconButton>
-                                </Grid> */}
+                        <IconButton onClick={() => navigate(-1)}>
+                            <ArrowLeftIcon sx={{ color: "#eeeeee", fontSize: "50px", bgcolor: "#212121", borderRadius: "50px" }} />
+                        </IconButton>
+                    </Grid> */}
 
 
                             {/* <Grid sx={{ mt: 2, ml: 2 }}>
-                            <IconButton onClick={() => navigate(-1)}>
-                                <ArrowLeftIcon sx={{ color: "#eeeeee", fontSize: "50px", bgcolor: "#212121", borderRadius: "50px" }} />
-                            </IconButton>
-                        </Grid> */}
+                <IconButton onClick={() => navigate(-1)}>
+                    <ArrowLeftIcon sx={{ color: "#eeeeee", fontSize: "50px", bgcolor: "#212121", borderRadius: "50px" }} />
+                </IconButton>
+            </Grid> */}
 
                             {/* <Container maxWidth={false} disableGutters>
-                            <Box sx={{height: '100vh'}} >
-                                <Image src={`${externalImage}${item.poster_path}` ? `${externalImage}${item.poster_path}` : placeholderImage}
-                                    onError={onImageError} size='massive' width="100%" height="100%"  />
-                            </Box>
-                        </Container> */}
+                <Box sx={{height: '100vh'}} >
+                    <Image src={`${externalImage}${item.poster_path}` ? `${externalImage}${item.poster_path}` : placeholderImage}
+                        onError={onImageError} size='massive' width="100%" height="100%"  />
+                </Box>
+            </Container> */}
 
                             <Grid container xs={12} sx={{ mt: -2, width: "100%" }}>
 
@@ -327,18 +320,18 @@ const Description = () => {
 
 
                                             {/* <Typography variant="h1" gutterBottom sx={{ color: "white", fontWeight: 600, ml: 5, mr: 5, mt: 5 }}>
-                                        {item.original_title}
-                                    </Typography> */}
+                            {item.original_title}
+                        </Typography> */}
 
                                             {/* {collectionsById.collections && collectionsById.collections.map((coll) => (
-                                        <Typography variant="h4" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
-                                            {coll.name}
-                                        </Typography>
-                                    ))} */}
+                            <Typography variant="h4" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
+                                {coll.name}
+                            </Typography>
+                        ))} */}
 
                                             {/* <Typography variant="h4" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
-                                        {item.belongs_to_collection}
-                                    </Typography> */}
+                            {item.belongs_to_collection}
+                        </Typography> */}
 
                                             {item.collection_name !== null ?
                                                 <Typography variant="h4" gutterBottom sx={{ color: "white", fontWeight: 600, mt: -3, textAlign: "start", lineHeight: 1, ml: 5, mr: 5 }}>
@@ -359,7 +352,7 @@ const Description = () => {
                                                 ))}
                                                 <Chip label={`${item.runtime}  ${min}`} sx={{ color: "white", fontWeight: 600 }} />
                                                 {/* <Chip label={item.runtime} sx={{ color: "white", fontWeight: 600 }} />
-                                            <Chip label="min" sx={{ color: "white", fontWeight: 600 }} /> */}
+                                <Chip label="min" sx={{ color: "white", fontWeight: 600 }} /> */}
                                                 <Chip label={item.release_date} sx={{ color: "white", fontWeight: 600 }} />
                                             </Stack>
 
@@ -388,10 +381,9 @@ const Description = () => {
                                                     }}
                                                 >
                                                     {/* {item.image_results && item.image_results.map((img) => (
-                                                        <Avatar key={img.id} alt={img.thumbnail} sx={{ width: 56, height: 56, mr: 2, mb: 2 }} src={img.thumbnail} />
-                                                    ))} */}
-                                                    {/* {castById.casts && castById.casts.slice(0, visible).map((castActor) => ( */}
-                                                    {castById.casts && castById.casts.map((castActor) => (
+                                            <Avatar key={img.id} alt={img.thumbnail} sx={{ width: 56, height: 56, mr: 2, mb: 2 }} src={img.thumbnail} />
+                                        ))} */}
+                                                    {castById.casts && castById.casts.slice(0, visible).map((castActor) => (
                                                         <Grid container
                                                             direction="row"
                                                             justifyContent="flex-start"
@@ -410,7 +402,7 @@ const Description = () => {
 
                                                     ))}
                                                     {/* <Button onClick={showMoreItems} >
-                                                        {expanded ? null : 'See More...'} </Button> */}
+                                            {expanded ? null : 'See More...'} </Button> */}
                                                 </Box>
 
                                             </Grid>
@@ -425,16 +417,16 @@ const Description = () => {
 
 
                                             {/* 
-                                    <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 10, ml: 5, mr: 5 }}>
-                                        RECOMMENDATIONS
-                                    </Typography>
+                        <Typography variant="h5" gutterBottom sx={{ color: "white", fontWeight: 600, mt: 10, ml: 5, mr: 5 }}>
+                            RECOMMENDATIONS
+                        </Typography>
 
-                                    <Stack direction="row" spacing={5} sx={{ mt: 3, ml: 5, mr: 5 }}>
-                                        <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
-                                        <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
-                                        <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+                        <Stack direction="row" spacing={5} sx={{ mt: 3, ml: 5, mr: 5 }}>
+                            <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+                            <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
+                            <img style={styles.image} src={piture1} width="200" height="280" sx={{ borderRadius: 100 / 10 }} />
 
-                                    </Stack> */}
+                        </Stack> */}
 
                                         </Grid>
 
@@ -451,13 +443,11 @@ const Description = () => {
                         </Box>
 
 
-                // </Box >
+    // </Box >
 
 
                 ))
             }
-
-
         </Box >
 
     )
