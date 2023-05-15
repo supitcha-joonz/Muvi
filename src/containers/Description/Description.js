@@ -41,6 +41,7 @@ import { Image } from 'semantic-ui-react'
 import Container from '@mui/material/Container';
 import Tooltip from '@mui/material/Tooltip';
 import PersonIcon from '@mui/icons-material/Person';
+import Button from '@mui/material/Button';
 
 const Description = () => {
 
@@ -69,6 +70,13 @@ const Description = () => {
     const { id } = useParams();
     const [state, setState] = useState({});
     const [loading, setLoading] = useState(true);
+    const [visible, setvisible] = useState(6);
+
+    const [expanded, setExpanded] = useState(false)
+
+    const showMoreItems = () => {
+        setvisible((prevValue) => prevValue + 6);
+    }
 
     let dispatch = useDispatch();
     let navigate = useNavigate();
@@ -190,6 +198,11 @@ const Description = () => {
             position: 'absolute', //Here is the trick
             bottom: -14,
         },
+        avatarSize: {
+            height: 50,
+            width: 50,
+
+        }
 
 
     }
@@ -364,7 +377,7 @@ const Description = () => {
                                             <Grid container
                                                 direction="row"
                                                 justifyContent="flex-start"
-                                                alignItems="flex-start" xs={12} >
+                                                alignItems="flex-start" xs={12}  >
                                                 <Box
 
                                                     sx={{
@@ -377,12 +390,27 @@ const Description = () => {
                                                     {/* {item.image_results && item.image_results.map((img) => (
                                                         <Avatar key={img.id} alt={img.thumbnail} sx={{ width: 56, height: 56, mr: 2, mb: 2 }} src={img.thumbnail} />
                                                     ))} */}
+                                                    {/* {castById.casts && castById.casts.slice(0, visible).map((castActor) => ( */}
                                                     {castById.casts && castById.casts.map((castActor) => (
-                                                        <Tooltip title={castActor.name}>
-                                                            <Avatar alt={castActor.name} sx={{ width: 56, height: 56, mr: 2, mb: 2 }} src={`${externalImage}${castActor.profile_path}` ? `${externalImage}${castActor.profile_path}` : <PersonIcon />} />
-                                                        </Tooltip>
+                                                        <Grid container
+                                                            direction="row"
+                                                            justifyContent="flex-start"
+                                                            alignItems="flex-start" xs={2}  >
+                                                            <Tooltip title={castActor.name}>
+                                                                <Chip
+                                                                    avatar={<Avatar alt={castActor.name} style={styles.avatarSize} src={`${externalImage}${castActor.profile_path}` ? `${externalImage}${castActor.profile_path}` : <PersonIcon />} />}
+                                                                    label={castActor.name}
+                                                                    sx={{ color: "whitesmoke", m: 2 }}
+                                                                />
+                                                                {/* <Avatar alt={castActor.name} sx={{ width: 56, height: 56, mr: 2, mb: 2 }} src={`${externalImage}${castActor.profile_path}` ? `${externalImage}${castActor.profile_path}` : <PersonIcon />} /> */}
+                                                            </Tooltip>
+
+                                                        </Grid>
+
 
                                                     ))}
+                                                    {/* <Button onClick={showMoreItems} >
+                                                        {expanded ? null : 'See More...'} </Button> */}
                                                 </Box>
 
                                             </Grid>

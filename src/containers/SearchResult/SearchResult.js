@@ -116,7 +116,7 @@ const SearchResult = (props) => {
             if (moviesListSearch) {
                 setTimeout(() => {
                     setLoading(false);
-                }, 1500);
+                }, 500);
             }
         }
     }, [moviesListSearch]);
@@ -232,7 +232,7 @@ const SearchResult = (props) => {
             <Box style={styles.content}>
                 <Box style={styles.bgcontent}>
 
-                    {loading ?
+                    { !moviesListSearch.movies || (moviesListSearch.movies && !moviesListSearch.movies) ?
                         <Box style={styles.loadercontainer}
                         // sx={{
                         //     height: "100vh", width: '80%', mt: 5, backgroundColor: "tranparent", color: "black",
@@ -245,120 +245,6 @@ const SearchResult = (props) => {
 
                         </Box>
                         :
-
-                        <Grid
-                            container
-                            direction="column"
-                            justifyContent="flex-start"
-                            alignItems="center"
-                            style={styles.bggrid}
-                        >
-
-
-                            <Grid container spacing={1} sx={{ backgroundColor: "transparent" }} >
-                                <Grid item xs={12} container
-                                    direction="column"
-                                    justifyContent="center"
-                                    alignItems="center">
-                                    <Formik
-                                        enableReinitialize
-                                        initialValues={{ movieskeySearch: text }}
-                                        onSubmit={(values) => {
-                                            if (text) {
-                                                navigate(`/searchresult/${text}`, {
-                                                    state: {
-                                                        text: text,
-                                                        refreshPage,
-
-                                                    }
-                                                });
-                                            }
-                                        }}
-                                    >
-                                        {({
-                                            values,
-                                            handleSubmit,
-                                        }) => (
-                                            <form onSubmit={handleSubmit}>
-                                                <Grid container justifyContent="center" spacing={1} sx={{ mt: 2 }}>
-                                                    <Grid item xs={12}>
-                                                        <Paper
-
-                                                            sx={{
-                                                                backgroundColor: "#000000",
-                                                                borderRadius: 25,
-                                                                display: "flex",
-                                                                alignItems: "center",
-                                                                width: 700,
-                                                                height: 35,
-
-                                                            }}
-                                                            margin="dense"
-                                                        >
-
-                                                            <IconButton
-                                                                aria-label="search" size="large" sx={{ m: 1 }}
-                                                                type='submit'>
-                                                                <SearchIcon sx={{ color: "#e0e0e0" }} />
-                                                            </IconButton>
-
-                                                            
-                                                            {/* ตรงนี้นะ */}
-                                                            <InputBase
-                                                                onChange={(e) => {
-                                                                    setText(e.target.value);
-                                                                }}
-                                                                // value={text}
-                                                                defaultValue={movieskeySearch}
-                                                                autoFocus
-                                                                fullWidth
-                                                                inputProps={{ "aria-label": "search google maps" }}
-                                                                sx={{
-                                                                    "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                                    input: { color: "#e0e0e0", fontWeight: 600, ml: -2, mr: 2 },
-                                                                }}
-                                                                size="medium" />
-                                                        </Paper>
-                                                    </Grid>
-                                                </Grid >
-                                            </form>
-                                        )}
-                                    </Formik>
-                                </Grid>
-                                {/* <Grid item xs={12} container
-                                    direction="column"
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    sx={{ mt: 5, mb: 5 }}>
-                                    <Paper elevation={1}
-                                        sx={{
-                                            backgroundColor: "#000000",
-                                            borderRadius: 25,
-                                            display: "flex",
-                                            alignItems: "center",
-                                            width: 700,
-                                            height: 35,
-
-                                        }} >
-                                        <IconButton disabled aria-label="search" size="large" sx={{ m: 0.5 }}>
-                                            <SearchIcon sx={{ color: "#616161" }} />
-                                        </IconButton>
-                                        <TextField
-                                            value={movieskeySearch}
-                                            autoFocus
-                                            fullWidth
-                                            InputProps={{
-                                                readOnly: true,
-                                            }}
-                                            sx={{
-                                                "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                input: { color: "#616161", fontWeight: 600, ml: -2, mr: 2 },
-                                            }} />
-                                    </Paper>
-                                </Grid> */}
-                            </Grid>
-
-
 
 
                             <Grid container
@@ -378,6 +264,75 @@ const SearchResult = (props) => {
                                         alignItems="center"
                                         sx={{ height: "100%" }}
                                     >
+                                        <Grid item xs={12} container
+                                            direction="column"
+                                            justifyContent="center"
+                                            alignItems="center">
+                                            <Formik
+                                                enableReinitialize
+                                                initialValues={{ movieskeySearch: text }}
+                                                onSubmit={(values) => {
+                                                    if (text) {
+                                                        navigate(`/searchresult/${text}`, {
+                                                            state: {
+                                                                text: text,
+                                                                refreshPage,
+
+                                                            }
+                                                        });
+                                                    }
+                                                }}
+                                            >
+                                                {({
+                                                    values,
+                                                    handleSubmit,
+                                                }) => (
+                                                    <form onSubmit={handleSubmit}>
+                                                        <Grid container justifyContent="center" spacing={1} sx={{ mt: 2 }}>
+                                                            <Grid item xs={12}>
+                                                                <Paper
+
+                                                                    sx={{
+                                                                        backgroundColor: "#000000",
+                                                                        borderRadius: 25,
+                                                                        display: "flex",
+                                                                        alignItems: "center",
+                                                                        width: 700,
+                                                                        height: 35,
+
+                                                                    }}
+                                                                    margin="dense"
+                                                                >
+
+                                                                    <IconButton
+                                                                        aria-label="search" size="large" sx={{ m: 1 }}
+                                                                        type='submit'>
+                                                                        <SearchIcon sx={{ color: "#e0e0e0" }} />
+                                                                    </IconButton>
+
+
+                                                                    {/* ตรงนี้นะ */}
+                                                                    <InputBase
+                                                                        onChange={(e) => {
+                                                                            setText(e.target.value);
+                                                                        }}
+                                                                        // value={text}
+                                                                        defaultValue={movieskeySearch}
+                                                                        autoFocus
+                                                                        fullWidth
+                                                                        inputProps={{ "aria-label": "search google maps" }}
+                                                                        sx={{
+                                                                            "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                                            input: { color: "#e0e0e0", fontWeight: 600, ml: -2, mr: 2 },
+                                                                        }}
+                                                                        size="medium" />
+                                                                </Paper>
+                                                            </Grid>
+                                                        </Grid >
+                                                    </form>
+                                                )}
+                                            </Formik>
+                                        </Grid>
                                         {moviesListSearch.movies && moviesListSearch.movies.map((item) => (
 
 
@@ -486,7 +441,6 @@ const SearchResult = (props) => {
 
 
 
-                        </Grid>
                     }
 
 
