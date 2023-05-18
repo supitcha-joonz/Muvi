@@ -431,16 +431,106 @@ const SearchResult = (props) => {
                                     ))}
                                 </Grid>
                             ) : moviesListSearch.movies && moviesListSearch.movies ? (
-                                <Grid
-                                    container
+                                <Grid container
                                     direction="column"
                                     justifyContent="center"
                                     alignItems="center"
-                                    sx={{ height: "100vh" }}
+                                    sx={{ height: "100%" }}
                                 >
-                                    <Typography variant="subtitle" noWrap sx={{ fontSize: 20, color: "#616161", fontWeight: 600 }}>
-                                        {" - No search information available - "}
-                                    </Typography>
+                                    <Grid
+                                        container
+                                        direction="column"
+                                        justifyContent="center"
+                                        alignItems="center"
+                                        sx={{ height: "100vh" }}
+                                    >
+                                        <Grid item xs={12} container
+                                            direction="column"
+                                            justifyContent="flex-start"
+                                            alignItems="center">
+                                            <Formik
+                                                enableReinitialize
+                                                initialValues={{ movieskeySearch: text }}
+                                                onSubmit={(values) => {
+                                                    if (text) {
+                                                        navigate(`/searchresult/${text}`, {
+                                                            state: {
+                                                                text: text,
+                                                                refreshPage,
+
+                                                            }
+                                                        });
+                                                    }
+                                                }}
+                                            >
+                                                {({
+                                                    values,
+                                                    handleSubmit,
+                                                }) => (
+                                                    <form onSubmit={handleSubmit}>
+                                                        <Grid container justifyContent="center" spacing={1} sx={{ mt: 2 }}>
+                                                            <Grid item xs={12}>
+                                                                <Paper
+
+                                                                    sx={{
+                                                                        backgroundColor: "#000000",
+                                                                        borderRadius: 25,
+                                                                        display: "flex",
+                                                                        alignItems: "center",
+                                                                        width: 700,
+                                                                        height: 35,
+
+                                                                    }}
+                                                                    margin="dense"
+                                                                >
+
+                                                                    <IconButton
+                                                                        aria-label="search" size="large" sx={{ m: 1 }}
+                                                                        type='submit'>
+                                                                        <SearchIcon sx={{ color: "#e0e0e0" }} />
+                                                                    </IconButton>
+
+
+                                                                    {/* ตรงนี้นะ */}
+                                                                    <InputBase
+                                                                        onChange={(e) => {
+                                                                            setText(e.target.value);
+                                                                        }}
+                                                                        // value={text}
+                                                                        defaultValue={movieskeySearch}
+                                                                        autoFocus
+                                                                        fullWidth
+                                                                        inputProps={{ "aria-label": "search google maps" }}
+                                                                        sx={{
+                                                                            "& .MuiOutlinedInput-notchedOutline": { border: "none" },
+                                                                            input: { color: "#e0e0e0", fontWeight: 600, ml: -2, mr: 2 },
+                                                                        }}
+                                                                        size="medium" />
+                                                                </Paper>
+                                                            </Grid>
+                                                        </Grid >
+                                                    </form>
+                                                )}
+                                            </Formik>
+                                            <Grid
+                                                container
+                                                direction="column"
+                                                justifyContent="center"
+                                                alignItems="center"
+                                                sx={{
+                                                    position: 'absolute',
+                                                    left: '50%',
+                                                    top: '50%',
+                                                    transform: 'translate(-50%, -50%)'
+                                                }}
+                                            >
+                                                <Typography variant="subtitle" noWrap sx={{ fontSize: 20, color: "#616161", fontWeight: 600 }}>
+                                                    {" - No search information available - "}
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+
+                                    </Grid>
                                 </Grid>
 
                             ) : null}
