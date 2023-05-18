@@ -444,6 +444,11 @@ const SearchResult = (props) => {
                                         alignItems="center"
                                         sx={{ height: "100vh" }}
                                     >
+
+                                        <Helmet>
+                                            <title>{movieskeySearch}</title>
+                                        </Helmet>
+                                        
                                         <Grid item xs={12} container
                                             direction="column"
                                             justifyContent="flex-start"
