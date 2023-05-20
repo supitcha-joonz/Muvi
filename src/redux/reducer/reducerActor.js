@@ -3,9 +3,8 @@ import * as types from "../actionType";
 
 const initialState = {
     actors: [],
-    casts: [],
     actor: {},
-    data: null,
+    movies: {},
     loading: true,
 };
 
@@ -34,7 +33,12 @@ const actorsReducers = (state = initialState, action) => {
             return {
                 ...state,
                 actor: action.payload,
-                data: action.payload,
+                loading: false,
+            };
+            case types.GET_POPPULALITY_ACTOR:
+            return {
+                ...state,
+                movies: action.payload,
                 loading: false,
             };
         default:

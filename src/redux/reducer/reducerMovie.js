@@ -5,6 +5,7 @@ const initialState = {
     movies: [],
     movie: {},
     keyword: {},
+    recommendation: {},
     loading: true,
 };
 
@@ -29,6 +30,7 @@ const moviesReducers = (state = initialState, action) => {
                 ...state,
                 movie: action.payload,
                 keyword: action.payload,
+                recommendation: action.payload,
                 loading: false,
             };
         default:

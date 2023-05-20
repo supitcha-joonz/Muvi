@@ -33,6 +33,11 @@ const getactor = (actor) => ({
     payload: actor,
 });
 
+const getPopulalityactor = (movies) => ({
+    type: types.GET_POPPULALITY_ACTOR,
+    payload: movies,
+});
+
 export const loadactors = (page=1, size=5) => {
     return function (dispatch) {
         console.log(`${process.env.REACT_APP_API}/actor/all`);
@@ -83,6 +88,17 @@ export const getSingleActors = (id, isGoogleSearch=true) => {
         axios.get(`${process.env.REACT_APP_API}/actor/getById/${id}?isGoogleSearch=${isGoogleSearch}`).then((resp) => {
             console.log("resp", resp);
             dispatch(getactor(resp.data));
+        })
+        .catch((error) => console.log(error));
+    };
+};
+
+export const getSinglePopulalityActors = (id) => {
+    return function (dispatch) {
+        console.log(`${process.env.REACT_APP_API}/actor/movies/${id}/popularity?isGoogleSearch=false`);
+        axios.get(`${process.env.REACT_APP_API}/actor/movies/${id}/popularity?isGoogleSearch=false`).then((resp) => {
+            console.log("resp", resp);
+            dispatch(getPopulalityactor(resp.data));
         })
         .catch((error) => console.log(error));
     };

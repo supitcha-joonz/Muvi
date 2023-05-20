@@ -208,7 +208,7 @@ const Searchmain = () => {
                                                             display: "flex",
                                                             alignItems: "center",
                                                             width: 700,
-                                                            height: 35,
+                                                            height: 45,
 
                                                         }}
                                                         margin="dense"
@@ -230,9 +230,8 @@ const Searchmain = () => {
                                                             inputProps={{ "aria-label": "search google maps" }}
                                                             sx={{
                                                                 "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                                input: { color: "#e0e0e0", fontWeight: 600, ml: -2, mr: 2 },
-                                                            }}
-                                                            size="medium" />
+                                                                input: { color: "#e0e0e0", fontWeight: 600, ml: -2, mr: 2, fontSize: 18 },
+                                                            }} />
                                                     </Paper>
                                                 </Grid>
                                             </Grid >

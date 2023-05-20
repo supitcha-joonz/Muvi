@@ -305,7 +305,7 @@ const SearchResult = (props) => {
                                                                     display: "flex",
                                                                     alignItems: "center",
                                                                     width: 700,
-                                                                    height: 35,
+                                                                    height: 45,
 
                                                                 }}
                                                                 margin="dense"
@@ -330,7 +330,7 @@ const SearchResult = (props) => {
                                                                     inputProps={{ "aria-label": "search google maps" }}
                                                                     sx={{
                                                                         "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-                                                                        input: { color: "#e0e0e0", fontWeight: 600, ml: -2, mr: 2 },
+                                                                        input: { color: "#e0e0e0", fontWeight: 600, ml: -2, mr: 2, fontSize: 18 },
                                                                     }}
                                                                     size="medium" />
                                                             </Paper>
@@ -354,17 +354,16 @@ const SearchResult = (props) => {
                                                 mt: 10,
                                                 borderRadius: 2,
                                                 mb: 5,
-                                            }}>
+                                            }}
+                                            onClick={() => 
+                                                navigate(`/description/${item.movie_id}`)
+                                            }
+                                            >
 
                                             <Grid container
                                                 justifyContent="center"
                                                 alignItems="center"
                                                 spacing={2} >
-
-
-
-
-
 
                                                 {externalImage !== null ?
 
@@ -412,7 +411,9 @@ const SearchResult = (props) => {
                                                         display="flex"
                                                         justifyContent="flex-end" sx={{ mr: 2 }}>
                                                         <Tooltip title="Next Page">
-                                                            <IconButton onClick={() => navigate(`/description/${item.movie_id}`)} aria-label="detail" sx={{ justifyContent: "flex-end" }}>
+                                                            <IconButton 
+                                                            onClick={() => navigate(`/description/${item.movie_id}`)} 
+                                                            aria-label="detail" sx={{ justifyContent: "flex-end" }}>
                                                                 <ArrowRightIcon
                                                                     //   to={{ pathname: `/description/${item.id}` }}
                                                                     sx={{
