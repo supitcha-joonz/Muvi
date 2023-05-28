@@ -355,10 +355,10 @@ const SearchResult = (props) => {
                                                 borderRadius: 2,
                                                 mb: 5,
                                             }}
-                                            onClick={() => 
+                                            onClick={() =>
                                                 navigate(`/description/${item.movie_id}`)
                                             }
-                                            >
+                                        >
 
                                             <Grid container
                                                 justifyContent="center"
@@ -403,17 +403,24 @@ const SearchResult = (props) => {
 
                                                     </Stack>
                                                     <Box sx={{ maxWidth: "90%" }}>
-                                                        <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
+                                                        {item.overview !== null ?
+                                                            <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis}>
+                                                                {item.overview}
+                                                            </Typography>
+                                                            : <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis}>
+                                                                No overview found.
+                                                            </Typography>}
+                                                        {/* <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
                                                             {item.overview}
-                                                        </Typography>
+                                                        </Typography> */}
                                                     </Box>
                                                     <Box
                                                         display="flex"
                                                         justifyContent="flex-end" sx={{ mr: 2 }}>
                                                         <Tooltip title="Next Page">
-                                                            <IconButton 
-                                                            onClick={() => navigate(`/description/${item.movie_id}`)} 
-                                                            aria-label="detail" sx={{ justifyContent: "flex-end" }}>
+                                                            <IconButton
+                                                                onClick={() => navigate(`/description/${item.movie_id}`)}
+                                                                aria-label="detail" sx={{ justifyContent: "flex-end" }}>
                                                                 <ArrowRightIcon
                                                                     //   to={{ pathname: `/description/${item.id}` }}
                                                                     sx={{
@@ -449,7 +456,7 @@ const SearchResult = (props) => {
                                         <Helmet>
                                             <title>{movieskeySearch}</title>
                                         </Helmet>
-                                        
+
                                         <Grid item xs={12} container
                                             direction="column"
                                             justifyContent="flex-start"

@@ -180,7 +180,7 @@ const Description = (props) => {
         imageList: {
             height: "170vh",
             width: "100%",
-            
+
             // backgroundImage: "linear-gradient(to bottom,transparent,black 100%)",
             justifyContent: 'end',
             alignItems: 'end',
@@ -366,9 +366,16 @@ const Description = (props) => {
                                                 </Stack>
 
                                                 <Box sx={{ maxWidth: "95%", mt: 4, ml: 5, mr: 5 }}>
-                                                    <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
+                                                    {item.overview !== null ?
+                                                        <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis}>
+                                                            {item.overview}
+                                                        </Typography>
+                                                        : <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis}>
+                                                            No overview found.
+                                                        </Typography>}
+                                                    {/* <Typography variant="subtitle2" sx={{ color: "white", textAlign: "left" }} style={styles.multiLineEllipsis} >
                                                         {item.overview}
-                                                    </Typography>
+                                                    </Typography> */}
                                                 </Box>
 
 
